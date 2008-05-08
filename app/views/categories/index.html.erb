@@ -1,0 +1,21 @@
+<% @page_title = " - Kategorijas" %>
+
+<h2>Kategorijas</h2>
+
+<ul>
+  <% @categories.each do |category| %>
+    <li>
+      <%= link_to category_name(category), category_path(category) %> 
+		  (<%= category.products.count %>)&nbsp;&nbsp;
+			<% admin_area do %>
+				<%= link_to "mainīt", edit_category_path(category) %> | 
+				<%= link_to "dzēst", category_path(category), :method => :delete, :confirm => "tiešām?!"%>
+			<% end %>
+    </li>
+  <% end %>
+</ul>
+<p><%#= admin? ? (link_to "pievienot jaunu kategoriju", new_category_path) : "" %>
+  <% admin_area do %>
+    <%= link_to "Pievienot jaunu kategoriju", new_category_path %>
+  <% end %>
+</p>

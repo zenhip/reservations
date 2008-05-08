@@ -1,0 +1,64 @@
+body, p, ol, ul, td {
+  font-family: arial, helvetica, sans-serif;
+  font-size:   13px;
+  line-height: 18px;
+}
+
+a { color: #666; }
+a:visited { color: #666; }
+a:hover { color: #000; }
+
+div#bg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.admin_area a {
+	font-weight: bold;
+}
+
+div#main_menu {
+	font-family: verdana;
+}
+
+div#side_menu a {
+	color: #333;
+	vertical-align: top;
+	padding-left: 0.4em;
+	text-decoration: none;
+	display: block;
+}
+
+div#side_menu a:hover {
+	color: #000;
+	background: #ccc;
+}
+
+table tr.even td, tr.odd td {
+	padding-left: 0.2em;
+	padding-right: 0.2em;
+}
+
+table tr.even {
+	background: #fbfbfb;
+}
+
+table tr.odd {
+	background: #f2f2f2;
+}
+
+table tr.even:hover, .odd:hover {
+	background: #ccc;
+}
+
+table tr th {
+	background: #e2e2e2;
+	padding: 0.2em;
+	padding-right: 1em;
+	white-space: nowrap;
+	text-align: left;
+	vertical-align: top;
+}

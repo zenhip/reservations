@@ -1,0 +1,73 @@
+<% @page_title = " - " + @category.name.capitalize %>
+<% @page_id = "product_category_#{@category.id}" %>
+
+<h2><%= category_name(@category) %></h2>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<% if @category.products.any? %>
+	<tr>
+		<th>Produkts</th>
+		<th>Daudzums</th>
+		<th>Rezervēti</th>
+		<th>Brīvi</th>
+		<th>Nolikt. izmaiņas</th>
+		<th></th>
+	</tr>
+	
+		<% @category.products.each do |product| %>
+
+        <%# no bones, see ApplicationHelper %>
+			  <%# tr do %>
+			    <%# ... %>
+			  <%# end %>
+				<% tr do %>
+					<td>
+					<%= link_to product_name(product), product_path(product) %>
+					</td><td>
+					<%= product_batches_quantity_total(product) %>
+					</td><td>
+					<%= product_batches_reserved_total(product) %>
+					</td><td>
+					<% avail = product_batches_available_total(product) %>
+					<%= avail <= 0 ? "<b>#{avail}</b>" : avail %>
+					</td><td>
+					<% if product.batches.any? %>
+					
+						<% product.batches.each do |batch| %>
+							<% @b = batch %>
+							
+						<% end %>
+					<%= @b.updated_at.to_s(:short_date_time) %>
+				<% end %>
+				</td><td>
+				<% admin_area do %>
+					<%= link_to "mainīt", edit_product_path(product) %> |
+					<%= link_to "dzēst", product_path(product), :method => :delete, :confirm => "tiešām?!"%> |
+					<% unless product.batches.any? %>
+						<%= link_to "jauna partija", new_product_batch_path(product) %>
+					<% end %>
+				<% end %>
+				
+				<% if product.batches.any? %>
+					<%= link_to "rezervēt", new_batch_order_path(@b) %>
+				<% end %>
+				</td>
+				<% end %>
+				
+		<% end %>
+	
+<% else %>
+	<p>Šajā kategorijā nav pievienots neviens produkts.</p>
+<% end %>
+</table>
+<p><%#= admin? ? (link_to "Pievienot jaunu produktu", new_category_product_path(@category)) + "<br>" : "" %>
+<!-- 
+  Shaadi imo gliitaak un saprotamaak
+
+	njaa, ir vieglaak lasaams
+-->
+  <% admin_area do %>
+    <%= link_to "Pievienot jaunu produktu", new_category_product_path(@category) %><br/>
+  <% end %>
+
+<%= link_to "atpakaļ", categories_path %></p>

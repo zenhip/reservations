@@ -1,0 +1,10 @@
+<% @page_title = " - Mainīt kategoriju" %>
+
+<h2>Mainīt kategoriju <%= category_name(@category) %></h2>
+
+<%= error_messages_for :category %>
+
+<% form_for :category, :url => category_path(@category), :html => {:method => :put} do |f| %>
+  <%= render :partial => "form", :locals => {:f => f} %>
+  <p><%= submit_tag "Izmainīt" %> vai <%= link_to "atpakaļ", categories_path %></p>
+<% end %>

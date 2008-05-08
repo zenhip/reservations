@@ -1,0 +1,29 @@
+<% @page_title = " - Lietotāji" %>
+
+<h2>Lietotāji</h2>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<th>Login</th>
+		<th>Email</th>
+		<th>Date</th>
+		<th></th>
+	</tr>
+	
+  <% @users.each do |user| %>
+	
+	<% tr do %>
+		<td>
+	  <%= link_to user_login(user), user_orders_path(user) %>
+	  (<%= user_role(user) %>)
+		</td><td>
+		<%= mail_to user.email %>
+		</td><td>
+	  <%= user.created_at.to_s(:short_date_time) %>
+		</td><td>
+	  <%= current_user_is_account_owner(user) || admin? ? (link_to "mainīt", edit_user_path(user)) : "" %>
+	  <%= admin? && user.id != 1 ? (" | " + (link_to "dzēst", user_path(user), :method => :delete, :confirm => "tiešām?!")) : "" %>
+		</td>
+		<% end %>
+  <% end %>
+</table>

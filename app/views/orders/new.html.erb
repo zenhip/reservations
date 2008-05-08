@@ -1,0 +1,23 @@
+<% @page_title = " - Jauna rezervācija" %>
+<% @page_id = "product_category_#{@batch.product.category.id}" %>
+
+<h2>Rezervēt <%= product_name(@batch.product) %></h2>
+
+<%= error_messages_for :order %>
+
+<p>
+	partija: <%= @batch.updated_at.to_s(:short_date_time) %>,
+	daudzums: <%= @batch.quantity %>,
+	rezervēti: <%= batch_reserved_total(@batch) %>,
+	brīvi: <%= batch_available_total(@batch) %>
+</p>
+
+<% form_for :order, :url => batch_orders_path do |f| %>
+  <%#= f.hidden_field :id %>
+  <% for orders_from_batch in @order.orders_from_batches %>
+    <% fields_for "order[orders_from_batch_attributes][]", orders_from_batch, :index => nil do |f| %>
+  	  <%= render :partial => "orders_from_batches/new", :locals => {:f => f} %>
+    <% end %>
+  <% end %>
+  <p><%= submit_tag "Rezervēt" %></p>
+<% end %>

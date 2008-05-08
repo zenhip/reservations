@@ -1,0 +1,16 @@
+<% @page_title = " - Mainīt lietotāja datus" %>
+
+<h2>Mainīt datus lietotājam <%= user_login(@user).capitalize %></h2>
+
+<%= error_messages_for :user %>
+
+<% form_for :user, :url => user_path(@user), :html => {:method => :put} do |f| %>
+  <%= render :partial => "form", :locals => {:f => f} %>
+
+	<% if admin? && @user.id != 1 %>
+	  <p><label for="role">User's role</label><br/>
+	    <%= f.select :role, user_roles_for_select %></p>
+	<% end %>
+	
+  <p><%= submit_tag "Izmainīt" %> vai <%= link_to "atpakaļ", users_path %></p>
+<% end %>

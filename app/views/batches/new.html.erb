@@ -1,0 +1,11 @@
+<% @page_title = " - Pievienot jaunu partiju" %>
+<% @page_id = "product_category_#{@product.category.id}" %>
+
+<h2>Pievienot jaunu partiju produktam <%= product_name(@product) %></h2>
+
+<%= error_messages_for :batch %>
+
+<% form_for :batch, :url => product_batches_path(@product) do |f| %> 
+  <%= render :partial => "form", :locals => {:f => f} %> 
+  <p><%= submit_tag "Pievienot" %> vai <%= link_to "atpakaļ", product_path(@product) %></p> 
+<% end %>

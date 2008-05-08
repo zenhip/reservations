@@ -1,0 +1,9 @@
+red_brick:
+  name: Red Brick
+  category: bricks
+heavy_brick:
+  name: Heavy Brick
+  category: bricks
+old_stone:
+  name: Old Stone
+  category: stones

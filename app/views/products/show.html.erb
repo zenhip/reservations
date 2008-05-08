@@ -1,0 +1,91 @@
+<% @page_title = " - " + @product.name.capitalize %>
+<% @page_id = "product_category_#{@product.category.id}" %>
+
+<h2><%= product_name(@product) %></h2>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+<% if @product.batches.any? %>
+		<tr><td colspan="5">
+		<b>Kopā:</b>
+		daudzums: <%= product_batches_quantity_total(@product) %>,
+		rezervēti: <%= product_batches_reserved_total(@product) %>,
+		brīvi: 
+		<% avail = product_batches_available_total(@product) %>
+		<%= avail <= 0 ? "<b>#{avail}</b>" : avail %><br/>
+		
+		<% nextbatch = 1 %>
+
+			<% @product.batches.each do |batch| %>
+
+				<b>Noliktavas izmaiņas:</b> <%= batch.updated_at.to_s(:short_date_time) %>&nbsp;
+				
+				<% admin_area do %>
+					<%= link_to "mainīt", edit_batch_path(batch) %> | 
+					<%= link_to "dzēst", batch_path(batch), :method => :delete, :confirm => "tiešām?!"%> |
+				<% end %>
+				
+				<%= link_to "rezervēt", new_batch_order_path(batch) %><br><br>
+			</td></tr>
+			<tr>
+				<th>Rezervēts</th> <!-- varbuut labaak "Izveidots" / "Pievienots" utt? Apmeklētājs uztver, ka tas ir laiks, bet drīzāk ir vērts paskaidrot, ko tas reprezentē -->
+				<th>Lietotājs</th>
+				<th>Daudzums</th>
+				<th>Komentārs</th>
+				<th></th>
+			</tr>
+				<%# uzliek naakamaas partijas datumu %>
+				<% nb = next_batch(batch.product, nextbatch) %>
+				<% nextbatch += 1 %>
+
+				<% if batch.orders_from_batches.any? %>
+						<% batch.orders_from_batches.each do |orders_from_batch| %>
+							<% tr do %>
+								<td>
+							  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>
+							  <%#= orders_from_batches_created orders_from_batches %>
+							  <%# vai var proveet lietot to bones esošo l(orders_from_batches).created helperu shortcutu %>
+								<%= orders_from_batch.created_at.to_s(:short_date_time) %>
+								</td><td>
+								<%= link_to user_login(orders_from_batch.order.user), user_orders_path(orders_from_batch.order.user) %>
+								</td><td>
+								<%= orders_from_batch.quantity %>
+								</td>
+								<td>
+								<%=h orders_from_batch.comment %>
+								</td>
+								<td>
+								<% admin_area do %>
+									<%= link_to "mainīt", edit_order_orders_from_batch_path(orders_from_batch.order, orders_from_batch) %> | 
+								<% end %>
+								
+								<% if current_user_is_order_owner(orders_from_batch.order) || admin? %>	
+									<b><%= link_to "dzēst", batch_order_path(orders_from_batch.batch, orders_from_batch.order), :method => :delete, :confirm => "tiešām?!"%></b>
+								<% end %>
+								</td>
+							<% end %>
+						<% end %>
+				<% else %>
+					<tr><td colspan="5">
+						<i>nav rezervāciju</i>
+					</td></tr>
+				<% end %>
+		<% end %>
+<% else %>
+	<p>Produktam nav nevienas partijas.</p>
+	<% admin_area do %>
+	  <!-- veel var overraidot link_to_unless shaadiem. defaultais raada linka tekstu, ja unless izpildaas. -->
+	  <!-- vai uztaisiit link_if_admin_to "pievienot partiju", .... -->
+	  <!--
+	    def link_if_admin_to(*args)
+	      link_to(*args) if admin?
+	    end
+	  -->
+	
+		<!-- hmz, kaa buutu shaadi? it kaa tiiri forshi -->
+		<%= link_to "Pievienot jaunu partiju", new_product_batch_path(@product) %>
+	<% end %>
+<% end %>
+</table>
+
+<p><%= link_to "atpakaļ", category_path(@product.category) %></p>

@@ -1,0 +1,11 @@
+<% @page_title = " - Mainīt partiju" %>
+<% @page_id = "product_category_#{@batch.product.category.id}" %>
+
+<h2>Mainīt partiju produktam <%= product_name(@batch.product) %></h2>
+
+<%= error_messages_for :batch %>
+
+<% form_for :batch, :url => batch_path(@batch), :html => {:method => :put} do |f| %>
+  <%= render :partial => "form", :locals => {:f => f} %>
+  <p><%= submit_tag "Izmainīt" %> vai <%= link_to "atpakaļ", product_path(@batch.product) %></p>
+<% end %>

@@ -1,0 +1,11 @@
+<% @page_title = " - Mainīt produktu" %>
+<% @page_id = "product_category_#{@product.category.id}" %>
+
+<h2>Mainīt produktu <%= product_name(@product) %> kategorijā "<%= category_name(@product.category) %>"</h2>
+
+<%= error_messages_for :product %>
+
+<% form_for :product, :url => product_path(@product), :html => {:method => :put} do |f| %>
+  <%= render :partial => "form", :locals => {:f => f} %>
+  <p><%= submit_tag "Izmainīt" %> vai <%= link_to "atpakaļ", category_path(@product.category) %></p>
+<% end %>
