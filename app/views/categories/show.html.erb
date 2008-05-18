@@ -5,67 +5,69 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<% if @category.products.any? %>
+	
 	<tr>
-		<th>Produkts</th>
+		<th>Produkti</th>
 		<th>Daudzums</th>
 		<th>Rezervēti</th>
 		<th>Brīvi</th>
-		<th>Nolikt. izmaiņas</th>
 		<th></th>
 	</tr>
 	
 		<% @category.products.each do |product| %>
 
-        <%# no bones, see ApplicationHelper %>
-			  <%# tr do %>
-			    <%# ... %>
-			  <%# end %>
-				<% tr do %>
-					<td>
-					<%= link_to product_name(product), product_path(product) %>
-					</td><td>
-					<%= product_batches_quantity_total(product) %>
-					</td><td>
-					<%= product_batches_reserved_total(product) %>
-					</td><td>
-					<% avail = product_batches_available_total(product) %>
-					<%= avail <= 0 ? "<b>#{avail}</b>" : avail %>
-					</td><td>
-					<% if product.batches.any? %>
-					
-						<% product.batches.each do |batch| %>
-							<% @b = batch %>
-							
-						<% end %>
-					<%= @b.updated_at.to_s(:short_date_time) %>
-				<% end %>
-				</td><td>
+			<% tr do %>
+				<td height="30" valign="bottom">
+				<%= link_to product_name(product), product_path(product) %>
+				</td><td height="30" valign="bottom">
+				<%= product_batches_quantity_total(product) %>
+				</td><td height="30" valign="bottom">
+				<%= product_batches_reserved_total(product) %>
+				</td><td height="30" valign="bottom">
+				<% avail = product_batches_available_total(product) %>
+				<%= avail <= 0 ? "<b>#{avail}</b>" : avail %>
+				</td><td height="30" valign="bottom">
 				<% admin_area do %>
 					<%= link_to "mainīt", edit_product_path(product) %> |
 					<%= link_to "dzēst", product_path(product), :method => :delete, :confirm => "tiešām?!"%> |
-					<% unless product.batches.any? %>
-						<%= link_to "jauna partija", new_product_batch_path(product) %>
+					<%= link_to "jauna partija", new_product_batch_path(product) %>
+				<% end %>
+				</td>
+			<% end %>
+				
+			<% if product.batches.any? %>
+				<% product.batches.each do |batch| %>
+				  <% tr do %>
+						<td>
+					  <%= batch.arrive_on.to_s(:short_date) %>
+					  </td><td>
+					  <%= batch.quantity %>
+					  </td><td>
+					  <%= batch_reserved_total(batch) %>
+					  </td><td>
+					  <%= batch_available_total(batch) %>
+					  </td><td>
+					  <% admin_area do %>
+					  	<%= link_to "mainīt", edit_batch_path(batch) %> |
+					  	<%= link_to "dzēst", batch_path(batch), :method => :delete, :confirm => "tiešām?!"%> |
+					  <% end %>
+					  <%= link_to "rezervēt", new_batch_order_path(batch) %>
+					  </td>
 					<% end %>
 				<% end %>
 				
-				<% if product.batches.any? %>
-					<%= link_to "rezervēt", new_batch_order_path(@b) %>
+			<% else %>
+				<% tr do %>
+					<td colspan="5"><i>nav partiju</i></td>
 				<% end %>
-				</td>
-				<% end %>
-				
+			<% end %>
 		<% end %>
-	
+		
 <% else %>
 	<p>Šajā kategorijā nav pievienots neviens produkts.</p>
 <% end %>
 </table>
-<p><%#= admin? ? (link_to "Pievienot jaunu produktu", new_category_product_path(@category)) + "<br>" : "" %>
-<!-- 
-  Shaadi imo gliitaak un saprotamaak
-
-	njaa, ir vieglaak lasaams
--->
+<p>
   <% admin_area do %>
     <%= link_to "Pievienot jaunu produktu", new_category_product_path(@category) %><br/>
   <% end %>

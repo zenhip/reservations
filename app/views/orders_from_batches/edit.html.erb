@@ -6,7 +6,7 @@
 <%= error_messages_for :orders_from_batch %>
 
 <p>
-	partija: <%= @orders_from_batch.batch.updated_at.to_s(:short_date_time) %>,
+	partija: <%= @orders_from_batch.batch.arrive_on.to_s(:short_date) %>,
 	daudzums: <%= @orders_from_batch.batch.quantity %>,
 	rezervēti: <%= batch_reserved_total(@orders_from_batch.batch) %>,
 	brīvi: <%= batch_available_total(@orders_from_batch.batch) %>

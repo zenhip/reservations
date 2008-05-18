@@ -4,40 +4,50 @@
 <h2><%= product_name(@product) %></h2>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-
 <% if @product.batches.any? %>
-		<tr><td colspan="5">
+	<tr>
+		<td colspan="6">
 		<b>Kopā:</b>
 		daudzums: <%= product_batches_quantity_total(@product) %>,
 		rezervēti: <%= product_batches_reserved_total(@product) %>,
-		brīvi: 
-		<% avail = product_batches_available_total(@product) %>
-		<%= avail <= 0 ? "<b>#{avail}</b>" : avail %><br/>
-		
+		brīvi: <% avail = product_batches_available_total(@product) %>
+		<%= avail <= 0 ? "<b>#{avail}</b>" : avail %><br /><br />
+	</tr>
+	
 		<% nextbatch = 1 %>
-
+		
+			<tr>
+				<th>Partijas</th>
+				<th>Lietotājs</th>
+				<th>Rezervēti</th>
+				<th>Realizācija</th>
+				<th>Komentārs</th>
+				<th></th>
+			</tr>
+			
 			<% @product.batches.each do |batch| %>
-
-				<b>Noliktavas izmaiņas:</b> <%= batch.updated_at.to_s(:short_date_time) %>&nbsp;
-				
+			
+			<% tr do %>
+				<td height="30" valign="bottom" colspan="6">&nbsp;&nbsp;
+				<b><%= batch.arrive_on.to_s(:short_date) %></b>&nbsp;&nbsp;
+				daudzums: <%= batch.quantity %>,
+				rezervēti: <%= batch_reserved_total(batch) %>,
+				brīvi: <% avail = batch_available_total(batch) %>
+				<%= avail <= 0 ? "<b>#{avail}</b>" : avail %>&nbsp;&nbsp;
+			
 				<% admin_area do %>
 					<%= link_to "mainīt", edit_batch_path(batch) %> | 
 					<%= link_to "dzēst", batch_path(batch), :method => :delete, :confirm => "tiešām?!"%> |
 				<% end %>
-				
-				<%= link_to "rezervēt", new_batch_order_path(batch) %><br><br>
-			</td></tr>
-			<tr>
-				<th>Rezervēts</th> <!-- varbuut labaak "Izveidots" / "Pievienots" utt? Apmeklētājs uztver, ka tas ir laiks, bet drīzāk ir vērts paskaidrot, ko tas reprezentē -->
-				<th>Lietotājs</th>
-				<th>Daudzums</th>
-				<th>Komentārs</th>
-				<th></th>
-			</tr>
+			
+				<%= link_to "rezervēt", new_batch_order_path(batch) %>
+				</td>
+			<% end %>
+			
 				<%# uzliek naakamaas partijas datumu %>
 				<% nb = next_batch(batch.product, nextbatch) %>
 				<% nextbatch += 1 %>
-
+				
 				<% if batch.orders_from_batches.any? %>
 						<% batch.orders_from_batches.each do |orders_from_batch| %>
 							<% tr do %>
@@ -50,6 +60,13 @@
 								<%= link_to user_login(orders_from_batch.order.user), user_orders_path(orders_from_batch.order.user) %>
 								</td><td>
 								<%= orders_from_batch.quantity %>
+								</td>
+								<td>
+								<% if nb && orders_from_batch.leave_on > nb %>
+									<i><%= orders_from_batch.leave_on.to_s(:short_date) %></i>
+								<% else %>
+									<%= orders_from_batch.leave_on.to_s(:short_date) %>
+								<% end %>
 								</td>
 								<td>
 								<%=h orders_from_batch.comment %>
@@ -66,26 +83,28 @@
 							<% end %>
 						<% end %>
 				<% else %>
-					<tr><td colspan="5">
-						<i>nav rezervāciju</i>
-					</td></tr>
+					<% tr do %>
+						<td colspan="6">
+							<i>nav rezervāciju</i>
+						</td></tr>
+					<% end %>
 				<% end %>
 		<% end %>
 <% else %>
 	<p>Produktam nav nevienas partijas.</p>
-	<% admin_area do %>
-	  <!-- veel var overraidot link_to_unless shaadiem. defaultais raada linka tekstu, ja unless izpildaas. -->
-	  <!-- vai uztaisiit link_if_admin_to "pievienot partiju", .... -->
-	  <!--
-	    def link_if_admin_to(*args)
-	      link_to(*args) if admin?
-	    end
-	  -->
-	
-		<!-- hmz, kaa buutu shaadi? it kaa tiiri forshi -->
-		<%= link_to "Pievienot jaunu partiju", new_product_batch_path(@product) %>
-	<% end %>
 <% end %>
+	<tr><td colspan="6">
+		<br />
+<% admin_area do %>
+  <!-- veel var overraidot link_to_unless shaadiem. defaultais raada linka tekstu, ja unless izpildaas. -->
+  <!-- vai uztaisiit link_if_admin_to "pievienot partiju", .... -->
+  <!--
+    def link_if_admin_to(*args)
+      link_to(*args) if admin?
+    end
+  -->
+	<%= link_to "Pievienot jaunu partiju", new_product_batch_path(@product) %><br />
+<% end %>
+	</td></tr>
 </table>
-
-<p><%= link_to "atpakaļ", category_path(@product.category) %></p>
+<%= link_to "atpakaļ", category_path(@product.category) %>

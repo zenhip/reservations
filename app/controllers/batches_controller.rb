@@ -21,7 +21,7 @@ class BatchesController < ApplicationController
   
   def create
     @batch = @product.batches.build(params[:batch])#.slice(:arrival_date, :quantity))
-    @batch.arrive_on = Time.now
+    #@batch.arrive_on = Time.now
     if @batch.save
       redirect_to product_path(@product)
     else
