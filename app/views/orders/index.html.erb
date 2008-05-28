@@ -8,6 +8,7 @@
 		<th>Produkts</th>
 		<th>Rezervēts</th>
 		<th>Daudzums</th>
+		<th>Realizācija</th>
 		<th>Komentārs</th>
 		<th></th>
 	</tr>
@@ -30,6 +31,9 @@
 					</td>
 					<td>
 					<%= orders_from_batch.quantity %>
+					</td>
+					<td>
+					<%= orders_from_batch.leave_on.to_s(:short_date) %>
 					</td>
 					<td>
 					<%=h orders_from_batch.comment %>

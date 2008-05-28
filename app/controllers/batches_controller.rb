@@ -21,7 +21,6 @@ class BatchesController < ApplicationController
   
   def create
     @batch = @product.batches.build(params[:batch])#.slice(:arrival_date, :quantity))
-    #@batch.arrive_on = Time.now
     if @batch.save
       redirect_to product_path(@product)
     else
@@ -41,15 +40,11 @@ class BatchesController < ApplicationController
   def destroy
     if @batch.orders_from_batches.any?
       flash[:error] = "Partiju nevar dzēst, ja tai ir rezervācijas"
-      # 1 -
-      redirect_to product_path(@batch.product)
     else
       @batch.destroy
       flash[:notice] = "Produkta partija dzēsta"
-      # 2 -
-      redirect_to product_path(@batch.product)
     end
-    # 1 un 2 ieliec te
+    redirect_to product_path(@batch.product)
   end
   
   protected

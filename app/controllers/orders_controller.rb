@@ -22,7 +22,7 @@ class OrdersController < ApplicationController
   
   def new
     @order = Order.new
-    @order.orders_from_batches.build(:batch_id => @batch.id, :leave_on => Time.now)
+    @order.orders_from_batches.build(:batch_id => @batch.id, :leave_on => Time.now.to_s(:short_date))
   end
   
   def create

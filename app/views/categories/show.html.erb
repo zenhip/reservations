@@ -67,9 +67,11 @@
 	<p>Šajā kategorijā nav pievienots neviens produkts.</p>
 <% end %>
 </table>
+
 <p>
   <% admin_area do %>
     <%= link_to "Pievienot jaunu produktu", new_category_product_path(@category) %><br/>
   <% end %>
 
-<%= link_to "atpakaļ", categories_path %></p>
+<%= link_to "atpakaļ", categories_path %>
+</p>

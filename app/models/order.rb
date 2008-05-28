@@ -21,6 +21,7 @@ class Order < ActiveRecord::Base
     # return unless user
     # self.user_id == user.id
     #
+    return unless user
     self.user_id == user.id # /Users/zenhip/Documents/rails/reservations/app/models/order.rb:14: warning: Object#id will be deprecated; use Object#object_id
   end
   
