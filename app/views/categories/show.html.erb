@@ -17,16 +17,16 @@
 		<% @category.products.each do |product| %>
 
 			<% tr do %>
-				<td height="30" valign="bottom">
+				<td>
 				<%= link_to product_name(product), product_path(product) %>
-				</td><td height="30" valign="bottom">
+				</td><td>
 				<%= product_batches_quantity_total(product) %>
-				</td><td height="30" valign="bottom">
+				</td><td>
 				<%= product_batches_reserved_total(product) %>
-				</td><td height="30" valign="bottom">
+				</td><td>
 				<% avail = product_batches_available_total(product) %>
 				<%= avail <= 0 ? "<b>#{avail}</b>" : avail %>
-				</td><td height="30" valign="bottom">
+				</td><td>
 				<% admin_area do %>
 					<%= link_to "mainīt", edit_product_path(product) %> |
 					<%= link_to "dzēst", product_path(product), :method => :delete, :confirm => "tiešām?!"%> |
@@ -38,7 +38,7 @@
 			<% if product.batches.any? %>
 				<% product.batches.each do |batch| %>
 				  <% tr do %>
-						<td>
+						<td>&nbsp;
 					  <%= batch.arrive_on.to_s(:short_date) %>
 					  </td><td>
 					  <%= batch.quantity %>
@@ -75,3 +75,10 @@
 
 <%= link_to "atpakaļ", categories_path %>
 </p>
+
+<%= link_to_function "toggle with my div", "Element.toggle('to_toggle')" %>
+<div id="to_toggle" style="display: none;">
+  Now you see me, now you don't!
+</div>
+
+<% flash[:error] = "yeah!" %>

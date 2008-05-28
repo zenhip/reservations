@@ -7,11 +7,11 @@ class OrdersFromBatch < ActiveRecord::Base
   #validates_presence_of :order_id
   #validates_presence_of :batch_id
   
-  validates_numericality_of :quantity, :greater_than_or_equal_to => 0
-
   # Lai nevar "kopā: daudzums: 350, rezervēti: 390, brīvi: -40"
   # validate :quantity_is_not_greater_than_batch_quantity
-    
+  
+  validates_numericality_of :quantity, :greater_than_or_equal_to => 0
+  
   def self.find_all
     find(:all, :order => "created_at")
   end
@@ -25,5 +25,5 @@ class OrdersFromBatch < ActiveRecord::Base
     #     self.batch.available_quantity(self) => self.quantity
     #   end
     # end
-  
+    
 end

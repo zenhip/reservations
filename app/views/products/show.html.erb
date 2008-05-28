@@ -17,7 +17,7 @@
 		<% nextbatch = 1 %>
 		
 			<tr>
-				<th>Partijas</th>
+				<th>Rezerv. datums</th>
 				<th>Lietotājs</th>
 				<th>Rezervēti</th>
 				<th>Realizācija</th>
@@ -26,10 +26,10 @@
 			</tr>
 			
 			<% @product.batches.each do |batch| %>
-			
-			<% tr do %>
-				<td height="30" valign="bottom" colspan="6">&nbsp;&nbsp;
-				<b><%= batch.arrive_on.to_s(:short_date) %></b>&nbsp;&nbsp;
+			<tr>
+			<%# tr do %>
+				<td height="25" valign="bottom" colspan="6">
+				Partija: <b><%= batch.arrive_on.to_s(:short_date) %></b>&nbsp;&nbsp;
 				daudzums: <%= batch.quantity %>,
 				rezervēti: <%= batch_reserved_total(batch) %>,
 				brīvi: <% avail = batch_available_total(batch) %>
@@ -42,7 +42,8 @@
 			
 				<%= link_to "rezervēt", new_batch_order_path(batch) %>
 				</td>
-			<% end %>
+			<%# end %>
+			</tr>
 			
 				<%# uzliek naakamaas partijas datumu %>
 				<% nb = next_batch(batch.product, nextbatch) %>
@@ -60,18 +61,15 @@
 								<%= link_to user_login(orders_from_batch.order.user), user_orders_path(orders_from_batch.order.user) %>
 								</td><td>
 								<%= orders_from_batch.quantity %>
-								</td>
-								<td>
+								</td><td>
 								<% if nb && orders_from_batch.leave_on > nb %>
 									<i><%= orders_from_batch.leave_on.to_s(:short_date) %></i>
 								<% else %>
 									<%= orders_from_batch.leave_on.to_s(:short_date) %>
 								<% end %>
-								</td>
-								<td>
+								</td><td>
 								<%=h orders_from_batch.comment %>
-								</td>
-								<td>
+								</td><td>
 								<% admin_area do %>
 									<%= link_to "mainīt", edit_order_orders_from_batch_path(orders_from_batch.order, orders_from_batch) %> | 
 								<% end %>
