@@ -76,9 +76,27 @@
 <%= link_to "atpakaļ", categories_path %>
 </p>
 
+
+<%- 2.times do -%>
+	<%= tag(:br) %>
+<%- end -%>
+
+<% content_tag :div do %>
+  <%= content_tag :span, "test" %>
+<% end %>
+
+<% content_tag :table do %>
+  <% content_tag :tr do %>
+     <%= content_tag :td, 'data 1' %>
+     <%= content_tag :td, 'data 2' %>
+  <% end %>
+<% end %>
+
 <%= link_to_function "toggle with my div", "Element.toggle('to_toggle')" %>
 <div id="to_toggle" style="display: none;">
-  Now you see me, now you don't!
+  <%= content_tag(:p, "Hello world!") %>
+	<%= content_tag(:div, content_tag(:p, "Hello world!"), :class => "strong") %>
+	<% content_tag :div, :class => "strong" do -%>
+	  Hello world!
+	<% end -%>
 </div>
-
-<% flash[:error] = "yeah!" %>

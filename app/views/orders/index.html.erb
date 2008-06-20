@@ -33,7 +33,15 @@
 					<%= orders_from_batch.quantity %>
 					</td>
 					<td>
-					<%= orders_from_batch.leave_on.to_s(:short_date) %>
+					<% if orders_from_batch.leave_on < Time.now %>
+						<font color="gray"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
+					<% elsif orders_from_batch.leave_on = Time.now || orders_from_batch.leave_on <= Time.now + 3.days %>
+						<font color="red"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
+					<% elsif orders_from_batch.leave_on > Time.now + 3.days && orders_from_batch.leave_on < Time.now + 7.days %>
+						<font color="orange"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
+					<% else %>
+						<font color="black"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
+					<% end %>
 					</td>
 					<td>
 					<%=h orders_from_batch.comment %>
