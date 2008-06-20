@@ -1,11 +1,11 @@
 <%= f.hidden_field :batch_id %>
 
-<p><label>Daudzums</label><br/>
+<p><label>Daudzums</label><br />
 <%= f.text_field :quantity, :size => 10 %></p>
 
-<p><label>Realizācijas datums</label><br/>
+<p><label>Realizācijas datums</label><br />
 <%#= f.date_select(:leave_on, :start_year => Time.now.year, :use_month_names => %w(Janvāris Februāris Marts Aprīlis Maijs Jūnijs Jūlijs Augusts Septembris Oktobris Novembris Decembris), :order => [:day, :month, :year]) %>
 <%= f.text_field :leave_on %></p>
 
-<p><label>Komentārs (rezervācijas mērķis)</label><br/>
+<p><label>Komentārs (rezervācijas mērķis)</label><br />
 <%= f.text_area :comment, :size => "30x4" %></p>
