@@ -6,7 +6,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<th>Produkts</th>
-		<th>Rezervēts</th>
+		<th>Rezervācija</th>
 		<th>Daudzums</th>
 		<th>Realizācija</th>
 		<th>Komentārs</th>
@@ -26,8 +26,8 @@
 					<%= link_to product_name(orders_from_batch.batch.product), orders_from_batch.batch.product %>
 					(<%= link_to category_name(orders_from_batch.batch.product.category), orders_from_batch.batch.product.category %>)
 					</td>
-					<td>
-					<%= orders_from_batch.created_at.to_s(:short_date_time) %>
+					<td nowrap>
+					<%= orders_from_batch.created_at.to_s(:short_date_time) %> &nbsp;
 					</td>
 					<td>
 					<%= orders_from_batch.quantity %>

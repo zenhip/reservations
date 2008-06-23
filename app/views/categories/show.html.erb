@@ -7,7 +7,7 @@
 	<% if @category.products.any? %>
 	
 	<tr>
-		<th>Produkti</th>
+		<th>Produkts-partijas</th>
 		<th>Daudzums</th>
 		<th>Rezervēti</th>
 		<th>Brīvi</th>
@@ -18,14 +18,14 @@
 
 			<% tr do %>
 				<td>
-				<%= link_to product_name(product), product_path(product) %>
+				<b><%= link_to product_name(product), product_path(product) %></b>
 				</td><td>
-				<%= product_batches_quantity_total(product) %>
+				<b><%= product_batches_quantity_total(product) %></b>
 				</td><td>
-				<%= product_batches_reserved_total(product) %>
+				<b><%= product_batches_reserved_total(product) %></b>
 				</td><td>
-				<% avail = product_batches_available_total(product) %>
-				<%= avail <= 0 ? "<b>#{avail}</b>" : avail %>
+				<b><% avail = product_batches_available_total(product) %>
+				<%= avail <= 0 ? "(#{avail})" : avail %></b>
 				</td><td>
 				<% admin_area do %>
 					<%= link_to "mainīt", edit_product_path(product) %> |
@@ -58,7 +58,7 @@
 				
 			<% else %>
 				<% tr do %>
-					<td colspan="5"><i>nav partiju</i></td>
+					<td colspan="5"><i>&nbsp; nav partiju</i></td>
 				<% end %>
 			<% end %>
 		<% end %>

@@ -17,7 +17,7 @@
 		<% nextbatch = 1 %>
 		
 			<tr>
-				<th>Rezerv. datums</th>
+				<th>Rezervācijas</th>
 				<th>Lietotājs</th>
 				<th>Rezervēti</th>
 				<th>Realizācija</th>
@@ -29,11 +29,11 @@
 			<tr>
 			<%# tr do %>
 				<td height="25" valign="bottom" colspan="6">
-				Partija: <b><%= batch.arrive_on.to_s(:short_date) %></b>&nbsp;&nbsp;
-				daudzums: <%= batch.quantity %>,
-				rezervēti: <%= batch_reserved_total(batch) %>,
-				brīvi: <% avail = batch_available_total(batch) %>
-				<%= avail <= 0 ? "<b>#{avail}</b>" : avail %>&nbsp;&nbsp;
+				Partija: <b><%= batch.arrive_on.to_s(:short_date) %></b>&nbsp;
+				daudzums: <b><%= batch.quantity %></b>,
+				rezervēti: <b><%= batch_reserved_total(batch) %></b>,
+				brīvi: <b><% avail = batch_available_total(batch) %>
+				<%= avail <= 0 ? "(#{avail})" : avail %></b>&nbsp;&nbsp;
 			
 				<% admin_area do %>
 					<%= link_to "mainīt", edit_batch_path(batch) %> | 
@@ -56,17 +56,27 @@
 							  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>
 							  <%#= orders_from_batches_created orders_from_batches %>
 							  <%# vai var proveet lietot to bones esošo l(orders_from_batches).created helperu shortcutu %>
-								<%= orders_from_batch.created_at.to_s(:short_date_time) %>
+								&nbsp;<%= orders_from_batch.created_at.to_s(:short_date_time) %>
 								</td><td>
 								<%= link_to user_login(orders_from_batch.order.user), user_orders_path(orders_from_batch.order.user) %>
 								</td><td>
 								<%= orders_from_batch.quantity %>
 								</td><td>
-								<% if nb && orders_from_batch.leave_on > nb %>
-									<i><%= orders_from_batch.leave_on.to_s(:short_date) %></i>
+								
+								<% if orders_from_batch.leave_on < Time.now %>
+									<font color="gray"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
+								<% elsif orders_from_batch.leave_on == Time.now || orders_from_batch.leave_on <= Time.now + 3.days %>
+									<font color="red"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
+								<% elsif orders_from_batch.leave_on > Time.now + 3.days && orders_from_batch.leave_on < Time.now + 7.days %>
+									<font color="brown"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
 								<% else %>
-									<%= orders_from_batch.leave_on.to_s(:short_date) %>
+									<font color="black"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
 								<% end %>
+								
+								<% if nb && orders_from_batch.leave_on > nb %>
+									&darr;
+								<% end %>
+								
 								</td><td>
 								<%=h orders_from_batch.comment %>
 								</td><td>
@@ -83,7 +93,7 @@
 				<% else %>
 					<% tr do %>
 						<td colspan="6">
-							<i>nav rezervāciju</i>
+							&nbsp;<i>nav rezervāciju</i>
 						</td></tr>
 					<% end %>
 				<% end %>
