@@ -1,40 +1,52 @@
-<% @page_title = " - " + @category.name.capitalize %>
 <% @page_id = "product_category_#{@category.id}" %>
 
 <h2><%= category_name(@category) %></h2>
+<p>
+	<% admin_area do %>
+		<%= link_to "mainīt", edit_category_path(@category) %> |
+		<%#= link_to "dzēst", category_path(category), :method => :delete, :confirm => "tiešām?!"%>
+	<% end %>
+	
+	<% admin_area do %>
+  	<%= link_to "pievienot jaunu produktu", new_category_product_path(@category) %><br/>
+  <% end %>
+</p>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<% if @category.products.any? %>
 	
 	<tr>
-		<th>Produkts-partijas</th>
+		<th>Produkts</th>
 		<th>Daudzums</th>
 		<th>Rezervēti</th>
 		<th>Brīvi</th>
-		<th></th>
 	</tr>
 	
 		<% @category.products.each do |product| %>
 
 			<% tr do %>
 				<td>
-				<b><%= link_to product_name(product), product_path(product) %></b>
+				<%= link_to product_name(product), product_path(product) %>
 				</td><td>
-				<b><%= product_batches_quantity_total(product) %></b>
+				<%= product_batches_quantity_total(product) %>
 				</td><td>
-				<b><%= product_batches_reserved_total(product) %></b>
+				<%= product_batches_reserved_total(product) %>
 				</td><td>
-				<b><% avail = product_batches_available_total(product) %>
-				<%= avail <= 0 ? "(#{avail})" : avail %></b>
-				</td><td>
+				<% avail = product_batches_available_total(product) %>
+				<%= avail < 0 ? "<b>#{avail}</b>" : avail %>
+				</td>
+				<!--
+				<td>
 				<% admin_area do %>
 					<%= link_to "mainīt", edit_product_path(product) %> |
 					<%= link_to "dzēst", product_path(product), :method => :delete, :confirm => "tiešām?!"%> |
 					<%= link_to "jauna partija", new_product_batch_path(product) %>
 				<% end %>
 				</td>
+				-->
 			<% end %>
 				
+		<!--
 			<% if product.batches.any? %>
 				<% product.batches.each do |batch| %>
 				  <% tr do %>
@@ -55,12 +67,14 @@
 					  </td>
 					<% end %>
 				<% end %>
-				
+			
 			<% else %>
 				<% tr do %>
-					<td colspan="5"><i>&nbsp; nav partiju</i></td>
+					<td colspan="4"><i>&nbsp; nav partiju</i></td>
 				<% end %>
 			<% end %>
+			-->
+			
 		<% end %>
 		
 <% else %>
@@ -69,34 +83,5 @@
 </table>
 
 <p>
-  <% admin_area do %>
-    <%= link_to "Pievienot jaunu produktu", new_category_product_path(@category) %><br/>
-  <% end %>
-
-<%= link_to "atpakaļ", categories_path %>
+	&larr; <%= link_to "atpakaļ", categories_path %>
 </p>
-
-
-<%- 2.times do -%>
-	<%= tag(:br) %>
-<%- end -%>
-
-<% content_tag :div do %>
-  <%= content_tag :span, "test" %>
-<% end %>
-
-<% content_tag :table do %>
-  <% content_tag :tr do %>
-     <%= content_tag :td, 'data 1' %>
-     <%= content_tag :td, 'data 2' %>
-  <% end %>
-<% end %>
-
-<%= link_to_function "toggle with my div", "Element.toggle('to_toggle')" %>
-<div id="to_toggle" style="display: none;">
-  <%= content_tag(:p, "Hello world!") %>
-	<%= content_tag(:div, content_tag(:p, "Hello world!"), :class => "strong") %>
-	<% content_tag :div, :class => "strong" do -%>
-	  Hello world!
-	<% end -%>
-</div>

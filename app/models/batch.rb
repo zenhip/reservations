@@ -11,6 +11,10 @@ class Batch < ActiveRecord::Base
     find(:all, :order => "arrive_on asc")
   end
   
+  def self.latest_batches
+    find(:all, :order => "created_at desc", :limit => 5)
+  end
+  
   # except_order_from_batch ir lai nepieskaitiitu aktiivo order_from_batch editeejot to
   # def available_quantity(except_order_from_batch=nil)
   #   self.quantity - total_ordered_quantity(nil, except_order_from_batch)
@@ -28,5 +32,5 @@ class Batch < ActiveRecord::Base
     #Batch.sum('quantity', :joins => "LEFT JOIN orders_from_batches on orders_from_batches.batch_id = batch.id")
     batch.orders_from_batches.inject(0) {|q, orders_from_batch| q + orders_from_batch.quantity}
 	end
- 
+	
 end

@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title> Rezervācijas<%= @page_title %> </title>
+	<title> Rezervācijas<%= @page_title ? " - " + @page_title : "" %> </title>
 	<meta name="author" content="martins">
 	<%= stylesheet_link_tag "reserv" %>
 	<%= javascript_include_tag :defaults %>
@@ -14,14 +14,14 @@
 		<table align="center" width="100%" height="100%" border="0" cellpadding="10" cellspacing="0" bgcolor="#fbfbfb">
 			<tr valign="bottom" bgcolor="#e2e2e2"><td height="25" colspan="2">
 				<div id="main_menu">
-				<%= link_to_unless_current "home", categories_path %> ::
+				<%= link_to_unless_current "home", welcome_path %> ::
 				<%= link_to_unless_current "users", users_path %> ::
-				<%- if logged_in? -%>
-					<%= link_to_unless_current "#{current_user.login}", user_orders_path(current_user) %> ::
+				<% if logged_in? %>
+					<%= link_to_unless_current user_login(current_user), user_orders_path(current_user) %> ::
 					<%= link_to "logout", logout_path %>
-				<%- else -%>
+				<% else %>
 					<%= link_to "login", login_path %>
-				<%- end -%>
+				<% end %>
 				<div>
 			</td></tr>
 			<tr><td valign="top" width="250" height="100%" bgcolor="#f2f2f2">

@@ -65,7 +65,7 @@ end
 # shitaa ne, shitaa:
 # http://railscasts.com/episodes/31
 Time::DATE_FORMATS[:short_date] = "%d-%m-%Y" #"%Y-%m-%d"
-Time::DATE_FORMATS[:short_date_time] = "%d-%m-%Y %H:%M" #"%Y-%m-%d %H:%M"
+Time::DATE_FORMATS[:short_date_time] = "%d-%m-%Y'%H:%M" #"%Y-%m-%d %H:%M"
 
 # RAWK - Rail's Analyzer With Klass v1.2
 # include process ids in your log file

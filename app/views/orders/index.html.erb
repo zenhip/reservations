@@ -1,16 +1,21 @@
 <% @page_title = " - " + @user.login.capitalize %>
 
-<h2><%= @user == current_user ? "manas" : user_login(@user); %> rezervaacijas</h2>
+<h2><%= @user == current_user ? "manas" : user_login(@user); %> rezervācijas</h2>
+
+<p>
+	<%= link_to "izpildītie" %>
+</p>
 
 <%# Css.. :) %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
+		<th><%= check_box(123, 123) %></th>
 		<th>Produkts</th>
 		<th>Rezervācija</th>
 		<th>Daudzums</th>
 		<th>Realizācija</th>
 		<th>Komentārs</th>
-		<th></th>
+		<!-- <th></th> -->
 	</tr>
 <% if @user.orders.any? %>
     
@@ -22,31 +27,32 @@
 				  <%# ..vai get bones un lieto tr do ... end, kas liek to cycle: %>
 				  <%# http://dev.bitmap.lv/trac/plugins/browser/bones/generators/bones/templates/bones_helper.rb.erb#L61 - def tr ... end %>
 					<% tr do %>
+					<td><%= check_box(123, 123) %></td>
 					<td>
 					<%= link_to product_name(orders_from_batch.batch.product), orders_from_batch.batch.product %>
-					(<%= link_to category_name(orders_from_batch.batch.product.category), orders_from_batch.batch.product.category %>)
+					[<%= link_to category_name(orders_from_batch.batch.product.category), orders_from_batch.batch.product.category %>]
 					</td>
 					<td nowrap>
-					<%= orders_from_batch.created_at.to_s(:short_date_time) %> &nbsp;
+					<%= link_to orders_from_batch.created_at.to_s(:short_date_time), user_order_path(orders_from_batch.order.user, orders_from_batch.order) %> &nbsp;
 					</td>
 					<td>
 					<%= orders_from_batch.quantity %>
 					</td>
 					<td>
-					<% if orders_from_batch.leave_on < Time.now %>
+					<% if orders_from_batch.leave_on.to_date < Date.today %>
 						<font color="gray"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
-					<% elsif orders_from_batch.leave_on == Time.now || orders_from_batch.leave_on <= Time.now + 3.days %>
+					<% elsif orders_from_batch.leave_on.to_date == Date.today || orders_from_batch.leave_on.to_date <= Date.today + 2.days %>
 						<font color="red"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
-					<% elsif orders_from_batch.leave_on > Time.now + 3.days && orders_from_batch.leave_on < Time.now + 7.days %>
+					<% elsif orders_from_batch.leave_on.to_date > Date.today + 2.days && orders_from_batch.leave_on.to_date < Date.today + 7.days %>
 						<font color="brown"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
 					<% else %>
 						<font color="black"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
 					<% end %>
 					</td>
 					<td>
-					<%=h orders_from_batch.comment %>
+					<%= truncate(h(orders_from_batch.comment), 25) %>
 					</td>
-				<td>
+			<!--	<td>
 				<% admin_area do %>
 					<%= link_to "mainīt", edit_order_orders_from_batch_path(orders_from_batch.order, orders_from_batch) %> |
 				<% end %>
@@ -55,7 +61,7 @@
 					<b><%= link_to "dzēst", batch_order_path(orders_from_batch.batch, order), :method => :delete, :confirm => "tiešām?!"%></b>
 				<% end %>
 		<% end %>
-				</td>
+				</td> -->
 			<% end %>
 				
 	<% end %>
@@ -65,3 +71,8 @@
 <% end %>
 
 </table>
+
+<br />
+
+<%= button_to "Izpildīts!" %>
+<%= button_to "Atcelt (dzēst)" %>

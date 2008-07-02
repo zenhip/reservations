@@ -5,6 +5,9 @@
 
 <%= error_messages_for :order %>
 
+<%#= check_box(:variable, :attribute, options, on_value, off_value) %>
+<%= check_box(123, 123) %> partija: blablabla
+
 <p>
 	partija: <%= @batch.arrive_on.to_s(:short_date) %>,
 	daudzums: <%= @batch.quantity %>,
