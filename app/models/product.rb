@@ -2,7 +2,6 @@ class Product < ActiveRecord::Base
   
   belongs_to :category
   
-  # datumu laukus labaak saukt _on (datums), _at (datums+laiks)
   has_many :batches, :dependent => :destroy, :order => "arrive_on asc" do
     # atgriež latest batch šim produktam (koments products/show.html.erb)
     def latest_batch
@@ -23,5 +22,21 @@ class Product < ActiveRecord::Base
   def self.find_all
     find(:all, :order => "name")
   end
+  
+  def batches_quantity_total
+    self.batches.inject(0) {|q, batch| q + batch.quantity}
+	end
+	
+	def batches_reserved_total
+    a=0
+    for batch in self.batches
+      a += batch.orders_from_batches.inject(0) {|q, orders_from_batch| q + orders_from_batch.quantity}
+    end
+    a
+	end
+	
+	def batches_available_total
+    batches_quantity_total - batches_reserved_total
+	end
   
 end

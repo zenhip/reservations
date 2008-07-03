@@ -49,6 +49,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :products do |product|
     product.resources :batches, :name_prefix => "product_"
+    product.resources :orders, :name_prefix => "product_"
   end
   
   map.resources :batches do |batch|

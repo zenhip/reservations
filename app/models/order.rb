@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
   
   has_many :orders_from_batches, :dependent => :destroy, :order => "created_at"
   
-  validates_presence_of :user_id
+  validates_presence_of :user_id, :leave_on
   
   def self.find_all
     find(:all, :order => "created_at")
@@ -26,7 +26,7 @@ class Order < ActiveRecord::Base
   end
   
   def orders_from_batch_attributes=(orders_from_batch_attributes)
-      orders_from_batch_attributes.each do |attributes|
+    orders_from_batch_attributes.each do |attributes|
       orders_from_batches.build(attributes)
     end
   end

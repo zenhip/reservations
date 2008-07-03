@@ -1,26 +1,27 @@
 <% @page_title = " - Jauna rezervācija" %>
-<% @page_id = "product_category_#{@batch.product.category.id}" %>
+<% @page_id = "product_category_#{@product.category.id}" %>
 
-<h2>Rezervēt <%= product_name(@batch.product) %></h2>
+<h2>Rezervēt "<%= product_name(@product) %>"</h2>
 
 <%= error_messages_for :order %>
-
-<%#= check_box(:variable, :attribute, options, on_value, off_value) %>
-<%= check_box(123, 123) %> partija: blablabla
-
 <p>
-	partija: <%= @batch.arrive_on.to_s(:short_date) %>,
-	daudzums: <%= @batch.quantity %>,
-	rezervēti: <%= batch_reserved_total(@batch) %>,
-	brīvi: <%= batch_available_total(@batch) %>
+<b>Kopā (noliktavā):</b>
+daudzums:<b><%= @product.batches_quantity_total %></b>,
+rezervēti:<b><%= @product.batches_reserved_total %></b>,
+brīvi:<b><% avail = @product.batches_available_total %><%= avail < 0 ? "(#{avail})" : avail %></b>
 </p>
 
-<% form_for :order, :url => batch_orders_path do |f| %>
+<% form_for :order, :url => product_orders_path do |f| %>
+	<%= render :partial => "form", :locals => {:f => f} %>
   <%#= f.hidden_field :id %>
-  <% for orders_from_batch in @order.orders_from_batches %>
-    <% fields_for "order[orders_from_batch_attributes][]", orders_from_batch, :index => nil do |f| %>
-  	  <%= render :partial => "orders_from_batches/new", :locals => {:f => f} %>
-    <% end %>
-  <% end %>
+  <%# for orders_from_batch in @order.orders_from_batches %>
+    <%# fields_for "order[orders_from_batch_attributes][]", orders_from_batch, :index => nil do |f| %>
+  	  <%#= render :partial => "orders_from_batches/new", :locals => {:f => f} %>
+    <%# end %>
+  <%# end %>
   <p><%= submit_tag "Rezervēt" %></p>
 <% end %>
+
+<p>
+	&larr; <%= link_to "atpakaļ", product_path(@product) %>
+</p>

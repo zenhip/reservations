@@ -4,30 +4,12 @@
   	<%= link_to "izveidot jaunu kategoriju", new_category_path %>
   <% end %>
 </p>
-
-<% @categories.each do |category| %>
-	&bull; <%= link_to category_name(category), category_path(category) %> (<%= category.products.count %>)<br />
-
-		<!--
-		<td>
-				<% admin_area do %>
-					<%= link_to "mainīt", edit_category_path(category) %> | 
-					<%= link_to "dzēst", category_path(category), :method => :delete, :confirm => "tiešām?!"%>
-				<% end %>&nbsp;
-		</td>
-		-->
-
-<% end %>
-
-<!--
 <p>
-  <% admin_area do %>
-    <%= link_to "Pievienot jaunu kategoriju", new_category_path %>
-  <% end %>
-</p>
--->
+	<% @categories.each do |category| %>
+		<%= link_to category_name(category), category_path(category) %> (<%= category.products.count %>)<br />
+	<% end %>
+</p><br />
 
-<br />
 <h2>Jaunākās produktu partijas</h2>
 <p>
 	<% @batches.each do |batch| %>
@@ -36,8 +18,8 @@
 		[<%= link_to category_name(batch.product.category), batch.product.category %>]
 		(<%= batch.quantity %>)<br />
 	<% end %>
-</p>
-<br />
+</p><br />
+
 <h2>Pēdējās rezervācijas</h2>
 <p>
 	<% @orders.each do |orders_from_batch| %>
