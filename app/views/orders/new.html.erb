@@ -1,7 +1,8 @@
 <% @page_title = " - Jauna rezervācija" %>
 <% @page_id = "product_category_#{@product.category.id}" %>
 
-<h2>Rezervēt "<%= product_name(@product) %>"</h2>
+<font size="2.5em" face="Monaco" color="orange">Rezervēt</font>
+<h2><%= product_name(@product) %></h2>
 
 <%= error_messages_for :order %>
 <p>
@@ -10,6 +11,18 @@ daudzums:<b><%= @product.batches_quantity_total %></b>,
 rezervēti:<b><%= @product.batches_reserved_total %></b>,
 brīvi:<b><% avail = @product.batches_available_total %><%= avail < 0 ? "(#{avail})" : avail %></b>
 </p>
+
+<%# ---- test ---- %>
+
+<b>all batches</b><br />
+<% @product.batches.each do |batch| %>
+	id:<%= batch.id %>,
+	arrive_on:<%= batch.arrive_on.to_date %>, 
+	q:<%= batch.quantity %>,
+	avail:<%= batch.available_total %><br />
+<% end %>
+
+<%# ---- test ---- %>
 
 <% form_for :order, :url => product_orders_path do |f| %>
 	<%= render :partial => "form", :locals => {:f => f} %>

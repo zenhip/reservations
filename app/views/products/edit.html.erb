@@ -1,7 +1,8 @@
 <% @page_title = " - Mainīt produktu" %>
 <% @page_id = "product_category_#{@product.category.id}" %>
 
-<h2>Mainīt produktu "<%= product_name(@product) %>" kategorijā "<%= category_name(@product.category) %>"</h2>
+<font size="2.5em" face="Monaco" color="orange">Mainīt</font>
+<h2><%= product_name(@product) %></h2>
 
 <%= error_messages_for :product %>
 

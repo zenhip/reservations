@@ -4,7 +4,8 @@ class Order < ActiveRecord::Base
   
   has_many :orders_from_batches, :dependent => :destroy, :order => "created_at"
   
-  validates_presence_of :user_id, :leave_on
+  validates_presence_of :user_id, :leave_on, :quantity
+  validates_numericality_of :quantity, :only_integer => true, :greater_than_or_equal_to => 1
   
   def self.find_all
     find(:all, :order => "created_at")
@@ -30,5 +31,6 @@ class Order < ActiveRecord::Base
       orders_from_batches.build(attributes)
     end
   end
+  
   
 end

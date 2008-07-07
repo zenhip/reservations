@@ -15,7 +15,7 @@ class ProductsController < ApplicationController
   
   def update
     if @product.update_attributes(params[:product].slice(:name))
-      redirect_to category_path(@product.category)
+      redirect_to category_path
     else
       render :action => :edit
     end

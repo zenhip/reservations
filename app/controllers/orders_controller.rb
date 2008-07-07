@@ -23,7 +23,6 @@ class OrdersController < ApplicationController
   
   def new
     @order = Order.new
-    #@order.orders_from_batches.build(:batch_id => @batch.id, :leave_on => Time.now.to_s(:short_date))
     @order.quantity = 0
   end
   
@@ -38,19 +37,28 @@ class OrdersController < ApplicationController
       flash[:error] = "par maz"
       redirect_to new_product_order_path(@product)
     else
-      validate :ensure_order_less_than_in_batch
-      def ensure_order_is_less_than_omg_kas_tur
-       errors.add(:ievadlauks, "errors") if self.batch_count < self.lauks.to_i
+      remains = @order.quantity
+      @product.orderable_batches(@order.quantity).each do |batch|
+        order_from_batch_amount = 0
+        if batch.available_total <= remains
+          order_from_batch_amount = batch.available_total
+          remains -= batch.available_total
+        else
+          order_from_batch_amount = remains
+        end
+        @order.orders_from_batches.build(:batch_id => batch.id, :quantity => order_from_batch_amount)
+        
       end
       
-      #if @order.save
+      if @order.save
       flash[:notice] = "cool!"
-      redirect_to new_product_order_path(@product)
+      redirect_to product_path(@product)
       #  redirect_to created_batch_order_path(@batch, @order)
-      #else
-      #  puts @order.errors.inspect
-      #end
+      else
+        puts @order.errors.inspect
+      end
     end
+    
   end
   
   def created
@@ -82,7 +90,7 @@ class OrdersController < ApplicationController
     @product = Product.find(params[:product_id])
   end
   
-    
+  
   def ensure_user_is_owner
     order_owner? || access_denied
   end

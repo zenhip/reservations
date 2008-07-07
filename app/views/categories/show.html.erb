@@ -25,7 +25,7 @@
 			<td><%= product.batches_reserved_total %></td>
 			<td><% avail = product.batches_available_total %><%= avail < 0 ? "<b>#{avail}</b>" : avail %></td>
 			<td>13.13</td>
-			<td width="60px"><%= link_to "rezervēt", new_order_path %></td>
+			<td width="60px"><%= link_to "rezervēt", new_product_order_path(product) %></td>
 		<% end %>
 				
 		<!--

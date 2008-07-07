@@ -9,6 +9,7 @@ class CategoriesController < ApplicationController
     @page_title = "Kategorijas"
     
     @categories = Category.find_all
+    @products = Product.find_latest
     @batches = Batch.latest_batches
     @orders = OrdersFromBatch.latest_orders
   end
@@ -21,7 +22,7 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.new(params[:category].slice(:name))
     if @category.save
-      redirect_to category_path(@category)
+      redirect_to categories_path
     else
       render :action => :new
     end
@@ -37,7 +38,7 @@ class CategoriesController < ApplicationController
   
   def update
     if @category.update_attributes(params[:category].slice(:name))
-      redirect_to categories_path
+      redirect_to category_path
     else
       render :action => :edit
     end

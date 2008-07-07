@@ -48,12 +48,12 @@
 				brīvi: <b><%# avail = batch_available_total(batch) %>
 				<%#= avail <= 0 ? "(#{avail})" : avail %></b>&nbsp;&nbsp;
 			
-				<% admin_area do %>
-					<%= link_to "mainīt", edit_batch_path(batch) %> | 
-					<%= link_to "dzēst", batch_path(batch), :method => :delete, :confirm => "tiešām?!"%> |
-				<% end %>
+				<%# admin_area do %>
+					<%#= link_to "mainīt", edit_batch_path(batch) %> | 
+					<%#= link_to "dzēst", batch_path(batch), :method => :delete, :confirm => "tiešām?!"%> |
+				<%# end %>
 			
-				<%= link_to "rezervēt", new_batch_order_path(batch) %>
+				<%#= link_to "rezervēt", new_batch_order_path(batch) %>
 				</td>
 			<%# end %>
 			</tr>

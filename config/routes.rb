@@ -49,11 +49,11 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :products do |product|
     product.resources :batches, :name_prefix => "product_"
-    product.resources :orders, :name_prefix => "product_"
+    product.resources :orders, :name_prefix => "product_", :member => {:created => :get, :destroyed => :get}
   end
   
   map.resources :batches do |batch|
-    batch.resources :orders, :name_prefix => "batch_", :member => {:created => :get, :destroyed => :get}
+    #batch.resources :orders, :name_prefix => "batch_", :member => {:created => :get, :destroyed => :get}
   end
   
   #map.resources :orders

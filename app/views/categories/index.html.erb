@@ -10,6 +10,15 @@
 	<% end %>
 </p><br />
 
+<h2>Jaunākie produkti</h2>
+<p>
+	<% @products.each do |product| %>
+		<%= product.created_at.to_s(:short_date) %>
+		<%= link_to product_name(product), product %>
+		[<%= link_to category_name(product.category), product.category %>]<br />
+	<% end %>
+</p><br />
+
 <h2>Jaunākās produktu partijas</h2>
 <p>
 	<% @batches.each do |batch| %>
@@ -20,7 +29,7 @@
 	<% end %>
 </p><br />
 
-<h2>Pēdējās rezervācijas</h2>
+<h2>Jaunākās rezervācijas</h2>
 <p>
 	<% @orders.each do |orders_from_batch| %>
 		<%= link_to orders_from_batch.created_at.to_s(:short_date_time), user_order_path(orders_from_batch.order.user, orders_from_batch.order) %>

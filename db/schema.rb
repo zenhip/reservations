@@ -12,9 +12,9 @@
 ActiveRecord::Schema.define(:version => 14) do
 
   create_table "batches", :force => true do |t|
-    t.integer  "product_id"
-    t.integer  "quantity"
-    t.datetime "arrive_on"
+    t.integer  "product_id",                :null => false
+    t.integer  "quantity",   :default => 0
+    t.datetime "arrive_on",                 :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -5,7 +5,7 @@ class Batch < ActiveRecord::Base
   has_many :orders_from_batches, :dependent => :destroy, :order => "created_at asc"
   
   validates_presence_of :arrive_on, :product_id, :quantity
-  validates_numericality_of :quantity, :greater_than_or_equal_to => 1
+  validates_numericality_of :quantity, :only_integer => true, :greater_than_or_equal_to => 1
   
   def self.find_all
     find(:all, :order => "arrive_on asc")
