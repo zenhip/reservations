@@ -2,6 +2,7 @@ class Order < ActiveRecord::Base
   
   belongs_to :user
   
+  #has_many :batches, :through => :orders_from_batches
   has_many :orders_from_batches, :dependent => :destroy, :order => "created_at"
   
   validates_presence_of :user_id, :leave_on, :quantity
@@ -11,6 +12,10 @@ class Order < ActiveRecord::Base
     find(:all, :order => "created_at")
   end
   
+  def self.find_latest
+    find(:all, :order => "created_at desc", :limit => 5)
+  end
+    
   def owner?(user)
     # tas noziimee, ka user ir nil
     # lieto (if user, ja useris vareetu arii nebuut):

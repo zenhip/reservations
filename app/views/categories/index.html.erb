@@ -31,12 +31,12 @@
 
 <h2>Jaunākās rezervācijas</h2>
 <p>
-	<% @orders.each do |orders_from_batch| %>
-		<%= link_to orders_from_batch.created_at.to_s(:short_date_time), user_order_path(orders_from_batch.order.user, orders_from_batch.order) %>
-		by <%= link_to user_login(orders_from_batch.order.user), user_orders_path(orders_from_batch.order.user) %>
-		- <%= link_to product_name(orders_from_batch.batch.product), product_path(orders_from_batch.batch.product) %>
-		[<%= link_to category_name(orders_from_batch.batch.product.category), category_path(orders_from_batch.batch.product.category) %>]
-		(<%= orders_from_batch.quantity %>)<br />
+	<% @orders.each do |order| %>
+		<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %>
+		by <%= link_to user_login(order.user), user_orders_path(order.user) %>
+		- <%#= link_to product_name(order.orders_from_batch.batch.product), product_path(order.orders_from_batch.batch.product) %>
+		[<%#= link_to category_name(orders_from_batch.batch.product.category), category_path(orders_from_batch.batch.product.category) %>]
+		(<%= order.quantity %>)<br />
 	<% end %>
 </p>
 

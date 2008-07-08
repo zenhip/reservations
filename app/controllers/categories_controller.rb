@@ -10,8 +10,8 @@ class CategoriesController < ApplicationController
     
     @categories = Category.find_all
     @products = Product.find_latest
-    @batches = Batch.latest_batches
-    @orders = OrdersFromBatch.latest_orders
+    @batches = Batch.find_latest
+    @orders = Order.find_latest
   end
 
   def new

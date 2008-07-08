@@ -47,7 +47,6 @@ class OrdersController < ApplicationController
           order_from_batch_amount = remains
         end
         @order.orders_from_batches.build(:batch_id => batch.id, :quantity => order_from_batch_amount)
-        
       end
       
       if @order.save

@@ -1,13 +1,8 @@
-<% @page_title = " - " + @product.name.capitalize %>
-<% @page_id = "product_category_#{@product.category.id}" %>
-
 <h2><%= product_name(@product) %></h2>
-
-<% flash.now[:error] = "deprecated" %>
 
 <p>
 	<% admin_area do %>
-		<%= link_to "mainīt", edit_product_path(@product) %> <= turpat arii partijas |
+		<%= link_to "mainīt", edit_product_path(@product) %> | skatīt partijas |
 		<%= link_to "jauna partija", new_product_batch_path(@product) %> |
 	<% end %>
 	
@@ -18,15 +13,14 @@
 <% if @product.batches.any? %>
 	<tr>
 		<td colspan="6">
-		<b>Kopā (noliktavā):</b>
+		<b>Kopā (noliktavā) kopsh dzimshanas..:</b>
 		daudzums:<b><%= @product.batches_quantity_total %></b>,
 		rezervēti:<b><%= @product.batches_reserved_total %></b>,
-		brīvi:<b><% avail = @product.batches_available_total %><%= avail < 0 ? "(#{avail})" : avail %></b>
+		brīvi:<b><%= @product.batches_available_total %></b>
 		<br />
 	</tr>
-	
 		<%# nextbatch = 1 %>
-		
+		<% orderid = 0 %>
 			<tr>
 				<th width="10px"><%= check_box(123, 123) %></th>
 				<th>Rezervācija</th>
@@ -37,91 +31,51 @@
 			</tr>
 			
 			<% @product.batches.each do |batch| %>
-			
-			<!--
-			<tr>
-			<%# tr do %>
-				<td height="25" valign="bottom" colspan="5">
-				Partija: <b><%#= batch.arrive_on.to_s(:short_date) %></b>&nbsp;
-				daudzums: <b><%#= batch.quantity %></b>,
-				rezervēti: <b><%#= batch_reserved_total(batch) %></b>,
-				brīvi: <b><%# avail = batch_available_total(batch) %>
-				<%#= avail <= 0 ? "(#{avail})" : avail %></b>&nbsp;&nbsp;
-			
-				<%# admin_area do %>
-					<%#= link_to "mainīt", edit_batch_path(batch) %> | 
-					<%#= link_to "dzēst", batch_path(batch), :method => :delete, :confirm => "tiešām?!"%> |
-				<%# end %>
-			
-				<%#= link_to "rezervēt", new_batch_order_path(batch) %>
-				</td>
-			<%# end %>
-			</tr>
-			-->
-			
-				<%# uzliek naakamaas partijas datumu %>
-				<%# nb = next_batch(batch.product, nextbatch) %>
-				<%# nextbatch += 1 %>
-				
-				<% if batch.orders_from_batches.any? %>
-						<% batch.orders_from_batches.each do |orders_from_batch| %>
+				<% if batch.orders.any? %>
+					<% for order in batch.orders %>
+						<% unless orderid == order.id %>
 							<% tr do %>
 								<td><%= check_box(123, 123) %></td>
 								<td>
 							  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>
 							  <%#= orders_from_batches_created orders_from_batches %>
 							  <%# vai var proveet lietot to bones esošo l(orders_from_batches).created helperu shortcutu %>
-								&nbsp;<%= link_to orders_from_batch.created_at.to_s(:short_date_time), user_order_path(orders_from_batch.order.user, orders_from_batch.order) %> &nbsp;
+								&nbsp;<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
 								</td><td>
-								<%= link_to user_login(orders_from_batch.order.user), user_orders_path(orders_from_batch.order.user) %>
+								<%= link_to user_login(order.user), user_orders_path(order.user) %>
 								</td><td>
-								<%= orders_from_batch.quantity %>
+								<%= order.quantity %>
 								</td><td>
-								<% if orders_from_batch.order.leave_on? %>
-									<% if orders_from_batch.order.leave_on.to_date < Date.today %>
-										<font color="gray"><%= orders_from_batch.order.leave_on.to_s(:short_date) %></font>
-									<% elsif orders_from_batch.order.leave_on.to_date == Date.today || orders_from_batch.order.leave_on.to_date <= Date.today + 2.days %>
-										<font color="red"><%= orders_from_batch.order.leave_on.to_s(:short_date) %></font>
-									<% elsif orders_from_batch.order.leave_on.to_date > Date.today + 2.days && orders_from_batch.order.leave_on.to_date < Date.today + 7.days %>
-										<font color="brown"><%= orders_from_batch.order.leave_on.to_s(:short_date) %></font>
+								<% if order.leave_on? %>
+									<% if order.leave_on.to_date < Date.today %>
+										<font color="gray"><%= order.leave_on.to_s(:short_date) %></font>
+									<% elsif order.leave_on.to_date == Date.today || order.leave_on.to_date <= Date.today + 2.days %>
+										<font color="red"><%= order.leave_on.to_s(:short_date) %></font>
+									<% elsif order.leave_on.to_date > Date.today + 2.days && order.leave_on.to_date < Date.today + 7.days %>
+										<font color="brown"><%= order.leave_on.to_s(:short_date) %></font>
 									<% else %>
-										<font color="black"><%= orders_from_batch.order.leave_on.to_s(:short_date) %></font>
+										<font color="black"><%= order.leave_on.to_s(:short_date) %></font>
 									<% end %>
 								<% else %>
 									nav norādīts
 								<% end %>
 								
 								</td><td>
-								<%= truncate(h(orders_from_batch.order.comment), 25) %>
+								<%= truncate(h(order.comment), 25) %>
 								</td>
-							<!--
-								<td>
-								<%# admin_area do %>
-									<%#= link_to "mainīt", edit_order_orders_from_batch_path(orders_from_batch.order, orders_from_batch) %> | 
-								<%# end %>
-								
-								<%# if current_user_is_order_owner(orders_from_batch.order) || admin? %>	
-									<b><%#= link_to "dzēst", batch_order_path(orders_from_batch.batch, orders_from_batch.order), :method => :delete, :confirm => "tiešām?!"%></b>
-								<%# end %>
-								</td>
-							-->
+					  			<% orderid = order.id %>
+					  		<% end %>
+					
 							<% end %>
 						<% end %>
 				<% else %>
-					<% tr do %>
-						<td colspan="6">
-							&nbsp;<i>nav rezervāciju</i>
-						</td></tr>
-					<% end %>
-				<% end %>
+
+			<% end %>
 		<% end %>
 <% else %>
 	<p>Produktam nav nevienas partijas.</p>
 <% end %>
 
-<!--
-	<tr><td colspan="6">
-		<br />
 <%# admin_area do %>
   <%#  veel var overraidot link_to_unless shaadiem. defaultais raada linka tekstu, ja unless izpildaas. %>
   <%#  vai uztaisiit link_if_admin_to "pievienot partiju", .... %>
@@ -130,16 +84,14 @@
       link_to(*args) if admin?
     end
   %>
-	<%#= link_to "Pievienot jaunu partiju", new_product_batch_path(@product) %><br />
-<%# end %>
-	</td></tr>
--->
+</table><br />
+
+<table border="0" cellspacing="2" cellpadding="2">
+	<tr>
+		<td><%= button_to "Izpildīts!" %></td>
+		<td><%= button_to "Atcelt (dzēst)" %></td>
+	</tr>
 </table>
-
-<br />
-
-<%= button_to "Izpildīts!" %>
-<%= button_to "Atcelt (dzēst)" %>
 
 <p>
 	&larr; <%= link_to "atpakaļ", category_path(@product.category) %>

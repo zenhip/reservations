@@ -27,6 +27,7 @@ class Product < ActiveRecord::Base
     find(:all, :order => "created_at desc", :limit => 5)
   end
   
+  
   def batches_quantity_total
     self.batches.inject(0) {|q, batch| q + batch.quantity}
 	end
@@ -45,19 +46,16 @@ class Product < ActiveRecord::Base
 	
 	
 	def orderable_batches(totamount)
-	  #av_batch = []
 	  x = 0
 	  batchids = []
 	  Batch.find(self.batches, :order => "arrive_on asc").each do |batch|
       if batch.available_total > 0
-        #av_batch << batch
         unless totamount <= x
           x += batch.quantity
           batchids << batch
         end
       end
     end
-    #av_batch
     batchids
 	end
 	

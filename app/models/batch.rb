@@ -2,6 +2,7 @@ class Batch < ActiveRecord::Base
   
   belongs_to :product
   
+  has_many :orders, :through => :orders_from_batches
   has_many :orders_from_batches, :dependent => :destroy, :order => "created_at asc"
   
   validates_presence_of :arrive_on, :product_id, :quantity
@@ -10,8 +11,8 @@ class Batch < ActiveRecord::Base
   def self.find_all
     find(:all, :order => "arrive_on asc")
   end
-  
-  def self.latest_batches
+    
+  def self.find_latest
     find(:all, :order => "created_at desc", :limit => 5)
   end
   

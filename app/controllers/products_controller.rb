@@ -10,6 +10,8 @@ class ProductsController < ApplicationController
   end
   
   def show
+    @page_title = @product.name.capitalize
+    @page_id = "product_category_#{@product.category.id}"
     
   end
   
@@ -22,7 +24,15 @@ class ProductsController < ApplicationController
   end
   
   def new
+    @page_title = "Pievienot jaunu produktu"
+    @page_id = "product_category_#{@category.id}"
+    
     @product = Product.new
+  end
+  
+  def edit
+    @page_title = "Mainīt produktu"
+    @page_id = "product_category_#{@product.category.id}"
   end
   
   def create
@@ -46,7 +56,7 @@ class ProductsController < ApplicationController
   end
   
   protected
-  
+    
     def find_category_by_category_id
       @category = Category.find(params[:category_id])
     end
@@ -54,5 +64,5 @@ class ProductsController < ApplicationController
     def find_product_by_id
       @product = Product.find(params[:id])
     end
-      
+    
 end

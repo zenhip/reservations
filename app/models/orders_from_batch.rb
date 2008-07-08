@@ -16,10 +16,6 @@ class OrdersFromBatch < ActiveRecord::Base
     find(:all, :order => "created_at")
   end
   
-  def self.latest_orders
-    find(:all, :order => "created_at desc", :limit => 5)
-  end
-  
   protected
 
     # def quantity_is_not_greater_than_batch_quantity
