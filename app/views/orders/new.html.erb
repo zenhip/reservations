@@ -1,6 +1,3 @@
-<% @page_title = " - Jauna rezervācija" %>
-<% @page_id = "product_category_#{@product.category.id}" %>
-
 <font size="2.5em" face="Monaco" color="orange">Rezervēt</font>
 <h2><%= product_name(@product) %></h2>
 
@@ -9,7 +6,7 @@
 <b>Kopā (noliktavā):</b>
 daudzums:<b><%= @product.batches_quantity_total %></b>,
 rezervēti:<b><%= @product.batches_reserved_total %></b>,
-brīvi:<b><% avail = @product.batches_available_total %><%= avail < 0 ? "(#{avail})" : avail %></b>
+brīvi:<b><%= @product.batches_available_total %></b>
 </p>
 
 <%# ---- test ---- %>

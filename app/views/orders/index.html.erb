@@ -1,9 +1,7 @@
-<% @page_title = " - " + @user.login.capitalize %>
-
 <h2><%= @user == current_user ? "manas" : user_login(@user); %> rezervācijas</h2>
 
 <p>
-	<%= link_to "izpildītie" %> &darr;sorteeshana&darr; paginate
+	<%= link_to "izpildītie", "#" %> &darr;sorteeshana&darr; paginate
 </p>
 
 <%# Css.. :) %>
@@ -21,46 +19,46 @@
     
 		<% @user.orders.each do |order| %>
 			
-				<% order.orders_from_batches.each do |orders_from_batch| %>
 				  <%# ir taads forshs verkjis cycle('even', 'odd'), kuru var lietot kopaa ar tr klasi: %>
 				  <%# <tr class="<%= cycle('even', 'odd') " %>
 				  <%# ..vai get bones un lieto tr do ... end, kas liek to cycle: %>
 				  <%# http://dev.bitmap.lv/trac/plugins/browser/bones/generators/bones/templates/bones_helper.rb.erb#L61 - def tr ... end %>
+				
 					<% tr do %>
 					<td><%= check_box(123, 123) %></td>
 					<td>
-					<%= link_to product_name(orders_from_batch.batch.product), orders_from_batch.batch.product %>
-					[<%= link_to category_name(orders_from_batch.batch.product.category), orders_from_batch.batch.product.category %>]
+					<%= link_to product_name(order.find_product), product_path(order.find_product) %>
+					[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
 					</td>
 					<td nowrap>
-					<%= link_to orders_from_batch.created_at.to_s(:short_date_time), user_order_path(orders_from_batch.order.user, orders_from_batch.order) %> &nbsp;
+					<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
 					</td>
 					<td>
-					<%= orders_from_batch.quantity %>
+					<%= order.quantity %>
 					</td>
 					<td>
-					<% if orders_from_batch.leave_on.to_date < Date.today %>
-						<font color="gray"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
-					<% elsif orders_from_batch.leave_on.to_date == Date.today || orders_from_batch.leave_on.to_date <= Date.today + 2.days %>
-						<font color="red"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
-					<% elsif orders_from_batch.leave_on.to_date > Date.today + 2.days && orders_from_batch.leave_on.to_date < Date.today + 7.days %>
-						<font color="brown"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
+					<% if order.leave_on.to_date < Date.today %>
+						<font color="gray"><%= order.leave_on.to_s(:short_date) %></font>
+					<% elsif order.leave_on.to_date == Date.today || order.leave_on.to_date <= Date.today + 2.days %>
+						<font color="red"><%= order.leave_on.to_s(:short_date) %></font>
+					<% elsif order.leave_on.to_date > Date.today + 2.days && order.leave_on.to_date < Date.today + 7.days %>
+						<font color="brown"><%= order.leave_on.to_s(:short_date) %></font>
 					<% else %>
-						<font color="black"><%= orders_from_batch.leave_on.to_s(:short_date) %></font>
+						<font color="black"><%= order.leave_on.to_s(:short_date) %></font>
 					<% end %>
 					</td>
 					<td>
-					<%= truncate(h(orders_from_batch.comment), 25) %>
+					<%= truncate(h(order.comment), 25) %>
 					</td>
 			<!--	<td>
-				<% admin_area do %>
-					<%= link_to "mainīt", edit_order_orders_from_batch_path(orders_from_batch.order, orders_from_batch) %> |
-				<% end %>
+				<%# admin_area do %>
+					<%#= link_to "mainīt", edit_order_orders_from_batch_path(orders_from_batch.order, orders_from_batch) %> |
+				<%# end %>
 				
-				<% if current_user_is_order_owner(order) || admin? %>
-					<b><%= link_to "dzēst", batch_order_path(orders_from_batch.batch, order), :method => :delete, :confirm => "tiešām?!"%></b>
-				<% end %>
-		<% end %>
+				<%# if current_user_is_order_owner(order) || admin? %>
+					<b><%#= link_to "dzēst", batch_order_path(orders_from_batch.batch, order), :method => :delete, :confirm => "tiešām?!"%></b>
+				<%# end %>
+		<%# end %>
 				</td> -->
 			<% end %>
 				
@@ -71,8 +69,11 @@
 <% end %>
 
 </table>
-
 <br />
 
-<%= button_to "Izpildīts!" %>
-<%= button_to "Atcelt (dzēst)" %>
+<table border="0" cellspacing="2" cellpadding="2">
+	<tr>
+		<td><%= button_to "Izpildīts!" %></td>
+		<td><%= button_to "Atcelt (dzēst)" %></td>
+	</tr>
+</table>

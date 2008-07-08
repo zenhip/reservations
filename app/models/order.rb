@@ -2,7 +2,7 @@ class Order < ActiveRecord::Base
   
   belongs_to :user
   
-  #has_many :batches, :through => :orders_from_batches
+  has_many :batches, :through => :orders_from_batches
   has_many :orders_from_batches, :dependent => :destroy, :order => "created_at"
   
   validates_presence_of :user_id, :leave_on, :quantity
@@ -14,6 +14,14 @@ class Order < ActiveRecord::Base
   
   def self.find_latest
     find(:all, :order => "created_at desc", :limit => 5)
+  end
+  
+  def find_product
+    product = nil
+    self.batches.each do |batch|
+      product = batch.product
+    end
+    product
   end
     
   def owner?(user)

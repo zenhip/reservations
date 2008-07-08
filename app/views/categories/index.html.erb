@@ -34,8 +34,8 @@
 	<% @orders.each do |order| %>
 		<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %>
 		by <%= link_to user_login(order.user), user_orders_path(order.user) %>
-		- <%#= link_to product_name(order.orders_from_batch.batch.product), product_path(order.orders_from_batch.batch.product) %>
-		[<%#= link_to category_name(orders_from_batch.batch.product.category), category_path(orders_from_batch.batch.product.category) %>]
+		- <%= link_to product_name(order.find_product), product_path(order.find_product) %>
+		[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
 		(<%= order.quantity %>)<br />
 	<% end %>
 </p>

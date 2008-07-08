@@ -9,6 +9,8 @@ class OrdersController < ApplicationController
   before_filter :find_product_by_product_id, :only => [:new, :create]
   
   def index
+    @page_title = @user.login.capitalize
+    
     @orders = Order.find_all
   end
   
@@ -22,6 +24,9 @@ class OrdersController < ApplicationController
   end
   
   def new
+    @page_title = "Jauna rezervācija"
+    @page_id = "product_category_#{@product.category.id}"
+    
     @order = Order.new
     @order.quantity = 0
   end
