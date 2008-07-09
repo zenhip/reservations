@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
   before_filter :ensure_user_is_owner, :only => [:edit, :update, :destroy]
   
   before_filter :find_user_by_user_id, :only => [:index]
-  #before_filter :find_order_by_id, :only => [:show, :destroy, :edit, :update]
+  before_filter :find_order_by_id, :only => [:show, :destroy, :edit, :update]
   #before_filter :find_batch_by_batch_id, :only => [:new, :create, :edit, :created, :destroy, :destroyed]
   before_filter :find_product_by_product_id, :only => [:new, :create]
   
@@ -15,12 +15,17 @@ class OrdersController < ApplicationController
   end
   
   def show
+    @page_title = @order.created_at.to_s(:short_date)
+    @page_id = "product_category_#{@order.find_product.category.id}"
   end
   
   def edit
+    @page_title = "Mainīt rezervāciju"
+    @page_id = "product_category_#{@order.find_product.category.id}"
   end
   
   def update
+    
   end
   
   def new
@@ -42,35 +47,35 @@ class OrdersController < ApplicationController
       flash[:error] = "par maz"
       redirect_to new_product_order_path(@product)
     else
-      remains = @order.quantity
-      @product.orderable_batches(@order.quantity).each do |batch|
+      totamount = @order.quantity
+      @product.orderable_batches(totamount).each do |batch|
         order_from_batch_amount = 0
-        if batch.available_total <= remains
+        if batch.available_total <= totamount
           order_from_batch_amount = batch.available_total
-          remains -= batch.available_total
+          totamount -= batch.available_total
         else
-          order_from_batch_amount = remains
+          order_from_batch_amount = totamount
         end
         @order.orders_from_batches.build(:batch_id => batch.id, :quantity => order_from_batch_amount)
       end
       
       if @order.save
-      flash[:notice] = "cool!"
-      redirect_to product_path(@product)
-      #  redirect_to created_batch_order_path(@batch, @order)
+        flash[:notice] = "rezervācija veiksmīga!"
+        redirect_to product_path(@product)
       else
-        puts @order.errors.inspect
+        render :action => :new
       end
     end
-    
   end
   
   def created
   end
   
   def destroy
+    product = @order.find_product
     @order.destroy
-    redirect_to destroyed_batch_order_path(@batch, @order)
+    #redirect_to destroyed_batch_order_path(@batch, @order)
+    redirect_to product_path(product)
   end
   
   def destroyed

@@ -13,61 +13,50 @@
 		<th>Daudzums</th>
 		<th>Realizācija</th>
 		<th>Komentārs</th>
-		<!-- <th></th> -->
 	</tr>
 <% if @user.orders.any? %>
-    
-		<% @user.orders.each do |order| %>
-			
+	<% @user.orders.each do |order| %>
+	
 				  <%# ir taads forshs verkjis cycle('even', 'odd'), kuru var lietot kopaa ar tr klasi: %>
 				  <%# <tr class="<%= cycle('even', 'odd') " %>
 				  <%# ..vai get bones un lieto tr do ... end, kas liek to cycle: %>
 				  <%# http://dev.bitmap.lv/trac/plugins/browser/bones/generators/bones/templates/bones_helper.rb.erb#L61 - def tr ... end %>
-				
-					<% tr do %>
-					<td><%= check_box(123, 123) %></td>
-					<td>
-					<%= link_to product_name(order.find_product), product_path(order.find_product) %>
-					[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
-					</td>
-					<td nowrap>
-					<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
-					</td>
-					<td>
-					<%= order.quantity %>
-					</td>
-					<td>
-					<% if order.leave_on.to_date < Date.today %>
-						<font color="gray"><%= order.leave_on.to_s(:short_date) %></font>
-					<% elsif order.leave_on.to_date == Date.today || order.leave_on.to_date <= Date.today + 2.days %>
-						<font color="red"><%= order.leave_on.to_s(:short_date) %></font>
-					<% elsif order.leave_on.to_date > Date.today + 2.days && order.leave_on.to_date < Date.today + 7.days %>
-						<font color="brown"><%= order.leave_on.to_s(:short_date) %></font>
-					<% else %>
-						<font color="black"><%= order.leave_on.to_s(:short_date) %></font>
-					<% end %>
-					</td>
-					<td>
-					<%= truncate(h(order.comment), 25) %>
-					</td>
-			<!--	<td>
-				<%# admin_area do %>
-					<%#= link_to "mainīt", edit_order_orders_from_batch_path(orders_from_batch.order, orders_from_batch) %> |
-				<%# end %>
-				
-				<%# if current_user_is_order_owner(order) || admin? %>
-					<b><%#= link_to "dzēst", batch_order_path(orders_from_batch.batch, order), :method => :delete, :confirm => "tiešām?!"%></b>
-				<%# end %>
-		<%# end %>
-				</td> -->
-			<% end %>
-				
-	<% end %>
 	
+		<% tr do %>
+			<td><%= check_box(123, 123) %></td>
+			<td>
+				<%= link_to product_name(order.find_product), product_path(order.find_product) %>
+				[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
+			</td>
+			<td nowrap>
+				<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
+			</td>
+			<td>
+				<%= order.quantity %>
+			</td>
+			<td>
+				<% leave_date = order.leave_on.to_date %>
+				<% short_leave_date = order.leave_on.to_s(:short_date) %>
+			
+				<% if leave_date < Date.today %>
+					<font color="gray"><%= short_leave_date %></font>
+				<% elsif leave_date >= Date.today && leave_date <= Date.today + 2.days %>
+					<font color="red"><%= short_leave_date %></font>
+				<% elsif leave_date > Date.today + 2.days && leave_date < Date.today + 7.days %>
+					<font color="brown"><%= short_leave_date %></font>
+				<% else %>
+					<font color="black"><%= short_leave_date %></font>
+				<% end %>
+			</td>
+			<td>
+				<%= truncate(h(order.comment), 25) %>
+			</td>
+		<% end %>
+		
+	<% end %>
 <% else %>
-	<p>nav rezervaaciju</p>
+	<p>Nav rezervāciju.</p>
 <% end %>
-
 </table>
 <br />
 

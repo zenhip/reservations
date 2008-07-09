@@ -2,14 +2,14 @@ class Order < ActiveRecord::Base
   
   belongs_to :user
   
-  has_many :batches, :through => :orders_from_batches
-  has_many :orders_from_batches, :dependent => :destroy, :order => "created_at"
+  has_many :batches, :through => :orders_from_batches, :order => "arrive_on asc"
+  has_many :orders_from_batches, :dependent => :destroy, :order => "created_at asc"
   
   validates_presence_of :user_id, :leave_on, :quantity
   validates_numericality_of :quantity, :only_integer => true, :greater_than_or_equal_to => 1
   
   def self.find_all
-    find(:all, :order => "created_at")
+    find(:all, :order => "created_at asc")
   end
   
   def self.find_latest
@@ -17,11 +17,11 @@ class Order < ActiveRecord::Base
   end
   
   def find_product
-    product = nil
-    self.batches.each do |batch|
-      product = batch.product
-    end
-    product
+    prod = nil
+      self.batches.each do |batch|
+        prod = batch.product
+      end
+    prod
   end
     
   def owner?(user)

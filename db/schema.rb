@@ -26,11 +26,11 @@ ActiveRecord::Schema.define(:version => 14) do
   end
 
   create_table "orders", :force => true do |t|
-    t.integer  "user_id",    :null => false
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "comment"
-    t.date     "leave_on"
+    t.datetime "leave_on"
     t.integer  "quantity"
   end
 

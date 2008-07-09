@@ -3,20 +3,20 @@
 
 <%= error_messages_for :order %>
 <p>
-<b>Kopā (noliktavā):</b>
-daudzums:<b><%= @product.batches_quantity_total %></b>,
-rezervēti:<b><%= @product.batches_reserved_total %></b>,
-brīvi:<b><%= @product.batches_available_total %></b>
+	<b>Kopā (noliktavā):</b>
+	daudzums:<b><%= @product.batches_quantity_total %></b>,
+	rezervēti:<b><%= @product.batches_reserved_total %></b>,
+	brīvi:<b><%= @product.batches_available_total %></b>
 </p>
 
 <%# ---- test ---- %>
 
 <b>all batches</b><br />
 <% @product.batches.each do |batch| %>
-	id:<%= batch.id %>,
-	arrive_on:<%= batch.arrive_on.to_date %>, 
-	q:<%= batch.quantity %>,
-	avail:<%= batch.available_total %><br />
+	id: <%= batch.id %>,
+	arrive: <%= batch.arrive_on.to_s(:short_date) %>, 
+	quant: <%= batch.quantity %>,
+	avail: <%= batch.available_total %><br />
 <% end %>
 
 <%# ---- test ---- %>

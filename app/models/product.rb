@@ -20,7 +20,7 @@ class Product < ActiveRecord::Base
   validates_uniqueness_of :name
   
   def self.find_all
-    find(:all, :order => "name")
+    find(:all, :order => "name asc")
   end
   
   def self.find_latest
@@ -51,12 +51,23 @@ class Product < ActiveRecord::Base
 	  Batch.find(self.batches, :order => "arrive_on asc").each do |batch|
       if batch.available_total > 0
         unless totamount <= x
-          x += batch.quantity
+          x += batch.available_total
           batchids << batch
         end
       end
     end
     batchids
+	end
+	
+	def find_orders
+	  x = []
+    y = []
+	  self.batches.each do |batch|
+	    for order in batch.orders
+	      x << order
+      end
+    end
+    y = x.uniq
 	end
 	
 end

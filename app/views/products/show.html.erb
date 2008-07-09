@@ -2,11 +2,12 @@
 
 <p>
 	<% admin_area do %>
-		<%= link_to "mainīt", edit_product_path(@product) %> | skatīt partijas |
+		<%= link_to "mainīt", edit_product_path(@product) %> |
+		<%= link_to "dzēst", product_path(@product), :method => :delete, :confirm => "tiešām?!"%> | partijas |
 		<%= link_to "jauna partija", new_product_batch_path(@product) %> |
 	<% end %>
 	
-	<%= link_to "rezervēt", new_product_order_path(@product) %>  &darr;sorteeshana&uarr; paginate
+	<%= link_to "rezervēt", new_product_order_path(@product) %>
 </p>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -19,59 +20,54 @@
 		brīvi:<b><%= @product.batches_available_total %></b>
 		<br />
 	</tr>
-		<%# nextbatch = 1 %>
-		<% orderid = 0 %>
-			<tr>
-				<th width="10px"><%= check_box(123, 123) %></th>
-				<th>Rezervācija</th>
-				<th>Lietotājs</th>
-				<th>Rezervēti</th>
-				<th>Realizācija</th>
-				<th>Komentārs</th>
-			</tr>
-			
-			<% @product.batches.each do |batch| %>
-				<% if batch.orders.any? %>
-					<% for order in batch.orders %>
-						<% unless orderid == order.id %>
-							<% tr do %>
-								<td><%= check_box(123, 123) %></td>
-								<td>
-							  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>
-							  <%#= orders_from_batches_created orders_from_batches %>
-							  <%# vai var proveet lietot to bones esošo l(orders_from_batches).created helperu shortcutu %>
-								&nbsp;<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
-								</td><td>
-								<%= link_to user_login(order.user), user_orders_path(order.user) %>
-								</td><td>
-								<%= order.quantity %>
-								</td><td>
-								<% if order.leave_on? %>
-									<% if order.leave_on.to_date < Date.today %>
-										<font color="gray"><%= order.leave_on.to_s(:short_date) %></font>
-									<% elsif order.leave_on.to_date == Date.today || order.leave_on.to_date <= Date.today + 2.days %>
-										<font color="red"><%= order.leave_on.to_s(:short_date) %></font>
-									<% elsif order.leave_on.to_date > Date.today + 2.days && order.leave_on.to_date < Date.today + 7.days %>
-										<font color="brown"><%= order.leave_on.to_s(:short_date) %></font>
-									<% else %>
-										<font color="black"><%= order.leave_on.to_s(:short_date) %></font>
-									<% end %>
-								<% else %>
-									nav norādīts
-								<% end %>
-								
-								</td><td>
-								<%= truncate(h(order.comment), 25) %>
-								</td>
-					  			<% orderid = order.id %>
-					  		<% end %>
+	<tr>
+		<th width="10px"><%= check_box(123, 123) %></th>
+		<th>Rezervācija</th>
+		<th>Lietotājs</th>
+		<th>Rezervēti</th>
+		<th>Realizācija</th>
+		<th>Komentārs</th>
+	</tr>
+	<% if @product.find_orders.any? %>
+		<% for order in @product.find_orders %>
+			<% tr do %>
+				<td><%= check_box(123, 123) %></td>
+				<td>
+			  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>
+			  <%#= orders_from_batches_created orders_from_batches %>
+			  <%# vai var proveet lietot to bones esošo l(orders_from_batches).created helperu shortcutu %>
+					<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
+				</td>
+				<td>
+					<%= link_to user_login(order.user), user_orders_path(order.user) %>
+				</td>
+				<td>
+					<% total_q = 0 %>
+					<% for ofb in order.orders_from_batches %>
+						<% total_q += ofb.quantity %>
+					<% end %>
+					<%= total_q %>
+				</td>
+				<td>
+					<% leave_date = order.leave_on.to_date %>
+					<% short_leave_date = order.leave_on.to_s(:short_date) %>
 					
-							<% end %>
-						<% end %>
-				<% else %>
-
-			<% end %>
+					<% if leave_date < Date.today %>
+						<font color="gray"><%= short_leave_date %></font>
+					<% elsif leave_date >= Date.today && leave_date <= Date.today + 2.days %>
+						<font color="red"><%= short_leave_date %></font>
+					<% elsif leave_date > Date.today + 2.days && leave_date < Date.today + 7.days %>
+						<font color="brown"><%= short_leave_date %></font>
+					<% else %>
+						<font color="black"><%= short_leave_date %></font>
+					<% end %>
+				</td>
+				<td>
+					<%= truncate(h(order.comment), 25) %>
+				</td>
+	  	<% end %>
 		<% end %>
+	<% end %>
 <% else %>
 	<p>Produktam nav nevienas partijas.</p>
 <% end %>

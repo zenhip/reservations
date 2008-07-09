@@ -7,3 +7,7 @@
   <%= render :partial => "form", :locals => {:f => f} %>
   <p><%= submit_tag "Pievienot" %></p>
 <% end %>
+
+<p>
+	&larr; <%= link_to "atpakaļ", category_path(@category) %>
+</p>

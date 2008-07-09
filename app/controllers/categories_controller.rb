@@ -34,6 +34,7 @@ class CategoriesController < ApplicationController
 
   def show
     @page_title = @category.name.capitalize
+    @page_id = "product_category_#{@category.id}"
   end
   
   def update

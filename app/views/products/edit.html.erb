@@ -5,7 +5,7 @@
 
 <% form_for :product, :url => product_path(@product), :html => {:method => :put} do |f| %>
   <%= render :partial => "form", :locals => {:f => f} %>
-  <p><%= submit_tag "Izmainīt" %> vai <%= link_to "dzēst", product_path(@product), :method => :delete, :confirm => "tiešām?!"%></p>
+  <p><%= submit_tag "Izmainīt" %></p>
 <% end %>
 
 <p>

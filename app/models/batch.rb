@@ -2,7 +2,7 @@ class Batch < ActiveRecord::Base
   
   belongs_to :product
   
-  has_many :orders, :through => :orders_from_batches
+  has_many :orders, :through => :orders_from_batches, :order => "created_at asc"
   has_many :orders_from_batches, :dependent => :destroy, :order => "created_at asc"
   
   validates_presence_of :arrive_on, :product_id, :quantity
@@ -37,6 +37,10 @@ class Batch < ActiveRecord::Base
 	
 	def available_total
 	  self.quantity - reserved_total
+	end
+	
+	def find_orders
+	  Order.find(self.orders, :order => "created_at asc")
 	end
 	
 	# nav iisti ok ar logjiku

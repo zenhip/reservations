@@ -1,8 +1,32 @@
-<h1>Orders#show</h1>
-<p>Find me in app/views/orders/show.html.erb</p>
+<h2><%= @order.created_at.to_s(:short_date_time) %></h2>
 
-- te redzamas konkreetaas rezervaacijas detaljas<br />
-- no kaadiem orders_from_batches sastaav shis order, t.i. no kaadiem batches<br />
-- link_to mainiit
-- link_to dzeest
-<br />
+<p>
+	<% admin_area do %>
+		<%= link_to "mainīt", edit_order_path(@order) %> |
+	<% end %>
+	
+	<% if current_user_is_order_owner(@order) || admin? %>
+		<b><%= link_to "dzēst", order_path(@order), :method => :delete, :confirm => "tiešām?!"%></b>
+	<% end %>
+</p>
+id: <%= @order.id %><br />
+user: <%= link_to user_login(@order.user), user_orders_path(@order.user) %><br />
+prod: <%= link_to product_name(@order.find_product), product_path(@order.find_product) %><br />
+quant: <%= @order.quantity %><br />
+created_at: <%= @order.created_at.to_s(:short_date_time) %><br />
+leave_on: <%= @order.leave_on.to_s(:short_date) %><br />
+comment: <%= simple_format(h(@order.comment)) %>
+
+<b>batches user by order</b><br />
+<% @order.batches.each do |batch| %>
+	id: <%= batch.id %>,
+	arrive: <%= batch.arrive_on.to_s(:short_date) %>, 
+	quant: <%= batch.quantity %>,
+	avail: <%= batch.available_total %><br />
+<% end %>
+
+<b><br />orders_from_batches</b><br />
+<% @order.orders_from_batches.each do |ofb| %>
+	id: <%= ofb.id %><br />
+	quantity: <%= ofb.quantity %><br /><br />
+<% end %>
