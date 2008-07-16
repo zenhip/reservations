@@ -14,7 +14,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <% if @product.batches.any? %>
 	<tr>
-		<td colspan="6">
+		<td colspan="5">
 			<b>Kopā (noliktavā):</b>
 			daudzums:<b><%= @product.batches_quantity_total %></b>,
 			rezervēti:<b><%= @product.batches_reserved_total %></b>,
@@ -22,7 +22,6 @@
 		</td>
 	</tr>
 	<tr>
-		<th width="10px"><%= check_box(123, 123) %></th>
 		<th>Partija</th>
 		<th>Daudzums</th>
 		<th>Rezervēti</th>
@@ -31,25 +30,16 @@
 	</tr>
 	<% @product.batches.each do |batch| %>
 	  <% tr do %>
-			<td width="10px"><%= check_box(123, 123) %></td>
 			<td><%= link_to batch.arrive_on.to_s(:short_date), batch_path(batch) %></td>
 			<td><%= batch.quantity %></td>
 			<td><%= batch.reserved_total %></td>
-			<td><%= batch.available_total %></td>
+			<td><%= batch.available_total < 0 ? "<b>#{batch.available_total}</b>" : "#{batch.available_total}" %></td>
 			<td><%= batch.created_at.to_s(:short_date_time) %></td>
 		<% end %>
 	<% end %>
-	<tr>
-		<td colspan="6">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr><td height ="10"></td></tr>
-				<tr>
-					<td><%= button_to "Mainīt!" %></td>
-				</tr>
-			</table>
-		</td>
-	</tr>
+
 <% else %>
 	<p>Nav nevienas partijas.</p>
 <% end %>
-</table><br />
+</table>
+<br />

@@ -11,15 +11,16 @@
 </p>
 user: <%= link_to user_login(@order.user), user_orders_path(@order.user) %><br />
 prod: <%= link_to product_name(@order.find_product), product_path(@order.find_product) %><br />
-quant: <%= @order.quantity %><br />
 created: <%= @order.created_at.to_s(:short_date_time) %><br />
+updated: <%= @order.updated_at.to_s(:short_date_time) %><br />
 leave: <%= @order.leave_on.to_s(:short_date) %><br />
+quant: <%= @order.quantity %><br />
 comment: <%= simple_format(h(@order.comment)) %>
 
 <b>batches used by order</b><br />
 <% @order.batches.each do |batch| %>
 	id: <%= batch.id %>,
-	arrive: <%= batch.arrive_on.to_s(:short_date) %>, 
+	arrive: <%= link_to batch.arrive_on.to_s(:short_date), batch_path(batch) %>, 
 	quant: <%= batch.quantity %>,
 	avail: <%= batch.available_total %><br />
 <% end %>

@@ -19,6 +19,8 @@ class BatchesController < ApplicationController
   end
 
   def edit
+    @page_title = "Mainīt partiju"
+    @page_id = "product_category_#{@batch.product.category.id}"
   end
 
   def show
@@ -38,7 +40,7 @@ class BatchesController < ApplicationController
   def update
     #@batch.update_attributes(params[:batch].slice(:arrival_date, :quantity))
     if @batch.update_attributes(params[:batch])
-      redirect_to product_path(@batch.product)
+      redirect_to product_batches_path(@batch.product)
     else
       render :action => :edit
     end

@@ -1,13 +1,17 @@
-<% @page_title = " - Mainīt partiju" %>
-<% @page_id = "product_category_#{@batch.product.category.id}" %>
-
-<% flash.now[:error] = "jaalabo - daudzums jau rezerveetaam!!! u.c." %>
-
-<h2>Mainīt partiju produktam <%= product_name(@batch.product) %></h2>
+<font size="2.5em" face="Monaco" color="orange">Mainīt</font>
+<h2><%= @batch.arrive_on.to_s(:short_date) %></h2>
 
 <%= error_messages_for :batch %>
 
+<p>
+	<b>Produkts:</b> <%= product_name(@batch.product) %><br />
+</p>
+
 <% form_for :batch, :url => batch_path(@batch), :html => {:method => :put} do |f| %>
   <%= render :partial => "form", :locals => {:f => f} %>
-  <p><%= submit_tag "Izmainīt" %> vai <%= link_to "atpakaļ", product_path(@batch.product) %></p>
+  <p><%= submit_tag "Izmainīt" %></p>
 <% end %>
+
+<p>
+	&larr; <%= link_to "atpakaļ", product_batch_path(@batch.product, @batch) %>
+</p>
