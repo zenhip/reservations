@@ -1,1 +1,18 @@
-<h1>Batches#show</h1>
+<h2>Partija: <%= @batch.arrive_on.to_s(:short_date) %></h2>
+
+<p>
+	&larr; <%= link_to "atpakaļ", product_batches_path(@batch.product) %> |
+	
+	<% admin_area do %>
+  	<%= link_to "mainīt", edit_batch_path %> |
+  	<%= link_to "dzēst", batch_path, :method => :delete, :confirm => "tiešām?!"%>
+  <% end %>
+</p>
+
+id:<br />
+quant:<br />
+avail:<br />
+arrive:<br />
+created:<br />
+
+orders:<br />

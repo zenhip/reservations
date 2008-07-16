@@ -1,30 +1,55 @@
-<h1>Batches#index</h1>
+<h2>Aktīvās partijas: <%= product_name(@product) %></h2>
 
-				<!--
-					<%# if product.batches.any? %>
-						<%# product.batches.each do |batch| %>
-						  <%# tr do %>
-								<td>&nbsp;
-							  <%#= batch.arrive_on.to_s(:short_date) %>
-							  </td><td>
-							  <%#= batch.quantity %>
-							  </td><td>
-							  <%#= batch_reserved_total(batch) %>
-							  </td><td>
-							  <%#= batch_available_total(batch) %>
-							  </td><td>
-							  <%# admin_area do %>
-							  	<%#= link_to "mainīt", edit_batch_path(batch) %> |
-							  	<%#= link_to "dzēst", batch_path(batch), :method => :delete, :confirm => "tiešām?!"%> |
-							  <%# end %>
-							  <%#= link_to "rezervēt", new_batch_order_path(batch) %>
-							  </td>
-							<%# end %>
-						<%# end %>
+<p>
+	&larr; <%= link_to "atpakaļ", product_path(@product) %> |
+	
+	<% admin_area do %>
+		<%= link_to "jauna partija", new_product_batch_path(@product) %> |
+	<% end %>
+	
+	visas partijas |
+	<%= link_to_unless @product.batches_available_total <= 0, "rezervēt", new_product_order_path(@product) %> &rarr;
+</p>
 
-					<%# else %>
-						<%# tr do %>
-							<td colspan="4"><i>&nbsp; nav partiju</i></td>
-						<%# end %>
-					<%# end %>
-					-->
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<% if @product.batches.any? %>
+	<tr>
+		<td colspan="6">
+			<b>Kopā (noliktavā):</b>
+			daudzums:<b><%= @product.batches_quantity_total %></b>,
+			rezervēti:<b><%= @product.batches_reserved_total %></b>,
+			brīvi:<b><%= @product.batches_available_total %></b><br />
+		</td>
+	</tr>
+	<tr>
+		<th width="10px"><%= check_box(123, 123) %></th>
+		<th>Partija</th>
+		<th>Daudzums</th>
+		<th>Rezervēti</th>
+		<th>Brīvi</th>
+		<th>Pievienota</th>
+	</tr>
+	<% @product.batches.each do |batch| %>
+	  <% tr do %>
+			<td width="10px"><%= check_box(123, 123) %></td>
+			<td><%= link_to batch.arrive_on.to_s(:short_date), batch_path(batch) %></td>
+			<td><%= batch.quantity %></td>
+			<td><%= batch.reserved_total %></td>
+			<td><%= batch.available_total %></td>
+			<td><%= batch.created_at.to_s(:short_date_time) %></td>
+		<% end %>
+	<% end %>
+	<tr>
+		<td colspan="6">
+			<table border="0" cellspacing="0" cellpadding="0">
+				<tr><td height ="10"></td></tr>
+				<tr>
+					<td><%= button_to "Mainīt!" %></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+<% else %>
+	<p>Nav nevienas partijas.</p>
+<% end %>
+</table><br />

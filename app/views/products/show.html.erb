@@ -1,24 +1,28 @@
 <h2><%= product_name(@product) %></h2>
 
 <p>
+	&larr; <%= link_to "atpakaļ", category_path(@product.category) %> |
+	
 	<% admin_area do %>
 		<%= link_to "mainīt", edit_product_path(@product) %> |
-		<%= link_to "dzēst", product_path(@product), :method => :delete, :confirm => "tiešām?!"%> | partijas |
+		<%= link_to "dzēst", product_path(@product), :method => :delete, :confirm => "tiešām?!"%> |
 		<%= link_to "jauna partija", new_product_batch_path(@product) %> |
+		<%= link_to_if @product.batches.any?, "partijas", product_batches_path(@product) %> |
+		visas rezervācijas |
 	<% end %>
 	
-	<%= link_to "rezervēt", new_product_order_path(@product) %>
+	<%= link_to_unless @product.batches_available_total <= 0, "rezervēt", new_product_order_path(@product) %> &rarr;
 </p>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <% if @product.batches.any? %>
 	<tr>
 		<td colspan="6">
-		<b>Kopā (noliktavā) kopsh dzimshanas..:</b>
-		daudzums:<b><%= @product.batches_quantity_total %></b>,
-		rezervēti:<b><%= @product.batches_reserved_total %></b>,
-		brīvi:<b><%= @product.batches_available_total %></b>
-		<br />
+			<b>Kopā (noliktavā):</b>
+			daudzums:<b><%= @product.batches_quantity_total %></b>,
+			rezervēti:<b><%= @product.batches_reserved_total %></b>,
+			brīvi:<b><%= @product.batches_available_total %></b><br />
+		</td>
 	</tr>
 	<tr>
 		<th width="10px"><%= check_box(123, 123) %></th>
@@ -67,6 +71,16 @@
 				</td>
 	  	<% end %>
 		<% end %>
+		<tr>
+			<td colspan="6">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr><td height ="10"></td></tr>
+					<tr>
+						<td><%= button_to "Izpildīts!" %></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
 	<% end %>
 <% else %>
 	<p>Produktam nav nevienas partijas.</p>
@@ -81,14 +95,3 @@
     end
   %>
 </table><br />
-
-<table border="0" cellspacing="2" cellpadding="2">
-	<tr>
-		<td><%= button_to "Izpildīts!" %></td>
-		<td><%= button_to "Atcelt (dzēst)" %></td>
-	</tr>
-</table>
-
-<p>
-	&larr; <%= link_to "atpakaļ", category_path(@product.category) %>
-</p>

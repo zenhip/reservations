@@ -15,7 +15,7 @@ class CategoriesController < ApplicationController
   end
 
   def new
-    @page_title = "Pievienot jaunu kategoriju"
+    @page_title = "Jauna kategorija"
     @category = Category.new
   end
 

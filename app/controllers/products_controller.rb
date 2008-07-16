@@ -10,7 +10,7 @@ class ProductsController < ApplicationController
   end
   
   def show
-    @page_title = @product.name.capitalize
+    @page_title = @product.name
     @page_id = "product_category_#{@product.category.id}"
     
   end
@@ -24,7 +24,7 @@ class ProductsController < ApplicationController
   end
   
   def new
-    @page_title = "Pievienot jaunu produktu"
+    @page_title = "Jauns produkts"
     @page_id = "product_category_#{@category.id}"
     
     @product = Product.new

@@ -1,4 +1,4 @@
-<h2><%= @order.created_at.to_s(:short_date_time) %></h2>
+<h2>Rezervācija: <%= @order.created_at.to_s(:short_date_time) %></h2>
 
 <p>
 	<% admin_area do %>
@@ -9,15 +9,14 @@
 		<b><%= link_to "dzēst", order_path(@order), :method => :delete, :confirm => "tiešām?!"%></b>
 	<% end %>
 </p>
-id: <%= @order.id %><br />
 user: <%= link_to user_login(@order.user), user_orders_path(@order.user) %><br />
 prod: <%= link_to product_name(@order.find_product), product_path(@order.find_product) %><br />
 quant: <%= @order.quantity %><br />
-created_at: <%= @order.created_at.to_s(:short_date_time) %><br />
-leave_on: <%= @order.leave_on.to_s(:short_date) %><br />
+created: <%= @order.created_at.to_s(:short_date_time) %><br />
+leave: <%= @order.leave_on.to_s(:short_date) %><br />
 comment: <%= simple_format(h(@order.comment)) %>
 
-<b>batches user by order</b><br />
+<b>batches used by order</b><br />
 <% @order.batches.each do |batch| %>
 	id: <%= batch.id %>,
 	arrive: <%= batch.arrive_on.to_s(:short_date) %>, 
@@ -28,5 +27,6 @@ comment: <%= simple_format(h(@order.comment)) %>
 <b><br />orders_from_batches</b><br />
 <% @order.orders_from_batches.each do |ofb| %>
 	id: <%= ofb.id %><br />
+	batch_id: <%= ofb.batch_id %><br />
 	quantity: <%= ofb.quantity %><br /><br />
 <% end %>

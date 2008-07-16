@@ -52,17 +52,19 @@
 				<%= truncate(h(order.comment), 25) %>
 			</td>
 		<% end %>
-		
 	<% end %>
+	<tr>
+		<td colspan="6">
+			<table border="0" cellspacing="0" cellpadding="0">
+				<tr><td height ="10"></td></tr>
+				<tr>
+					<td><%= button_to "Izpildīts!" %></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
 <% else %>
 	<p>Nav rezervāciju.</p>
 <% end %>
 </table>
 <br />
-
-<table border="0" cellspacing="2" cellpadding="2">
-	<tr>
-		<td><%= button_to "Izpildīts!" %></td>
-		<td><%= button_to "Atcelt (dzēst)" %></td>
-	</tr>
-</table>
