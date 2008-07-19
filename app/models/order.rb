@@ -17,12 +17,13 @@ class Order < ActiveRecord::Base
   end
   
   def find_product
+    self.batches.find(:first).product
     # hmm, little strange.. as always. but works
-    prod = nil
-      self.batches.each do |batch|
-        prod = batch.product
-      end
-    prod
+    #prod = nil
+    #  self.batches.each do |batch|
+    #    prod = batch.product
+    #  end
+    #prod
   end
   
   def orders_from_batches_quantity_sum

@@ -36,7 +36,7 @@
 		by <%= link_to user_login(order.user), user_orders_path(order.user) %>
 		- <%= link_to product_name(order.find_product), product_path(order.find_product) %>
 		[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
-		(<%= order.quantity %>)<br />
+		(<%= order.orders_from_batches_quantity_sum %>)<br />
 	<% end %>
 </p>
 

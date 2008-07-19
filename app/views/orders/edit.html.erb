@@ -9,7 +9,7 @@
 	daudzums:<b><%= @order.find_product.batches_quantity_total %></b>,
 	rezervēti:<b><%= @order.find_product.batches_reserved_total %></b>,
 	brīvi:<b><%= @order.find_product.batches_available_total %></b><br />
-	<b>Daudzums (max):</b> <%= @order.quantity_available_total_for_update %>
+	<b>Daudzums max:</b> <%= @order.quantity_available_total_for_update %>
 </p>
 
 <%# ---- test ---- %>

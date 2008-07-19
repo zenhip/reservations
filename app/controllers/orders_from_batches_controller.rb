@@ -21,12 +21,6 @@ class OrdersFromBatchesController < ApplicationController
   end
   
   def update
-    if @orders_from_batch.update_attributes(params[:orders_from_batch])
-      redirect_to updated_order_orders_from_batch_path(@orders_from_batch.order, @orders_from_batch)
-    else
-      flash[:error] = "izmainiit neizdevaas"
-      render :action => :edit
-    end
   end
   
   def destroy
