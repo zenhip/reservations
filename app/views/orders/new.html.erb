@@ -18,6 +18,23 @@
 	quant: <%= batch.quantity %>,
 	avail: <%= batch.available_total %><br />
 <% end %>
+<br />
+<b>orderable batches</b><br />
+for quant = <%= totamount = 40 %><br />
+<% @product.orderable_batches(totamount).each do |batch| %>
+  <% order_from_batch_amount = 0 %>
+  <% if batch.available_total <= totamount %>
+    <% order_from_batch_amount = batch.available_total %>
+    <% totamount -= batch.available_total %>
+  <% else %>
+    <% order_from_batch_amount = totamount %>
+  <% end %>
+	id: <%= batch.id %>,
+	arrive: <%= link_to batch.arrive_on.to_s(:short_date), batch_path(batch) %>, 
+	quant: <%= batch.quantity %>,
+	avail: <%= batch.available_total %>,
+  amount: <%= order_from_batch_amount %><br />
+<% end %>
 
 <%# ---- test ---- %>
 

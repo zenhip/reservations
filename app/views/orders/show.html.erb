@@ -1,8 +1,10 @@
 <h2>Rezervācija: <%= @order.created_at.to_s(:short_date_time) %></h2>
 
 <p>
+	&larr; <%= link_to "atpakaļ", product_path(@order.find_product) %> |
+	
 	<% admin_area do %>
-		<%= link_to "mainīt", edit_order_path(@order) %> |
+		<%= link_to "mainīt", edit_product_order_path(@order.find_product, @order) %> |
 	<% end %>
 	
 	<% if current_user_is_order_owner(@order) || admin? %>
@@ -27,7 +29,7 @@ comment: <%= simple_format(h(@order.comment)) %>
 
 <b><br />orders_from_batches</b><br />
 <% @order.orders_from_batches.each do |ofb| %>
-	id: <%= ofb.id %><br />
-	batch_id: <%= ofb.batch_id %><br />
-	quantity: <%= ofb.quantity %><br /><br />
+	id: <%= ofb.id %>,
+	batch_id: <%= ofb.batch_id %>,
+	quantity: <%= ofb.quantity %><br />
 <% end %>

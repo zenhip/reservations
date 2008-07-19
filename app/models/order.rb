@@ -17,11 +17,36 @@ class Order < ActiveRecord::Base
   end
   
   def find_product
+    # hmm, little strange.. as always. but works
     prod = nil
       self.batches.each do |batch|
         prod = batch.product
       end
     prod
+  end
+  
+  def orders_from_batches_quantity_sum
+    x = 0
+    for ofb in self.orders_from_batches
+      x += ofb.quantity
+    end
+    x
+  end
+  
+  def batches_for_update(orderamount)
+    x = 0
+    batchids = []
+    self.orders_from_batches.each do |ofb|
+      unless orderamount <= x
+        x += ofb.batch.available_quantity_except_order_from_batch(ofb)
+        batchids << ofb.batch
+      end
+    end
+    batchids
+  end
+  
+  def quantity_available_total_for_update
+    self.find_product.batches_available_total + self.orders_from_batches_quantity_sum
   end
     
   def owner?(user)

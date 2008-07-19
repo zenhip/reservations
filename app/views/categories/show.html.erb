@@ -5,10 +5,10 @@
 	<% admin_area do %>
 		<%= link_to "mainīt", edit_category_path(@category) %> |
 		<%= link_to "dzēst", category_path(@category), :method => :delete, :confirm => "tiešām?!"%> |
-  	<%= link_to "jauns produkts", new_category_product_path(@category) %> |
+		visi produkti |
+  	<%= link_to "jauns produkts", new_category_product_path(@category) %>
+		&rarr;
   <% end %>
-
-	visi produkti &rarr;
 </p>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

@@ -16,10 +16,18 @@ class Batch < ActiveRecord::Base
     find(:all, :order => "created_at desc", :limit => 5)
   end
   
+  def find_orders
+	  Order.find(self.orders, :order => "created_at asc")
+	end
+  
   # except_order_from_batch ir lai nepieskaitiitu aktiivo order_from_batch editeejot to
   # def available_quantity(except_order_from_batch=nil)
   #   self.quantity - total_ordered_quantity(nil, except_order_from_batch)
   # end
+  
+  def available_quantity_except_order_from_batch(order_from_batch)
+    self.available_total + order_from_batch.quantity
+  end
   
   # batch.orders_from_batches.inject(0) {|q, orders_from_batch| q + orders_from_batch.quantity}
   # def total_ordered_quantity
@@ -37,10 +45,6 @@ class Batch < ActiveRecord::Base
 	
 	def available_total
 	  self.quantity - reserved_total
-	end
-	
-	def find_orders
-	  Order.find(self.orders, :order => "created_at asc")
 	end
 	
 	# nav iisti ok ar logjiku

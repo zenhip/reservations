@@ -8,17 +8,33 @@
 	<b>Kopā (noliktavā):</b>
 	daudzums:<b><%= @order.find_product.batches_quantity_total %></b>,
 	rezervēti:<b><%= @order.find_product.batches_reserved_total %></b>,
-	brīvi:<b><%= @order.find_product.batches_available_total %></b>
+	brīvi:<b><%= @order.find_product.batches_available_total %></b><br />
+	<b>Daudzums (max):</b> <%= @order.quantity_available_total_for_update %>
 </p>
 
 <%# ---- test ---- %>
 
 <b>all batches</b><br />
 <% @order.find_product.batches.each do |batch| %>
-	id:<%= batch.id %>,
-	arrive_on:<%= batch.arrive_on.to_date %>, 
-	q:<%= batch.quantity %>,
-	avail:<%= batch.available_total %><br />
+	id: <%= batch.id %>,
+	arrive_on: <%= batch.arrive_on.to_date %>, 
+	quant: <%= batch.quantity %>,
+	avail: <%= batch.available_total %><br />
+<% end %>
+<br />
+<b>batches used by order</b><br />
+<% @order.batches.each do |batch| %>
+	id: <%= batch.id %>,
+	arrive: <%= link_to batch.arrive_on.to_s(:short_date), batch_path(batch) %>,
+	quant: <%= batch.quantity %>,
+	avail: <%= batch.available_total %><br />
+<% end %>
+<br />
+<b>orders_from_batches</b><br />
+<% @order.orders_from_batches.each do |ofb| %>
+	id: <%= ofb.id %>,
+	batch_id: <%= ofb.batch_id %>,
+	quantity: <%= ofb.quantity %><br />
 <% end %>
 
 <%# ---- test ---- %>

@@ -10,7 +10,7 @@ class OrdersFromBatch < ActiveRecord::Base
   # Lai nevar "kopā: daudzums: 350, rezervēti: 390, brīvi: -40"
   # validate :quantity_is_not_greater_than_batch_quantity
   
-  validates_numericality_of :quantity, :only_integer => true, :greater_than_or_equal_to => 1
+  validates_numericality_of :quantity, :only_integer => true, :greater_than_or_equal_to => 0
   
   def self.find_all
     find(:all, :order => "created_at")
