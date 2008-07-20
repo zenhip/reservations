@@ -14,17 +14,16 @@ updated: <%= @batch.updated_at.to_s(:short_date_time) %><br />
 arrive: <%= @batch.arrive_on.to_s(:short_date) %><br />
 quant: <%= @batch.quantity %><br />
 avail: <%= @batch.available_total < 0 ? "<b>#{@batch.available_total}</b>" : "#{@batch.available_total}" %><br />
-status: ?
 <br /><br />
 
 <b>orders from batch</b><br />
 <% @batch.orders.each do |order| %>
-	user: <%= link_to user_login(order.user), user_orders_path(order.user) %><br />
-	order: <%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %><br />
-	leave: <%= order.leave_on.to_s(:short_date) %><br />
-	quant: <%#= order.quantity %> 
+	user: <%= link_to user_login(order.user), user_orders_path(order.user) %>,
+	order: <%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %>,
+	leave: <%= order.leave_on.to_s(:short_date) %>,
+	quant: <%#= order.quantity %>
 	<% for ofb in order.orders_from_batches %>
 		<%= ofb.batch_id == @batch.id ? ofb.quantity : nil %>
 	<% end %>
-	<br /><br />
+	<br />
 <% end %>

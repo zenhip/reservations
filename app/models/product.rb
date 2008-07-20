@@ -2,7 +2,7 @@ class Product < ActiveRecord::Base
   
   belongs_to :category
   
-  has_many :batches, :dependent => :destroy, :order => "arrive_on asc" do
+  has_many :batches, :dependent => :destroy, :order => "arrive_on desc" do
     # atgriež latest batch šim produktam (koments products/show.html.erb)
     def latest_batch
       
@@ -28,7 +28,25 @@ class Product < ActiveRecord::Base
   end
   
   
-  def batches_quantity_total
+	def batches_quantity
+	 batches_quantity_total - batches_reserved_total + incomplete_orders_quantity
+	end
+	
+	def incomplete_orders_quantity
+	  q = 0
+  	self.find_orders.each do |order|
+       unless order.completed?
+         q += order.orders_from_batches_quantity_sum
+       end
+    end
+    q
+	end
+	
+	def batches_available
+	 batches_quantity - incomplete_orders_quantity
+	end
+	
+	def batches_quantity_total
     self.batches.inject(0) {|q, batch| q + batch.quantity}
 	end
 	
@@ -61,13 +79,12 @@ class Product < ActiveRecord::Base
 	
 	def find_orders
 	  x = []
-    y = []
 	  self.batches.each do |batch|
 	    for order in batch.orders
 	      x << order
       end
     end
-    y = x.uniq
+    x.uniq
 	end
 	
 end

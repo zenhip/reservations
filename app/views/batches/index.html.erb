@@ -5,8 +5,7 @@
 	<%= link_to_unless @product.batches_available_total <= 0, "rezervēt", new_product_order_path(@product) %>
 	
 	<% admin_area do %>
-		| visas partijas |
-		<%= link_to "jauna partija", new_product_batch_path(@product) %> &rarr;
+		| <%= link_to "jauna partija", new_product_batch_path(@product) %> &rarr;
 	<% end %>
 </p>
 

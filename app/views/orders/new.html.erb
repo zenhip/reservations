@@ -9,43 +9,8 @@
 	brīvi:<b><%= @product.batches_available_total %></b>
 </p>
 
-<%# ---- test ---- %>
-
-<b>all batches</b><br />
-<% @product.batches.each do |batch| %>
-	id: <%= batch.id %>,
-	arrive: <%= batch.arrive_on.to_s(:short_date) %>, 
-	quant: <%= batch.quantity %>,
-	avail: <%= batch.available_total %><br />
-<% end %>
-<br />
-<b>orderable batches</b><br />
-for quant = <%= totamount = 40 %><br />
-<% @product.orderable_batches(totamount).each do |batch| %>
-  <% order_from_batch_amount = 0 %>
-  <% if batch.available_total <= totamount %>
-    <% order_from_batch_amount = batch.available_total %>
-    <% totamount -= batch.available_total %>
-  <% else %>
-    <% order_from_batch_amount = totamount %>
-  <% end %>
-	id: <%= batch.id %>,
-	arrive: <%= link_to batch.arrive_on.to_s(:short_date), batch_path(batch) %>, 
-	quant: <%= batch.quantity %>,
-	avail: <%= batch.available_total %>,
-  amount: <%= order_from_batch_amount %><br />
-<% end %>
-
-<%# ---- test ---- %>
-
 <% form_for :order, :url => product_orders_path do |f| %>
 	<%= render :partial => "form", :locals => {:f => f} %>
-  <%#= f.hidden_field :id %>
-  <%# for orders_from_batch in @order.orders_from_batches %>
-    <%# fields_for "order[orders_from_batch_attributes][]", orders_from_batch, :index => nil do |f| %>
-  	  <%#= render :partial => "orders_from_batches/new", :locals => {:f => f} %>
-    <%# end %>
-  <%# end %>
   <p><%= submit_tag "Rezervēt" %></p>
 <% end %>
 

@@ -19,9 +19,9 @@
 	<tr>
 		<td colspan="6">
 			<b>Kopā (noliktavā):</b>
-			daudzums:<b><%= @product.batches_quantity_total %></b>,
-			rezervēti:<b><%= @product.batches_reserved_total %></b>,
-			brīvi:<b><%= @product.batches_available_total %></b><br />
+			daudzums:<b><%= @product.batches_quantity_total %> (<%= @product.batches_quantity %>)</b>,
+			rezervēti:<b><%= @product.batches_reserved_total %> (<%= @product.incomplete_orders_quantity %>)</b>,
+			brīvi:<b><%= @product.batches_available_total %> (<%= @product.batches_available %>)</b><br />
 		</td>
 	</tr>
 	<tr>
@@ -34,38 +34,40 @@
 	</tr>
 	<% if @product.find_orders.any? %>
 		<% for order in @product.find_orders %>
-			<% tr do %>
-				<td><%= check_box :order, :completed, {:checked => order.completed?} %></td>
-				<td>
-			  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>
-			  <%#= orders_from_batches_created orders_from_batches %>
-			  <%# vai var proveet lietot to bones esošo l(orders_from_batches).created helperu shortcutu %>
-					<%= link_to order.created_at.to_s(:short_date_time), product_order_path(@product, order) %> &nbsp;
-				</td>
-				<td>
-					<%= link_to user_login(order.user), user_orders_path(order.user) %>
-				</td>
-				<td>
-					<%= order.orders_from_batches_quantity_sum %>
-				</td>
-				<td>
-					<% leave_date = order.leave_on.to_date %>
-					<% short_leave_date = order.leave_on.to_s(:short_date) %>
+			<%# unless order.completed? %>
+				<% tr do %>
+					<td><%= check_box :order, :completed, {:checked => order.completed?} %></td>
+					<td>
+				  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>
+				  <%#= orders_from_batches_created orders_from_batches %>
+				  <%# vai var proveet lietot to bones esošo l(orders_from_batches).created helperu shortcutu %>
+						<%= link_to order.created_at.to_s(:short_date_time), product_order_path(@product, order) %> &nbsp;
+					</td>
+					<td>
+						<%= link_to user_login(order.user), user_orders_path(order.user) %>
+					</td>
+					<td>
+						<%= order.orders_from_batches_quantity_sum %>
+					</td>
+					<td>
+						<% leave_date = order.leave_on.to_date %>
+						<% short_leave_date = order.leave_on.to_s(:short_date) %>
 					
-					<% if leave_date < Date.today %>
-						<font color="gray"><%= short_leave_date %></font>
-					<% elsif leave_date >= Date.today && leave_date <= Date.today + 2.days %>
-						<font color="red"><%= short_leave_date %></font>
-					<% elsif leave_date > Date.today + 2.days && leave_date < Date.today + 7.days %>
-						<font color="brown"><%= short_leave_date %></font>
-					<% else %>
-						<font color="black"><%= short_leave_date %></font>
-					<% end %>
-				</td>
-				<td>
-					<%= truncate(h(order.comment), 25) %>
-				</td>
-	  	<% end %>
+						<% if leave_date < Date.today %>
+							<font color="gray"><%= short_leave_date %></font>
+						<% elsif leave_date >= Date.today && leave_date <= Date.today + 2.days %>
+							<font color="red"><%= short_leave_date %></font>
+						<% elsif leave_date > Date.today + 2.days && leave_date < Date.today + 7.days %>
+							<font color="brown"><%= short_leave_date %></font>
+						<% else %>
+							<font color="black"><%= short_leave_date %></font>
+						<% end %>
+					</td>
+					<td>
+						<%= truncate(h(order.comment), 25) %>
+					</td>
+		  	<% end %>
+			<%# end %>
 		<% end %>
 		<tr>
 			<td colspan="6">

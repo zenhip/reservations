@@ -16,42 +16,44 @@
 	</tr>
 <% if @user.orders.any? %>
 	<% @user.orders.each do |order| %>
+		<%# unless order.completed? %>
 	
 				  <%# ir taads forshs verkjis cycle('even', 'odd'), kuru var lietot kopaa ar tr klasi: %>
 				  <%# <tr class="<%= cycle('even', 'odd') " %>
 				  <%# ..vai get bones un lieto tr do ... end, kas liek to cycle: %>
 				  <%# http://dev.bitmap.lv/trac/plugins/browser/bones/generators/bones/templates/bones_helper.rb.erb#L61 - def tr ... end %>
 	
-		<% tr do %>
-			<td><%= check_box :order, :completed, {:checked => order.completed?} %></td>
-			<td>
-				<%= link_to product_name(order.find_product), product_path(order.find_product) %>
-				[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
-			</td>
-			<td nowrap>
-				<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
-			</td>
-			<td>
-				<%= order.orders_from_batches_quantity_sum %>
-			</td>
-			<td>
-				<% leave_date = order.leave_on.to_date %>
-				<% short_leave_date = order.leave_on.to_s(:short_date) %>
+			<% tr do %>
+				<td><%= check_box :order, :completed, {:checked => order.completed?} %></td>
+				<td>
+					<%= link_to product_name(order.find_product), product_path(order.find_product) %>
+					[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
+				</td>
+				<td nowrap>
+					<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
+				</td>
+				<td>
+					<%= order.orders_from_batches_quantity_sum %>
+				</td>
+				<td>
+					<% leave_date = order.leave_on.to_date %>
+					<% short_leave_date = order.leave_on.to_s(:short_date) %>
 			
-				<% if leave_date < Date.today %>
-					<font color="gray"><%= short_leave_date %></font>
-				<% elsif leave_date >= Date.today && leave_date <= Date.today + 2.days %>
-					<font color="red"><%= short_leave_date %></font>
-				<% elsif leave_date > Date.today + 2.days && leave_date < Date.today + 7.days %>
-					<font color="brown"><%= short_leave_date %></font>
-				<% else %>
-					<font color="black"><%= short_leave_date %></font>
-				<% end %>
-			</td>
-			<td>
-				<%= truncate(h(order.comment), 25) %>
-			</td>
-		<% end %>
+					<% if leave_date < Date.today %>
+						<font color="gray"><%= short_leave_date %></font>
+					<% elsif leave_date >= Date.today && leave_date <= Date.today + 2.days %>
+						<font color="red"><%= short_leave_date %></font>
+					<% elsif leave_date > Date.today + 2.days && leave_date < Date.today + 7.days %>
+						<font color="brown"><%= short_leave_date %></font>
+					<% else %>
+						<font color="black"><%= short_leave_date %></font>
+					<% end %>
+				</td>
+				<td>
+					<%= truncate(h(order.comment), 25) %>
+				</td>
+			<% end %>
+		<%# end %>
 	<% end %>
 	<tr>
 		<td colspan="6">
