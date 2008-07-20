@@ -25,7 +25,7 @@
 		</td>
 	</tr>
 	<tr>
-		<th width="10px"><%= check_box(123, 123) %></th>
+		<th width="10px"><%#= check_box(123, 123) %></th>
 		<th>Rezervācija</th>
 		<th>Lietotājs</th>
 		<th>Rezervēti</th>
@@ -35,7 +35,7 @@
 	<% if @product.find_orders.any? %>
 		<% for order in @product.find_orders %>
 			<% tr do %>
-				<td><%= check_box(123, 123) %></td>
+				<td><%= check_box :order, :completed, {:checked => order.completed?} %></td>
 				<td>
 			  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>
 			  <%#= orders_from_batches_created orders_from_batches %>
@@ -72,7 +72,7 @@
 				<table border="0" cellspacing="0" cellpadding="0">
 					<tr><td height ="10"></td></tr>
 					<tr>
-						<td><%= button_to "Izpildīts!" %></td>
+						<td><%= button_to "Izpildīts!", {}, :disabled => true %></td>
 					</tr>
 				</table>
 			</td>

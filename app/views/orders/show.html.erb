@@ -17,6 +17,7 @@ created: <%= @order.created_at.to_s(:short_date_time) %><br />
 updated: <%= @order.updated_at.to_s(:short_date_time) %><br />
 leave: <%= @order.leave_on.to_s(:short_date) %><br />
 quant: <%= @order.quantity %><br />
+status: <%= @order.completed? ? "completed" : "active" %><br />
 comment: <%= simple_format(h(@order.comment)) %>
 
 <b>batches used by order</b><br />

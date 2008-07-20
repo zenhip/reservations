@@ -18,20 +18,10 @@ class Order < ActiveRecord::Base
   
   def find_product
     self.batches.find(:first).product
-    # hmm, little strange.. as always. but works
-    #prod = nil
-    #  self.batches.each do |batch|
-    #    prod = batch.product
-    #  end
-    #prod
   end
   
   def orders_from_batches_quantity_sum
-    x = 0
-    for ofb in self.orders_from_batches
-      x += ofb.quantity
-    end
-    x
+    self.orders_from_batches.inject(0) {|q, orders_from_batch| q + orders_from_batch.quantity}
   end
   
   def batches_for_update(orderamount)

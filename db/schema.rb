@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 14) do
+ActiveRecord::Schema.define(:version => 15) do
 
   create_table "batches", :force => true do |t|
     t.integer  "product_id",                :null => false
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 14) do
     t.text     "comment"
     t.datetime "leave_on"
     t.integer  "quantity"
+    t.integer  "completed",  :default => 0
   end
 
   create_table "orders_from_batches", :force => true do |t|
