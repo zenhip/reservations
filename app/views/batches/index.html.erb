@@ -13,10 +13,7 @@
 <% if @product.batches.any? %>
 	<tr>
 		<td colspan="5">
-			<b>Kopā (noliktavā):</b>
-			daudzums:<b><%= @product.batches_quantity_total %></b>,
-			rezervēti:<b><%= @product.batches_reserved_total %></b>,
-			brīvi:<b><%= @product.batches_available_total %></b><br />
+			<%= product_availability_info %>
 		</td>
 	</tr>
 	<tr>

@@ -4,11 +4,8 @@
 <%= error_messages_for :order %>
 
 <p>
-	<b>Produkts:</b> <%= product_name(@order.find_product) %><br />
-	<b>Kopā (noliktavā):</b>
-	daudzums:<b><%= @order.find_product.batches_quantity_total %></b>,
-	rezervēti:<b><%= @order.find_product.batches_reserved_total %></b>,
-	brīvi:<b><%= @order.find_product.batches_available_total %></b><br />
+	<b>Produkts:</b> <%= product_name(@product) %><br />
+	<%= product_availability_info %>
 	<b>Daudzums max:</b> <%= @order.quantity_available_total_for_update %>
 </p>
 

@@ -2,11 +2,9 @@
 <h2><%= product_name(@product) %></h2>
 
 <%= error_messages_for :order %>
+
 <p>
-	<b>Kopā (noliktavā):</b>
-	daudzums:<b><%= @product.batches_quantity_total %></b>,
-	rezervēti:<b><%= @product.batches_reserved_total %></b>,
-	brīvi:<b><%= @product.batches_available_total %></b>
+	<%= product_availability_info %>
 </p>
 
 <% form_for :order, :url => product_orders_path do |f| %>
