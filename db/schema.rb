@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 15) do
+ActiveRecord::Schema.define(:version => 16) do
 
   create_table "batches", :force => true do |t|
     t.integer  "product_id",                :null => false
@@ -44,10 +44,11 @@ ActiveRecord::Schema.define(:version => 15) do
   end
 
   create_table "products", :force => true do |t|
-    t.string   "name",        :null => false
+    t.string   "name",                       :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "category_id"
+    t.integer  "visible",     :default => 1
   end
 
   create_table "users", :force => true do |t|

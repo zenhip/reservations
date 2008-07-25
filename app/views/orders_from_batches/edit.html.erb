@@ -1,18 +1,1 @@
-<% @page_title = " - Mainīt rezervāciju" %>
-<% @page_id = "product_category_#{@orders_from_batch.batch.product.category.id}" %>
-
-<h2>Mainīt rezervāciju produktam <%= product_name(@orders_from_batch.batch.product) %></h2>
-
-<%= error_messages_for :orders_from_batch %>
-
-<p>
-	partija: <%= @orders_from_batch.batch.arrive_on.to_s(:short_date) %>,
-	daudzums: <%= @orders_from_batch.batch.quantity %>,
-	rezervēti: <%= batch_reserved_total(@orders_from_batch.batch) %>,
-	brīvi: <%= batch_available_total(@orders_from_batch.batch) %>
-</p>
-
-<% form_for :orders_from_batch, :url => order_orders_from_batch_path(@orders_from_batch.order, @orders_from_batch), :html => {:method => :put} do |f| %>
-  <%= render :partial => "new", :locals => {:f => f} %>
-  <p><%= submit_tag "Izmainīt" %></p>
-<% end %>
+Edit

@@ -2,7 +2,7 @@
 
 <p>
 	&larr; <%= link_to "atpakaļ", category_path(@product.category) %> |
-	<%= link_to_unless @product.batches_available_total <= 0, "rezervēt", new_product_order_path(@product) %>
+	<%= link_to_if @product.batches_available > 0, "rezervēt", new_product_order_path(@product) %>
 	
 	<% admin_area do %>
 		| <%= link_to "mainīt", edit_product_path(@product) %> |

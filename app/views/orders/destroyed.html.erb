@@ -1,7 +1,0 @@
-<% @page_title = " - Rezervācija likvidēta!" %>
-<% @page_id = "product_category_#{@batch.product.category.id}" %>
-
-<h2>Rezervācija likvidēta!</h2>
-
-<p><%= link_to "uz produktu", product_path(@batch.product) %></p>
-<p><%= link_to "manas rezervācijas", user_orders_path(current_user) %></p>

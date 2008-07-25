@@ -9,26 +9,6 @@
 	<b>Daudzums max:</b> <%= @order.quantity_available_total_for_update %>
 </p>
 
-<%# ---- test ---- %>
-
-<b>all batches</b><br />
-<% @order.find_product.batches.each do |batch| %>
-	id: <%= batch.id %>,
-	arrive_on: <%= batch.arrive_on.to_date %>, 
-	quant: <%= batch.quantity %>,
-	avail: <%= batch.available_total %><br />
-<% end %>
-<br />
-<b>batches used by order</b><br />
-<% @order.batches.each do |batch| %>
-	id: <%= batch.id %>,
-	arrive: <%= link_to batch.arrive_on.to_s(:short_date), batch_path(batch) %>,
-	quant: <%= batch.quantity %>,
-	avail: <%= batch.available_total %><br />
-<% end %>
-
-<%# ---- test ---- %>
-
 <% form_for :order, :url => order_path(@order), :html => {:method => :put} do |f| %>
   <%= render :partial => "form", :locals => {:f => f} %>
   <p><%= submit_tag "Izmainīt" %></p>
