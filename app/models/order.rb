@@ -2,14 +2,14 @@ class Order < ActiveRecord::Base
   
   belongs_to :user
   
-  has_many :batches, :through => :orders_from_batches, :order => "arrive_on asc"
-  has_many :orders_from_batches, :dependent => :destroy, :order => "created_at asc"
+  has_many :batches, :through => :orders_from_batches, :order => "arrive_on desc"
+  has_many :orders_from_batches, :dependent => :destroy, :order => "created_at desc"
   
   validates_presence_of :user_id, :leave_on, :quantity
   validates_numericality_of :quantity, :only_integer => true, :greater_than_or_equal_to => 1
   
   def self.find_all
-    find(:all, :order => "created_at asc")
+    find(:all, :order => "created_at desc")
   end
   
   def self.find_latest

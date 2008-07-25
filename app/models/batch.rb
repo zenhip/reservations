@@ -2,14 +2,14 @@ class Batch < ActiveRecord::Base
   
   belongs_to :product
   
-  has_many :orders, :through => :orders_from_batches, :order => "created_at asc"
-  has_many :orders_from_batches, :dependent => :destroy, :order => "created_at asc"
+  has_many :orders, :through => :orders_from_batches, :order => "created_at desc"
+  has_many :orders_from_batches, :dependent => :destroy, :order => "created_at desc"
   
   validates_presence_of :arrive_on, :product_id, :quantity
   validates_numericality_of :quantity, :only_integer => true, :greater_than_or_equal_to => 1
   
   def self.find_all
-    find(:all, :order => "arrive_on asc")
+    find(:all, :order => "arrive_on desc")
   end
     
   def self.find_latest
@@ -17,7 +17,7 @@ class Batch < ActiveRecord::Base
   end
   
   def find_orders
-	  Order.find(self.orders, :order => "created_at asc")
+	  Order.find(self.orders, :order => "created_at desc")
 	end
   
   # except_order_from_batch ir lai nepieskaitiitu aktiivo order_from_batch editeejot to

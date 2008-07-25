@@ -1,7 +1,7 @@
 <h2><%= @user == current_user ? "manas" : user_login(@user); %> rezervācijas</h2>
 
 <p>
-	<%= link_to "izpildītie", "#" %> &darr;sorteeshana&darr; paginate
+	 &darr;sorteeshana&darr; paginate
 </p>
 
 <%# Css.. :) %>
@@ -23,7 +23,8 @@
 				  <%# ..vai get bones un lieto tr do ... end, kas liek to cycle: %>
 				  <%# http://dev.bitmap.lv/trac/plugins/browser/bones/generators/bones/templates/bones_helper.rb.erb#L61 - def tr ... end %>
 	
-			<% tr do %>
+			<%# tr do %>
+			<% tr order.completed? ? (options = {:class => "compl"}) : {} do %>
 				<td><%#= check_box :order, :completed, {:checked => order.completed?} %>
 					<%= link_to image_tag("edit.png", :mouseover => image_path("edit_over.png")), edit_product_order_path(order.find_product, order) %>
 				</td>

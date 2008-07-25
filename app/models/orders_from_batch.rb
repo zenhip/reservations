@@ -13,7 +13,7 @@ class OrdersFromBatch < ActiveRecord::Base
   validates_numericality_of :quantity, :only_integer => true, :greater_than_or_equal_to => 0
   
   def self.find_all
-    find(:all, :order => "created_at")
+    find(:all, :order => "created_at desc")
   end
   
   protected

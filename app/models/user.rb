@@ -1,7 +1,7 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
   
-  has_many :orders, :dependent => :destroy, :order => "created_at"
+  has_many :orders, :dependent => :destroy, :order => "created_at desc"
   
   # Virtual attribute for the unencrypted password
   attr_accessor :password

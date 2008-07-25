@@ -79,12 +79,13 @@ class Product < ActiveRecord::Base
 	
 	def find_orders
 	  x = []
+    y = []
 	  self.batches.each do |batch|
 	    for order in batch.orders
 	      x << order
       end
     end
-    x.uniq
+    y = x.uniq
 	end
 	
 end
