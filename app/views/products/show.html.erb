@@ -7,7 +7,7 @@
 	<% admin_area do %>
 		| <%= link_to "mainīt", edit_product_path(@product) %> |
 		<%= link_to "dzēst", product_path(@product), :method => :delete, :confirm => "tiešām?!"%> |
-		visas rezervācijas |
+		<%= link_to "visas rezervācijas", { :action => "show", :show_orders => :all } %> |
 		<%= link_to_if @product.batches.any?, "partijas", product_batches_path(@product) %> |
 		<%= link_to "jauna partija", new_product_batch_path(@product) %>
 		&rarr;
@@ -31,8 +31,10 @@
 	</tr>
 	<% if @product.find_orders.any? %>
 		<% for order in @product.find_orders %>
-			<%# unless order.completed? %>
-				<% tr do %>
+		
+			<% unless (params[:show_orders]) != "all" && order.completed? %>
+				<%# tr do %>
+				<% tr order.completed? ? (options = {:class => "compl"}) : {} do %>
 					<td>
 						<%#= check_box :order, :completed, {:checked => order.completed?} %>
 						<%= link_to image_tag("edit.png", :mouseover => image_path("edit_over.png")), edit_product_order_path(@product, order) %>
@@ -67,7 +69,7 @@
 						<%= truncate(h(order.comment), 25) %>
 					</td>
 		  	<% end %>
-			<%# end %>
+			<% end %>
 		<% end %>
 	<% end %>
 <% else %>
