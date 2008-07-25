@@ -64,10 +64,10 @@ class UsersController < ApplicationController
     
     def ensure_user_is_owner
       account_owner? || access_denied
-    end    
+    end
     
     def account_owner?
-      logged_in? && selected_user.owner?(current_user) || admin?
+      logged_in? && selected_user.owner?(current_user) || admin? && @user.id != 1
     end
     
     def selected_user

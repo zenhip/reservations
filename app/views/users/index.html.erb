@@ -21,7 +21,7 @@
 		</td><td>
 	  <%= user.created_at.to_s(:short_date_time) %>
 		</td><td>
-	  <%= current_user_is_account_owner(user) || admin? ? (link_to "mainīt", edit_user_path(user)) : "" %>
+	  <%= current_user_is_account_owner(user) || admin? && user.id != 1 ? (link_to "mainīt", edit_user_path(user)) : "" %>
 	  <%= admin? && user.id != 1 ? (" | " + (link_to "dzēst", user_path(user), :method => :delete, :confirm => "tiešām?!")) : "" %>
 		</td>
 		<% end %>

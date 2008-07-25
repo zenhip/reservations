@@ -23,7 +23,7 @@
 	<% @category.products.each do |product| %>
 		<% tr do %>
 			<td>
-				<%= link_to_if product.batches_available > 0, image_tag("book.png", :mouseover => image_path("book_over.png")), new_product_order_path(product) %></td>
+				<%= link_to_if product.batches_available > 0, image_tag("book.png", :mouseover => image_path("book_over.png"), :border => 0, :alt => "Order"), new_product_order_path(product) %></td>
 			<td><%= link_to product_name(product), product_path(product) %></td>
 			<td><%= product.batches_quantity_total %></td>
 			<td><%= product.batches_reserved_total %></td>

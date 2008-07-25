@@ -12,5 +12,9 @@
 	    <%= f.select :role, user_roles_for_select %></p>
 	<% end %>
 	
-  <p><%= submit_tag "Izmainīt" %> vai <%= link_to "atpakaļ", users_path %></p>
+  <p><%= submit_tag "Izmainīt" %></p>
 <% end %>
+
+<p>
+	&larr; <%= link_to "atpakaļ", users_path %>
+</p>

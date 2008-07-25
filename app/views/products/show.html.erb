@@ -43,7 +43,7 @@
 				<% tr order.completed? ? (options = {:class => "compl"}) : {} do %>
 					<td>
 						<%#= check_box :order, :completed, {:checked => order.completed?} %>
-						<%= link_to image_tag("edit.png", :mouseover => image_path("edit_over.png")), edit_product_order_path(@product, order) %>
+						<%= link_to image_tag("edit.png", :mouseover => image_path("edit_over.png"), :border => 0, :alt => "Edit"), edit_product_order_path(@product, order) %>
 					</td>
 					<td>
 				  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>
