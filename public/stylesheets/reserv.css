@@ -51,7 +51,7 @@ table tr.odd {
 }
 
 table tr.compl {
-	background: #e2e2e2;
+	background: #aaa;
 }
 
 table tr.even:hover, .odd:hover, .compl:hover {

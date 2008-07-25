@@ -26,13 +26,6 @@
 	quant: <%= batch.quantity %>,
 	avail: <%= batch.available_total %><br />
 <% end %>
-<br />
-<b>orders_from_batches</b><br />
-<% @order.orders_from_batches.each do |ofb| %>
-	id: <%= ofb.id %>,
-	batch_id: <%= ofb.batch_id %>,
-	quantity: <%= ofb.quantity %><br />
-<% end %>
 
 <%# ---- test ---- %>
 
