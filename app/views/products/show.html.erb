@@ -22,7 +22,7 @@
 		</td>
 	</tr>
 	<tr>
-		<th width="10px"><%#= check_box(123, 123) %></th>
+		<th width="10px"></th>
 		<th>Rezervācija</th>
 		<th>Lietotājs</th>
 		<th>Rezervēti</th>
@@ -33,7 +33,10 @@
 		<% for order in @product.find_orders %>
 			<%# unless order.completed? %>
 				<% tr do %>
-					<td><%= check_box :order, :completed, {:checked => order.completed?} %></td>
+					<td>
+						<%#= check_box :order, :completed, {:checked => order.completed?} %>
+						<%= link_to image_tag("edit.png", :mouseover => image_path("edit_over.png")), edit_product_order_path(@product, order) %>
+					</td>
 					<td>
 				  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>
 				  <%#= orders_from_batches_created orders_from_batches %>
@@ -66,16 +69,6 @@
 		  	<% end %>
 			<%# end %>
 		<% end %>
-		<tr>
-			<td colspan="6">
-				<table border="0" cellspacing="0" cellpadding="0">
-					<tr><td height ="10"></td></tr>
-					<tr>
-						<td><%= button_to "Izpildīts!", {}, :disabled => true %></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
 	<% end %>
 <% else %>
 	<p>Produktam nav nevienas partijas.</p>

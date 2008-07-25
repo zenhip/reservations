@@ -7,9 +7,9 @@
 <%# Css.. :) %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<th width="10px"><%#= check_box(nil, nil) %></th>
-		<th>Produkts</th>
+		<th width="10px"></th>
 		<th>Rezervācija</th>
+		<th>Produkts</th>
 		<th>Daudzums</th>
 		<th>Realizācija</th>
 		<th>Komentārs</th>
@@ -24,13 +24,15 @@
 				  <%# http://dev.bitmap.lv/trac/plugins/browser/bones/generators/bones/templates/bones_helper.rb.erb#L61 - def tr ... end %>
 	
 			<% tr do %>
-				<td><%= check_box :order, :completed, {:checked => order.completed?} %></td>
-				<td>
-					<%= link_to product_name(order.find_product), product_path(order.find_product) %>
-					[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
+				<td><%#= check_box :order, :completed, {:checked => order.completed?} %>
+					<%= link_to image_tag("edit.png", :mouseover => image_path("edit_over.png")), edit_product_order_path(order.find_product, order) %>
 				</td>
 				<td nowrap>
 					<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
+				</td>
+				<td>
+					<%= link_to product_name(order.find_product), product_path(order.find_product) %>
+					[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
 				</td>
 				<td>
 					<%= order.orders_from_batches_quantity_sum %>
@@ -55,16 +57,6 @@
 			<% end %>
 		<%# end %>
 	<% end %>
-	<tr>
-		<td colspan="6">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr><td height ="10"></td></tr>
-				<tr>
-					<td><%= button_to "Izpildīts!", {}, :disabled => true %></td>
-				</tr>
-			</table>
-		</td>
-	</tr>
 <% else %>
 	<p>Nav rezervāciju.</p>
 <% end %>
