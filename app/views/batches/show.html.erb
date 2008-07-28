@@ -1,13 +1,14 @@
 <h2>Partija: <%= @batch.arrive_on.to_s(:short_date) %></h2>
 
 <p>
-	&larr; <%= link_to "atpakaļ", product_batches_path(@batch.product) %> |
+	&larr; <%= link_to "atpakaļ", product_batches_path(@batch.product) %>
 	
 	<% admin_area do %>
-  	<%= link_to "mainīt", edit_batch_path %> |
-  	<%= link_to "dzēst", batch_path, :method => :delete, :confirm => "tiešām?!"%>
+  	| <%= link_to "mainīt", edit_batch_path %>
+  	| <%= link_to "dzēst", batch_path, :method => :delete, :confirm => "tiešām?!"%>
   <% end %>
 </p>
+
 prod: <%= link_to product_name(@batch.product), product_path(@batch.product) %><br />
 created: <%= @batch.created_at.to_s(:short_date_time) %><br />
 updated: <%= @batch.updated_at.to_s(:short_date_time) %><br />

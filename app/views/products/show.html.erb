@@ -1,21 +1,21 @@
 <h2><%= product_name(@product) %></h2>
 
 <p>
-	&larr; <%= link_to "atpakaļ", category_path(@product.category) %> |
-	<%= link_to_if @product.batches_available > 0, "rezervēt", new_product_order_path(@product) %>
+	&larr; <%= link_to "atpakaļ", category_path(@product.category) %>
+	| <%= link_to_if @product.batches_available > 0, "rezervēt", new_product_order_path(@product) %>
+	
+	<% if current_page?(:show_orders => :all) %>
+		| <%= link_to "aktīvās rezervācijas", { :action => "show" } %>
+	<% else %>
+		| <%= link_to "visas rezervācijas", { :action => "show", :show_orders => :all } %>
+	<% end %>
+	
+	| <%= link_to_if @product.batches.any?, "partijas", product_batches_path(@product) %>
 	
 	<% admin_area do %>
-		| <%= link_to "mainīt", edit_product_path(@product) %> |
-		<%= link_to "dzēst", product_path(@product), :method => :delete, :confirm => "tiešām?!"%> |
-		
-		<% if current_page?(:show_orders => :all) %>
-			<%= link_to "aktīvās rezervācijas", { :action => "show" } %> |
-		<% else %>
-			<%= link_to "visas rezervācijas", { :action => "show", :show_orders => :all } %> |
-		<% end %>
-		
-		<%= link_to_if @product.batches.any?, "partijas", product_batches_path(@product) %> |
-		<%= link_to "jauna partija", new_product_batch_path(@product) %>
+		| <%= link_to "mainīt", edit_product_path(@product) %>
+		| <%= link_to "dzēst", product_path(@product), :method => :delete, :confirm => "tiešām?!"%>
+		| <%= link_to "jauna partija", new_product_batch_path(@product) %>
 		&rarr;
 	<% end %>
 </p>
@@ -43,7 +43,7 @@
 				<% tr order.completed? ? (options = {:class => "compl"}) : {} do %>
 					<td>
 						<%#= check_box :order, :completed, {:checked => order.completed?} %>
-						<%= link_to image_tag("edit.png", :mouseover => image_path("edit_over.png"), :border => 0, :alt => "Edit"), edit_product_order_path(@product, order) %>
+						<%= link_to_if order.owner?(current_user) || admin?, image_tag("edit.png", :mouseover => image_path("edit_over.png"), :border => 0, :alt => "Edit"), edit_product_order_path(@product, order) %>
 					</td>
 					<td>
 				  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>

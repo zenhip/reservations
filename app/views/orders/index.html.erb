@@ -22,7 +22,7 @@
 			<%# tr do %>
 			<% tr order.completed? ? (options = {:class => "compl"}) : {} do %>
 				<td><%#= check_box :order, :completed, {:checked => order.completed?} %>
-					<%= link_to image_tag("edit.png", :mouseover => image_path("edit_over.png"), :border => 0, :alt => "Edit"), edit_product_order_path(order.find_product, order) %>
+					<%= link_to_if order.owner?(current_user) || admin?, image_tag("edit.png", :mouseover => image_path("edit_over.png"), :border => 0, :alt => "Edit"), edit_product_order_path(order.find_product, order) %>
 				</td>
 				<td nowrap>
 					<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;

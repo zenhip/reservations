@@ -1,16 +1,14 @@
 <h2>Rezervācija: <%= @order.created_at.to_s(:short_date_time) %></h2>
 
 <p>
-	&larr; <%= link_to "atpakaļ", product_path(@order.find_product) %> |
-	
-	<% admin_area do %>
-		<%= link_to "mainīt", edit_product_order_path(@order.find_product, @order) %> |
-	<% end %>
+	&larr; <%= link_to "atpakaļ", product_path(@order.find_product) %>
 	
 	<% if current_user_is_order_owner(@order) || admin? %>
-		<b><%= link_to "dzēst", order_path(@order), :method => :delete, :confirm => "tiešām?!"%></b>
+		| <%= link_to "mainīt", edit_product_order_path(@order.find_product, @order) %>
+		| <b><%= link_to_unless @order.completed?, "dzēst", order_path(@order), :method => :delete, :confirm => "tiešām?!"%></b>
 	<% end %>
 </p>
+
 user: <%= link_to user_login(@order.user), user_orders_path(@order.user) %><br />
 prod: <%= link_to product_name(@order.find_product), product_path(@order.find_product) %><br />
 created: <%= @order.created_at.to_s(:short_date_time) %><br />

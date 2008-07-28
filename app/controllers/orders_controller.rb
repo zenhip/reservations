@@ -138,8 +138,12 @@ class OrdersController < ApplicationController
   end
   
   def destroy
-    product = @order.find_product
-    @order.destroy
+    if @order.completed??
+      flash[:error] = "orderis atzīmēts kā izpildīts"
+    else
+      product = @order.find_product
+      @order.destroy
+    end
     redirect_to product_path(product)
   end
   
