@@ -138,7 +138,7 @@ class OrdersController < ApplicationController
   end
   
   def destroy
-    if @order.completed??
+    if @order.completed?
       flash[:error] = "orderis atzīmēts kā izpildīts"
     else
       product = @order.find_product
