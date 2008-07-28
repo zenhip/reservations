@@ -1,12 +1,18 @@
 <h2><%= category_name(@category) %></h2>
 <p>
-	&larr; <%= link_to "atpakaļ", categories_path %> |
+	&larr; <%= link_to "atpakaļ", categories_path %>
 	
 	<% admin_area do %>
-		<%= link_to "mainīt", edit_category_path(@category) %> |
-		<%= link_to "dzēst", category_path(@category), :method => :delete, :confirm => "tiešām?!"%> |
-		visi produkti |
-  	<%= link_to "jauns produkts", new_category_product_path(@category) %>
+		| <%= link_to "mainīt", edit_category_path(@category) %>
+		| <%= link_to "dzēst", category_path(@category), :method => :delete, :confirm => "tiešām?!"%>
+		
+		<% if current_page?(:show_products => :all) %>
+			| <%= link_to "aktīvie produkti", { :action => "show" } %>
+		<% else %>
+			| <%= link_to "visi produkti", { :action => "show", :show_products => :all } %>
+		<% end %>
+		
+  	| <%= link_to "jauns produkts", new_category_product_path(@category) %>
 		&rarr;
   <% end %>
 </p>
@@ -21,13 +27,17 @@
 		<th>Brīvi</th>
 	</tr>
 	<% @category.products.each do |product| %>
-		<% tr do %>
-			<td>
-				<%= link_to_if product.batches_available > 0, image_tag("book.png", :mouseover => image_path("book_over.png"), :border => 0, :alt => "Order"), new_product_order_path(product) %></td>
-			<td><%= link_to product_name(product), product_path(product) %></td>
-			<td><%= product.batches_quantity_total %></td>
-			<td><%= product.batches_reserved_total %></td>
-			<td><%= product.batches_available_total %></td>
+		<% unless (params[:show_products]) != "all" && !product.visible? %>
+		<%# if product.visible? %>
+			<% tr product.visible? ? {} : (options = {:class => "compl"}) do %>
+			<%# tr do %>
+				<td>
+					<%= link_to_if product.batches_available > 0 && product.visible?, image_tag("book.png", :mouseover => image_path("book_over.png"), :border => 0, :alt => "Order"), new_product_order_path(product) %></td>
+				<td><%= link_to product_name(product), product_path(product) %></td>
+				<td><%= product.batches_quantity_total %></td>
+				<td><%= product.batches_reserved_total %></td>
+				<td><%= product.batches_available_total %></td>
+			<% end %>
 		<% end %>
 	<% end %>
 <% else %>

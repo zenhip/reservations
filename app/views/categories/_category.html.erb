@@ -6,10 +6,12 @@
 </tr>
 <% if @page_id && @page_id == "product_category_#{category.id}" && category.products.any? %>
 	<% for product in category.products %>
-<tr bgcolor="#f2f2f2">
-	<td>
-		<div id="side_menu"><%= link_to "&nbsp;#{product_name(product)}", product_path(product) %></div>
-	</td>
-</tr>
+		<% if product.visible? %>
+			<tr bgcolor="#f2f2f2">
+				<td>
+					<div id="side_menu"><%= link_to "&nbsp;#{product_name(product)}", product_path(product) %></div>
+				</td>
+			</tr>
+		<% end %>
 	<% end %>
 <% end %>
