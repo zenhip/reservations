@@ -85,8 +85,8 @@ class Product < ActiveRecord::Base
        x << order
      end
    end
-   x.uniq
-   y = x.sort {|b,a| a.created_at <=> b.created_at}
+   #x.uniq
+   y = x.uniq.sort {|b,a| a.created_at <=> b.created_at}
   end
   
 end

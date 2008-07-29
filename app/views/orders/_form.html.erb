@@ -1,11 +1,11 @@
 <p><label>Daudzums</label><br />
-<%= f.text_field :quantity, :size => 10 %></p>
+<%= f.text_field :quantity, :size => 10, :disabled => @order.completed? ? true : false %></p>
 
 <p><label>Realizācijas datums</label><br />
-<%= f.date_select(:leave_on, :start_year => Time.now.year, :use_month_names => %w(Janvāris Februāris Marts Aprīlis Maijs Jūnijs Jūlijs Augusts Septembris Oktobris Novembris Decembris), :order => [:day, :month, :year]) %></p>
+<%= f.date_select(:leave_on, :start_year => Time.now.year, :use_month_names => %w(Janvāris Februāris Marts Aprīlis Maijs Jūnijs Jūlijs Augusts Septembris Oktobris Novembris Decembris), :order => [:day, :month, :year], :disabled => @order.completed? ? true : false) %></p>
 
 <p><label>Komentārs (rezervācijas mērķis)</label><br />
-<%= f.text_area :comment, :size => "30x4" %></p>
+<%= f.text_area :comment, :size => "30x4", :disabled => @order.completed? ? true : false %></p>
 
 <p><label>Izpildīts?</label>
 <%= f.check_box(:completed) %></p>

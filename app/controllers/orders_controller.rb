@@ -26,71 +26,80 @@ class OrdersController < ApplicationController
   
   def update
     @product = @order.find_product
-    #orderamount = @order.attributes[:quantity].to_i # 0
-    testorder = Order.new(params[:order])
-    orderamount = testorder.quantity
-    #quantity_sum = @product.batches_available_total + @order.orders_from_batches_quantity_sum
-    quantity_sum = @order.quantity_available_total_for_update
-    totamount = orderamount - @order.orders_from_batches_quantity_sum    
+    unless @order.completed?
+      #orderamount = @order.attributes[:quantity].to_i # 0
+      testorder = Order.new(params[:order])
+      orderamount = testorder.quantity
+      #quantity_sum = @product.batches_available_total + @order.orders_from_batches_quantity_sum
+      quantity_sum = @order.quantity_available_total_for_update
+      totamount = orderamount - @order.orders_from_batches_quantity_sum    
     
-    if orderamount > quantity_sum
-      flash[:error] = "nevar rezervēt vairāk kā noliktavā pieejams"
-      redirect_to edit_product_order_path(@product, @order)
-    elsif orderamount <= 0
-      flash[:error] = "par maz"
-      redirect_to edit_product_order_path(@product, @order)
-    else
-      # ja daudzums lielaaks kaa bija - taisam jaunus orders_from_batches
-      if totamount > 0
-      	@product.orderable_batches(totamount).each do |batch|
-      	  order_from_batch_amount = 0
-      	  if batch.available_total <= totamount
-      	    order_from_batch_amount = batch.available_total
-      	    totamount -= batch.available_total
-      	  else
-      	    order_from_batch_amount = totamount
-      	  end
-      	  @order.orders_from_batches.build(:batch_id => batch.id, :quantity => order_from_batch_amount)
-      	end
-      	if @order.save && @order.update_attributes(params[:order])
-          flash[:notice] = "izmainīts!"
-          redirect_to product_path(@product)
-        else
-          render :action => :edit
-        end
-      # ja daudzums mazāks kaa bija - panjemam vajadziigo no esoshajiem orders_from_batches
-      # paareejos orders_from_batches dzeesham
-      elsif totamount < 0
-      	@order.orders_from_batches.each do |ofb|
-      		order_from_batch_amount = 0
-      		unless orderamount == 0
-        		if ofb.quantity <= orderamount
-        	    order_from_batch_amount = ofb.quantity
-        	    orderamount -= ofb.quantity
+      if orderamount > quantity_sum
+        flash[:error] = "nevar rezervēt vairāk kā noliktavā pieejams"
+        redirect_to edit_product_order_path(@product, @order)
+      elsif orderamount <= 0
+        flash[:error] = "par maz"
+        redirect_to edit_product_order_path(@product, @order)
+      else
+        # ja daudzums lielaaks kaa bija - taisam jaunus orders_from_batches
+        if totamount > 0
+        	@product.orderable_batches(totamount).each do |batch|
+        	  order_from_batch_amount = 0
+        	  if batch.available_total <= totamount
+        	    order_from_batch_amount = batch.available_total
+        	    totamount -= batch.available_total
         	  else
-        	    order_from_batch_amount = orderamount
-        	    orderamount = 0
+        	    order_from_batch_amount = totamount
         	  end
-      	    ofb.update_attribute(:quantity, order_from_batch_amount)
-    	    else
-    	      ofb.destroy
-    	    end
-      	end
-      	if @order.save && @order.update_attributes(params[:order])
-          flash[:notice] = "izmainīts!"
-          redirect_to product_path(@product)
+        	  @order.orders_from_batches.build(:batch_id => batch.id, :quantity => order_from_batch_amount)
+        	end
+        	if @order.save && @order.update_attributes(params[:order])
+            flash[:notice] = "izmainīts!"
+            redirect_to product_path(@product)
+          else
+            render :action => :edit
+          end
+        # ja daudzums mazāks kaa bija - panjemam vajadziigo no esoshajiem orders_from_batches
+        # paareejos orders_from_batches dzeesham
+        elsif totamount < 0
+        	@order.orders_from_batches.each do |ofb|
+        		order_from_batch_amount = 0
+        		unless orderamount == 0
+          		if ofb.quantity <= orderamount
+          	    order_from_batch_amount = ofb.quantity
+          	    orderamount -= ofb.quantity
+          	  else
+          	    order_from_batch_amount = orderamount
+          	    orderamount = 0
+          	  end
+        	    ofb.update_attribute(:quantity, order_from_batch_amount)
+      	    else
+      	      ofb.destroy
+      	    end
+        	end
+        	if @order.save && @order.update_attributes(params[:order])
+            flash[:notice] = "izmainīts!"
+            redirect_to product_path(@product)
+          else
+            render :action => :edit
+          end
+        # ja daudzums palicis nemainiigs - vienk updeitojam orderi
         else
-          render :action => :edit
-        end
-      # ja daudzums palicis nemainiigs - vienk updeitojam orderi
-    	else
-    	  if @order.update_attributes(params[:order])
-          flash[:notice] = "orderis izmainīts!"
-          redirect_to product_path(@product)
-        else
-          render :action => :edit
-        end
-  	  end
+      	  if @order.update_attributes(params[:order])
+            flash[:notice] = "orderis izmainīts!"
+            redirect_to product_path(@product)
+          else
+            render :action => :edit
+          end
+    	  end
+      end
+    else
+      if @order.update_attributes(params[:order].slice(:completed))
+        flash[:notice] = "orderis aktīvs!"
+        redirect_to product_path(@product)
+      else
+        render :action => :edit
+      end
     end
   end
   
