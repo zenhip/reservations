@@ -77,15 +77,16 @@ class Product < ActiveRecord::Base
     batchids
 	end
 	
-	def find_orders
-	  x = []
-    y = []
-	  self.batches.each do |batch|
-	    for order in batch.orders
-	      x << order
-      end
-    end
-    y = x.uniq
-	end
-	
+  def find_orders
+   x = []
+   y = []
+   self.batches.each do |batch|
+     for order in batch.orders
+       x << order
+     end
+   end
+   x.uniq
+   y = x.sort {|b,a| a.created_at <=> b.created_at}
+  end
+  
 end
