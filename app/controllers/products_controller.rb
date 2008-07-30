@@ -45,14 +45,14 @@ class ProductsController < ApplicationController
   end
   
   def destroy
-    if @product.batches.any?
-      flash[:error] = "Produktu nevar dzēst, ja tam ir partijas"
-      redirect_to category_path(@product.category)
-    else
+    #if @product.batches.any?
+    #  flash[:error] = "Produktu nevar dzēst, ja tam ir partijas"
+    #  redirect_to category_path(@product.category)
+    #else
       @product.destroy
       flash[:notice] = "Produkts dzēsts"
       redirect_to category_path(@product.category)
-    end
+    #end
   end
   
   protected

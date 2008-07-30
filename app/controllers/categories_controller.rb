@@ -48,11 +48,13 @@ class CategoriesController < ApplicationController
   def destroy
     if @category.products.any?
       flash[:error] = "Kategoriju nevar dzēst, ja tajā ir produkti"
+      redirect_to category_path
     else
       @category.destroy
       flash[:notice] = "Kategorija dzēsta"
+      redirect_to categories_path
     end
-    redirect_to categories_path
+    
   end
   
   protected

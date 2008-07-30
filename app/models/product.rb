@@ -79,14 +79,12 @@ class Product < ActiveRecord::Base
 	
   def find_orders
    x = []
-   y = []
    self.batches.each do |batch|
      for order in batch.orders
        x << order
      end
    end
-   #x.uniq
-   y = x.uniq.sort {|b,a| a.created_at <=> b.created_at}
+   x.uniq.sort {|b,a| a.created_at <=> b.created_at}
   end
   
 end

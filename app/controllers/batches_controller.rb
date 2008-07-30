@@ -40,7 +40,7 @@ class BatchesController < ApplicationController
   def update
     #@batch.update_attributes(params[:batch].slice(:arrival_date, :quantity))
     if @batch.update_attributes(params[:batch])
-      redirect_to product_batches_path(@batch.product)
+      redirect_to batch_path
     else
       render :action => :edit
     end
@@ -53,7 +53,7 @@ class BatchesController < ApplicationController
       @batch.destroy
       flash[:notice] = "Produkta partija dzēsta"
     end
-    redirect_to product_path(@batch.product)
+    redirect_to batch_path
   end
   
   protected

@@ -9,7 +9,7 @@
 		<% if current_page?(:show_products => :all) %>
 			| <%= link_to "aktīvie produkti", { :action => "show" } %>
 		<% else %>
-			| <%= link_to "visi produkti", { :action => "show", :show_products => :all } %>
+			| <%= link_to_if @category.products.any?, "visi produkti", { :action => "show", :show_products => :all } %>
 		<% end %>
 		
   	| <%= link_to "jauns produkts", new_category_product_path(@category) %>
@@ -32,11 +32,11 @@
 			<% tr product.visible? ? {} : (options = {:class => "compl"}) do %>
 			<%# tr do %>
 				<td>
-					<%= link_to_if product.batches_available > 0 && product.visible?, image_tag("book.png", :mouseover => image_path("book_over.png"), :border => 0, :alt => "Order"), new_product_order_path(product) %></td>
+					<%= link_to_if product.batches_available > 0, image_tag("book.png", :mouseover => image_path("book_over.png"), :border => 0, :alt => "Order"), new_product_order_path(product) %></td>
 				<td><%= link_to product_name(product), product_path(product) %></td>
-				<td><%= product.batches_quantity_total %></td>
-				<td><%= product.batches_reserved_total %></td>
-				<td><%= product.batches_available_total %></td>
+				<td><%= product.batches_quantity %></td>
+				<td><%= product.incomplete_orders_quantity %></td>
+				<td><%= product.batches_available %></td>
 			<% end %>
 		<% end %>
 	<% end %>
