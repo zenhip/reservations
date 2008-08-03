@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(:version => 16) do
   end
 
   create_table "orders", :force => true do |t|
-    t.integer  "user_id",                   :null => false
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "comment"

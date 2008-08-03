@@ -51,7 +51,7 @@ class BatchesController < ApplicationController
       flash[:error] = "Partiju nevar dzēst, ja tai ir rezervācijas"
     else
       @batch.destroy
-      flash[:notice] = "Produkta partija dzēsta"
+      flash[:notice] = "Produkta partija dzēsta!"
     end
     redirect_to batch_path
   end

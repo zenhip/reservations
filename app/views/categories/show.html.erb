@@ -21,6 +21,7 @@
 <% if @category.products.any? %>
 	<tr>
 		<th width="10px"></th>
+		<th width="10px"></th>
 		<th>Produkts</th>
 		<th>Daudzums</th>
 		<th>Rezervēti</th>
@@ -31,12 +32,22 @@
 		<%# if product.visible? %>
 			<% tr product.visible? ? {} : (options = {:class => "compl"}) do %>
 			<%# tr do %>
-				<td>
-					<%= link_to_if product.batches_available > 0, image_tag("book.png", :mouseover => image_path("book_over.png"), :border => 0, :alt => "Order"), new_product_order_path(product) %></td>
+				<td><%= link_to_if product.batches_available > 0, image_tag("book.png", :mouseover => image_path("book_over.png"), :border => 0, :alt => "Order"), new_product_order_path(product) %></td>
+				<td><%= link_to_function image_tag("info.png", :mouseover => image_path("info_over.png"), :border => 0, :alt => "Info"), "Element.toggle('toggle_#{product.id.to_s}')" %></td>
 				<td><%= link_to product_name(product), product_path(product) %></td>
 				<td><%= product.batches_quantity %></td>
 				<td><%= product.incomplete_orders_quantity %></td>
 				<td><%= product.batches_available %></td>
+			<% end %>
+			<% content_tag :tr, :id => "toggle_#{product.id.to_s}", :style => "display: none;", :bgcolor => "white" do %>
+				<% content_tag :td, :colspan => "6" do %>
+					<table width="100%" border="0" cellspacing="2" cellpadding="2">
+						<tr>
+							<td valign="top"><%= image_tag "/files/atlas.jpg", :height => "100px" %></td>
+							<td valign="top" width="100%">apraksts...</td>
+						</tr>
+					</table>
+				<% end %>
 			<% end %>
 		<% end %>
 	<% end %>
