@@ -20,8 +20,8 @@
 		<th>Realizācija</th>
 		<th>Komentārs</th>
 	</tr>
-	<% order_list = (params[:show_orders]) == "all" ? @user_orders_list : @user_not_completed_orders_list %>
-	<% order_list.each do |order| %>
+	<% orders_list = (params[:show_orders]) == "all" ? @user_orders_list : @user_not_completed_orders_list %>
+	<% orders_list.each do |order| %>
 		<% tr order.completed? ? (options = {:class => "compl"}) : {} do %>
 			<td>
 				<%= link_to_if order.owner?(current_user) || admin?, image_tag("edit.png", :mouseover => image_path("edit_over.png"), :border => 0, :alt => "Edit"), edit_product_order_path(order.find_product, order) %>
@@ -55,9 +55,9 @@
 			</td>
 		<% end %>
 	<% end %>
-</table>
+</table><br />
+<%= will_paginate orders_list %>
+
 <% else %>
 	<p>Nav rezervāciju.</p>
 <% end %>
-<br />
-<%= will_paginate order_list %>
