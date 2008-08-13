@@ -61,5 +61,12 @@ class Order < ActiveRecord::Base
     end
   end
   
+  def self.paginated_list(user, page)
+    paginate_by_user_id(user.id, :page => page, :per_page => 4, :order => "created_at desc")
+  end
+  
+  def self.paginated_not_completed_list(user, page)
+    paginate_by_user_id(user.id, :conditions =>[ "completed = ?", 0 ], :page => page, :per_page => 4, :order => "created_at desc")
+  end
   
 end

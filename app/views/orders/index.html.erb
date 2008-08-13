@@ -1,5 +1,15 @@
 <h2><%= @user == current_user ? "manas" : user_login(@user); %> rezervācijas</h2>
 
+<% if @user.orders.any? %>
+
+<p>
+	<% if (params[:show_orders]) == "all" %>
+		<%= link_to "slēpt izpildītas", { :action => "index" } %>
+	<% else %>
+		<%= link_to "rādīt visas", { :show_orders => "all" } %>
+	<% end %>
+</p>
+
 <%# Css.. :) %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
@@ -10,52 +20,44 @@
 		<th>Realizācija</th>
 		<th>Komentārs</th>
 	</tr>
-<% if @user.orders.any? %>
-	<% @user.orders.each do |order| %>
-		<%# unless order.completed? %>
-	
-				  <%# ir taads forshs verkjis cycle('even', 'odd'), kuru var lietot kopaa ar tr klasi: %>
-				  <%# <tr class="<%= cycle('even', 'odd') " %>
-				  <%# ..vai get bones un lieto tr do ... end, kas liek to cycle: %>
-				  <%# http://dev.bitmap.lv/trac/plugins/browser/bones/generators/bones/templates/bones_helper.rb.erb#L61 - def tr ... end %>
-	
-			<%# tr do %>
-			<% tr order.completed? ? (options = {:class => "compl"}) : {} do %>
-				<td><%#= check_box :order, :completed, {:checked => order.completed?} %>
-					<%= link_to_if order.owner?(current_user) || admin?, image_tag("edit.png", :mouseover => image_path("edit_over.png"), :border => 0, :alt => "Edit"), edit_product_order_path(order.find_product, order) %>
-				</td>
-				<td nowrap>
-					<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
-				</td>
-				<td>
-					<%= link_to product_name(order.find_product), product_path(order.find_product) %>
-					[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
-				</td>
-				<td>
-					<%= order.orders_from_batches_quantity_sum %>
-				</td>
-				<td>
-					<% leave_date = order.leave_on.to_date %>
-					<% short_leave_date = order.leave_on.to_s(:short_date) %>
-			
-					<% if leave_date < Date.today %>
-						<font color="gray"><%= short_leave_date %></font>
-					<% elsif leave_date >= Date.today && leave_date <= Date.today + 2.days %>
-						<font color="red"><%= short_leave_date %></font>
-					<% elsif leave_date > Date.today + 2.days && leave_date < Date.today + 7.days %>
-						<font color="brown"><%= short_leave_date %></font>
-					<% else %>
-						<font color="black"><%= short_leave_date %></font>
-					<% end %>
-				</td>
-				<td>
-					<%= truncate(h(order.comment), 25) %>
-				</td>
-			<% end %>
-		<%# end %>
+	<% order_list = (params[:show_orders]) == "all" ? @user_orders_list : @user_not_completed_orders_list %>
+	<% order_list.each do |order| %>
+		<% tr order.completed? ? (options = {:class => "compl"}) : {} do %>
+			<td>
+				<%= link_to_if order.owner?(current_user) || admin?, image_tag("edit.png", :mouseover => image_path("edit_over.png"), :border => 0, :alt => "Edit"), edit_product_order_path(order.find_product, order) %>
+			</td>
+			<td nowrap>
+				<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
+			</td>
+			<td>
+				<%= link_to product_name(order.find_product), product_path(order.find_product) %>
+				[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
+			</td>
+			<td>
+				<%= order.orders_from_batches_quantity_sum %>
+			</td>
+			<td>
+				<% leave_date = order.leave_on.to_date %>
+				<% short_leave_date = order.leave_on.to_s(:short_date) %>
+		
+				<% if leave_date < Date.today %>
+					<font color="gray"><%= short_leave_date %></font>
+				<% elsif leave_date >= Date.today && leave_date <= Date.today + 2.days %>
+					<font color="red"><%= short_leave_date %></font>
+				<% elsif leave_date > Date.today + 2.days && leave_date < Date.today + 7.days %>
+					<font color="brown"><%= short_leave_date %></font>
+				<% else %>
+					<font color="black"><%= short_leave_date %></font>
+				<% end %>
+			</td>
+			<td>
+				<%= truncate(h(order.comment), 25) %>
+			</td>
+		<% end %>
 	<% end %>
+</table>
 <% else %>
 	<p>Nav rezervāciju.</p>
 <% end %>
-</table>
 <br />
+<%= will_paginate order_list %>

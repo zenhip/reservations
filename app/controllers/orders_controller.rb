@@ -11,7 +11,9 @@ class OrdersController < ApplicationController
   def index
     @page_title = @user.login.capitalize
     
-    @orders = Order.find_all
+    #@orders = Order.find_all
+    @user_orders_list = Order.paginated_list(@user, params[:page])
+    @user_not_completed_orders_list = Order.paginated_not_completed_list(@user, params[:page])
   end
   
   def show
