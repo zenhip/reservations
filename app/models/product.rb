@@ -16,6 +16,8 @@ class Product < ActiveRecord::Base
     # end
   end
   
+  has_many :assets, :dependent => :destroy, :order => 'created_at desc'
+  
   validates_presence_of :name, :category_id
   validates_uniqueness_of :name
   

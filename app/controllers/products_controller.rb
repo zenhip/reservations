@@ -36,7 +36,11 @@ class ProductsController < ApplicationController
   end
   
   def create
-    @product = @category.products.build(params[:product].slice(:name))
+    @product = @category.products.build(params[:product].slice(:name, :visible))
+    unless params[:product][:uploaded_data] == ""
+      @product.assets.build(params[:product].slice(:uploaded_data))
+    end
+    
     if @product.save
       redirect_to category_path(@product.category)
     else

@@ -3,7 +3,7 @@
 
 <%= error_messages_for :product %>
 
-<% form_for :product, :url => category_products_path(:category_id => @category) do |f| %>
+<% form_for :product, :url => category_products_path(:category_id => @category), :html => {:multipart => true} do |f| %>
   <%= render :partial => "form", :locals => {:f => f} %>
   <p><%= submit_tag "Pievienot" %></p>
 <% end %>

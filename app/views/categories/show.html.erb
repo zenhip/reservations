@@ -43,7 +43,11 @@
 				<% content_tag :td, :colspan => "6" do %>
 					<table width="100%" border="0" cellspacing="2" cellpadding="2">
 						<tr>
-							<td valign="top"><%= image_tag "/files/atlas.jpg", :height => "100px" %></td>
+							<td valign="top">
+								<% for asset in product.assets do %>
+									<%= image_tag asset.public_filename, :height => "100px" %><br />
+								<% end %>
+							</td>
 							<td valign="top" width="100%">apraksts...</td>
 						</tr>
 					</table>

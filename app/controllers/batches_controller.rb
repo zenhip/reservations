@@ -57,13 +57,13 @@ class BatchesController < ApplicationController
   end
   
   protected
+
+  def find_product_by_product_id
+    @product = Product.find(params[:product_id])
+  end
   
-    def find_product_by_product_id
-      @product = Product.find(params[:product_id])
-    end
-    
-    def find_batch_by_id
-      @batch = Batch.find(params[:id])
-    end
+  def find_batch_by_id
+    @batch = Batch.find(params[:id])
+  end
 
 end
