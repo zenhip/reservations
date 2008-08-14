@@ -43,6 +43,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.welcome '', :controller => "categories"
   
+  map.resources :assets
+  
   map.resources :categories do |category|
     category.resources :products, :name_prefix => "category_"
   end

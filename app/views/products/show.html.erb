@@ -2,6 +2,12 @@
 <%= @product.visible? ? "" : "<font color=red>Produkts nav redzams!</font>" %>
 
 <p>
+	<% for asset in @product.assets do %>
+		<%= image_tag asset.public_filename, :height => "50px" %>
+	<% end %>
+</p>
+
+<p>
 	&larr; <%= link_to "atpakaļ", category_path(@product.category) %>
 	| <%= link_to_if @product.batches_available > 0, "rezervēt", new_product_order_path(@product) %>
 	

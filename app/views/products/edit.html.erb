@@ -3,7 +3,18 @@
 
 <%= error_messages_for :product %>
 
-<% form_for :product, :url => product_path(@product), :html => {:method => :put} do |f| %>
+<table border="0" cellspacing="2" cellpadding="1">
+	<tr>
+	<% @product.assets.each do |asset| %>
+		<td align="center">
+		<%= image_tag asset.public_filename, :height => "50px" %><br />
+		<%= link_to "dzēst", asset, :method => :delete, :confirm => "tiešām?!" %>
+		</td>
+	<% end %>	
+	</tr>
+</table>
+
+<% form_for :product, :url => product_path(@product), :html => {:method => :put, :multipart => true} do |f| %>
   <%= render :partial => "form", :locals => {:f => f} %>
   <p><%= submit_tag "Izmainīt" %></p>
 <% end %>

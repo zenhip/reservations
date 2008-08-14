@@ -12,15 +12,6 @@ class ProductsController < ApplicationController
   def show
     @page_title = @product.name
     @page_id = "product_category_#{@product.category.id}"
-    
-  end
-  
-  def update
-    if @product.update_attributes(params[:product])#.slice(:name))
-      redirect_to product_path
-    else
-      render :action => :edit
-    end
   end
   
   def new
@@ -30,14 +21,9 @@ class ProductsController < ApplicationController
     @product = Product.new
   end
   
-  def edit
-    @page_title = "Mainīt produktu"
-    @page_id = "product_category_#{@product.category.id}"
-  end
-  
   def create
     @product = @category.products.build(params[:product].slice(:name, :visible))
-    unless params[:product][:uploaded_data] == ""
+    unless params[:product][:uploaded_data] == "" #blank?
       @product.assets.build(params[:product].slice(:uploaded_data))
     end
     
@@ -45,6 +31,24 @@ class ProductsController < ApplicationController
       redirect_to category_path(@product.category)
     else
       render :action => :new
+    end
+  end
+  
+  def edit
+    @page_title = "Mainīt produktu"
+    @page_id = "product_category_#{@product.category.id}"
+    
+  end
+  
+  def update
+    unless params[:product][:uploaded_data] == ""
+      @product.assets.build(params[:product].slice(:uploaded_data))
+    end
+    
+    if @product.update_attributes(params[:product].slice(:name, :visible))
+      redirect_to product_path
+    else
+      render :action => :edit
     end
   end
   
@@ -59,14 +63,15 @@ class ProductsController < ApplicationController
     #end
   end
   
+  
   protected
-    
-    def find_category_by_category_id
-      @category = Category.find(params[:category_id])
-    end
-    
-    def find_product_by_id
-      @product = Product.find(params[:id])
-    end
-    
+  
+  def find_category_by_category_id
+    @category = Category.find(params[:category_id])
+  end
+  
+  def find_product_by_id
+    @product = Product.find(params[:id])
+  end
+  
 end
