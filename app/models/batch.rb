@@ -2,7 +2,7 @@ class Batch < ActiveRecord::Base
   
   belongs_to :product
   
-  has_many :orders, :through => :orders_from_batches, :dependent => :destroy, :order => "created_at desc"
+  has_many :orders, :through => :orders_from_batches, :dependent => :destroy#, :order => "created_at desc"
   has_many :orders_from_batches, :dependent => :destroy, :order => "created_at desc"
   
   validates_presence_of :arrive_on, :product_id, :quantity

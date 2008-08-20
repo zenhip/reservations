@@ -53,9 +53,6 @@
 						<%= link_to_if order.owner?(current_user) || admin?, image_tag("edit.png", :mouseover => image_path("edit_over.png"), :border => 0, :alt => "Edit"), edit_product_order_path(@product, order) %>
 					</td>
 					<td>
-				  <%# šādiem un visiem pārējiem vajadzētu būt helperos (OrdersFromBatchesHelper) %>
-				  <%#= orders_from_batches_created orders_from_batches %>
-				  <%# vai var proveet lietot to bones esošo l(orders_from_batches).created helperu shortcutu %>
 						<%= link_to order.created_at.to_s(:short_date_time), product_order_path(@product, order) %> &nbsp;
 					</td>
 					<td>
@@ -88,13 +85,4 @@
 <% else %>
 	<p>Produktam nav nevienas partijas.</p>
 <% end %>
-
-<%# admin_area do %>
-  <%#  veel var overraidot link_to_unless shaadiem. defaultais raada linka tekstu, ja unless izpildaas. %>
-  <%#  vai uztaisiit link_if_admin_to "pievienot partiju", .... %>
-  <%#  
-    def link_if_admin_to(*args)
-      link_to(*args) if admin?
-    end
-  %>
 </table><br />
