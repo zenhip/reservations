@@ -8,6 +8,10 @@ a { color: #666; }
 a:visited { color: #666; }
 a:hover { color: #000; }
 
+.admin_area a {
+	font-weight: bold;
+}
+
 div#bg {
 	position: absolute;
 	left: 0;
@@ -16,25 +20,29 @@ div#bg {
 	height: 100%;
 }
 
-.admin_area a {
-	font-weight: bold;
-}
-
 div#main_menu {
-	font-family: verdana;
+	
 }
 
 div#side_menu a {
 	color: #333;
-	vertical-align: top;
 	padding-left: 0.4em;
 	text-decoration: none;
 	display: block;
+	border-top: 0.1em solid #ccc;
 }
 
 div#side_menu a:hover {
 	color: #000;
-	background: #ccc;
+	background: #e2e2e2;
+}
+
+td.main_menu {
+	font-family: verdana;
+	height: 2.2em;
+	background: #e2e2e2;
+	vertical-align: bottom;
+	border-bottom: 0.1em solid #ccc;
 }
 
 table tr.even td, tr.odd td, tr.compl td {
@@ -43,7 +51,7 @@ table tr.even td, tr.odd td, tr.compl td {
 }
 
 table tr.even {
-	background: #fbfbfb;
+	background: #fff;
 }
 
 table tr.odd {
@@ -51,19 +59,22 @@ table tr.odd {
 }
 
 table tr.compl {
-	background: #aaa;
-}
-
-table tr.even:hover, .odd:hover, .compl:hover {
 	background: #ccc;
 }
 
-table tr th {
+table tr.compl:hover {
+	background: #ccc;
+}
+
+table tr.even:hover, .odd:hover, .compl:hover {
 	background: #e2e2e2;
+}
+
+table tr th {
+	background: #f2f2f2;
 	padding: 0.2em;
 	padding-right: 1em;
 	white-space: nowrap;
 	color: #333;
 	text-align: left;
-	vertical-align: top;
 }

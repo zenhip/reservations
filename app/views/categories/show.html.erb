@@ -41,12 +41,12 @@
 			<% end %>
 			<% content_tag :tr, :id => "toggle_#{product.id.to_s}", :style => "display: none;", :bgcolor => "white" do %>
 				<% content_tag :td, :colspan => "6" do %>
-					<table width="100%" border="0" cellspacing="2" cellpadding="2">
+					<table width="100%" border="0" cellspacing="10" cellpadding="0">
 						<tr>
-							<td valign="top">
+							<td valign="top"><p>
 								<% for asset in product.assets do %>
 									<%= image_tag asset.public_filename, :height => "100px" %><br />
-								<% end %>
+								<% end %></p>
 							</td>
 							<td valign="top" width="100%">
 								<%= simple_format(h(product.description)) %>
