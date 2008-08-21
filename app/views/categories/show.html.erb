@@ -48,7 +48,9 @@
 									<%= image_tag asset.public_filename, :height => "100px" %><br />
 								<% end %>
 							</td>
-							<td valign="top" width="100%">apraksts...</td>
+							<td valign="top" width="100%">
+								<%= simple_format(h(product.description)) %>
+							</td>
 						</tr>
 					</table>
 				<% end %>

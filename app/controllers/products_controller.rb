@@ -22,7 +22,7 @@ class ProductsController < ApplicationController
   end
   
   def create
-    @product = @category.products.build(params[:product].slice(:name, :visible))
+    @product = @category.products.build(params[:product].slice(:name, :visible, :description))
     unless params[:product][:uploaded_data] == "" #blank?
       @product.assets.build(params[:product].slice(:uploaded_data))
     end
@@ -45,7 +45,7 @@ class ProductsController < ApplicationController
       @product.assets.build(params[:product].slice(:uploaded_data))
     end
     
-    if @product.update_attributes(params[:product].slice(:name, :visible))
+    if @product.update_attributes(params[:product].slice(:name, :visible, :description))
       redirect_to product_path
     else
       render :action => :edit
