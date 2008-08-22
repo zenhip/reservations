@@ -29,7 +29,7 @@
 				<%= link_to_if order.owner?(current_user) || admin?, image_tag("edit.png", :mouseover => image_path("edit_over.png"), :border => 0, :alt => "Edit"), edit_product_order_path(order.find_product, order) %>
 			</td>
 			<td nowrap>
-				<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %> &nbsp;
+				<%= link_to order.created_at.to_s(:short_date_time), product_order_path(order.find_product, order) %> &nbsp;
 			</td>
 			<td>
 				<%= link_to product_name(order.find_product), product_path(order.find_product) %>

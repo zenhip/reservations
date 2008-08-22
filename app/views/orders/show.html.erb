@@ -1,15 +1,15 @@
-<% @page_pid = {:category => @order.find_product.category, :product => @order.find_product} %>
+<% @page_pid = {:category => @order.find_product.category, :product => @order.find_product, :order => @order} %>
 <% @page_title = @order.created_at.to_s(:short_date_time) %>
 
 <div class="header">Rezervācija: <%= @order.created_at.to_s(:short_date_time) %></div>
 
+<% if current_user_is_order_owner(@order) || admin? %>
 <div class="caption">
-	<% if current_user_is_order_owner(@order) || admin? %>
-		<%= link_to "mainīt", edit_product_order_path(@order.find_product, @order) %>
-		| <b><%= link_to_unless @order.completed?, "dzēst", order_path(@order), :method => :delete, :confirm => "tiešām?!"%></b>
-	<% end %>
-</div>
-<br />
+	<%= link_to "mainīt", edit_product_order_path(@order.find_product, @order) %>
+	| <b><%= link_to_unless @order.completed?, "dzēst", order_path(@order), :method => :delete, :confirm => "tiešām?!"%></b>
+</div><br />
+<% end %>
+
 user: <%= link_to user_login(@order.user), user_orders_path(@order.user) %><br />
 prod: <%= link_to product_name(@order.find_product), product_path(@order.find_product) %><br />
 created: <%= @order.created_at.to_s(:short_date_time) %><br />

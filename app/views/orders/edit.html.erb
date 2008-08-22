@@ -1,4 +1,4 @@
-<% @page_pid = {:category => @product.category, :product => @product} %>
+<% @page_pid = {:category => @order.find_product.category, :product => @order.find_product, :order => @order} %>
 <% @page_title = "Mainīt rezervāciju" %>
 
 <div class="header"><%= @order.created_at.to_s(:short_date_time) %></div>

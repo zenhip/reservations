@@ -30,6 +30,7 @@ div .caption{
 
 div .header {
 	font-family: sans-serif;
+	color: #333;
 	font-size: 2em;
 	font-weight: bold;
 	padding-top: 0.7em;
@@ -52,11 +53,11 @@ div#side_menu a {
 
 div#side_menu_selected a {
 	color: #000;
-	padding-left: 0.4em;
+	padding-left: 0em;
 	text-decoration: none;
 	display: block;
 	border-top: 0.1em solid #ccc;
-	border-right: 0.1em solid #ccc;
+	border-right: 0.2em solid #ccc;
 	border-left: 0.4em solid #ccc;
 }
 

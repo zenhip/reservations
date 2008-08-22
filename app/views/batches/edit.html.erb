@@ -1,4 +1,4 @@
-<% @page_pid = {:category => @batch.product.category, :product => @batch.product} %>
+<% @page_pid = {:category => @batch.product.category, :product => @batch.product, :batches => "batches", :batch => @batch} %>
 <% @page_title = "Mainīt partiju" %>
 
 <div class="header">Partija: <%= @batch.arrive_on.to_s(:short_date) %></div>

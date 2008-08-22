@@ -30,11 +30,20 @@ module ApplicationHelper
       unless @page_pid[:product] == nil
         path << link_to_unless_current(product_name(@page_pid[:product]), product_path(@page_pid[:product]))
       end
-      #unless @page_pid[:order] == nil
-      #  path << link_to_unless_current(@page_pid[:order].created_at.to_s(@page_pid[:order]), product_orders_path(@page_pid[:order]))
-      #end
+      
+      unless @page_pid[:order] == nil
+        path << link_to_unless_current(@page_pid[:order].created_at.to_s(:short_date_time), product_order_path(@page_pid[:product], @page_pid[:order]))
+      end
+      
+      unless @page_pid[:batches] == nil
+        path << link_to_unless_current("partijas", product_batches_path(@page_pid[:product]))
+      end
+      unless @page_pid[:batch] == nil
+        path << link_to_unless_current(@page_pid[:batch].arrive_on.to_s(:short_date), batch_path)
+      end
+      
       unless @page_pid[:users] == nil
-        path << link_to_unless_current("users", users_path)
+        path << link_to_unless_current("lietotāji", users_path)
       end
       unless @page_pid[:user] == nil
         path << link_to_unless_current(user_login(@page_pid[:user]), user_orders_path(@page_pid[:user]))
