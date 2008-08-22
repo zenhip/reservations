@@ -4,12 +4,20 @@
 		<b><div id="side_menu"><%= link_to category_name(category), category_path(category) %></div></b>
 	</td>
 </tr>
-<% if @page_id && @page_id == "product_category_#{category.id}" && category.products.any? %>
+<%# if @page_id && @page_id == "product_category_#{category.id}" && category.products.any? %>
+<% if @page_pid && category == @page_pid[:category] && category.products.any? %>
 	<% for product in category.products %>
 		<% if product.visible? %>
 			<tr>
 				<td>
-					<div id="side_menu"><%= link_to "&nbsp;#{product_name(product)}", product_path(product) %></div>
+					<% if @page_pid && product == @page_pid[:product] %>
+					<div id="side_menu_selected">
+					<% else %>
+					<div id="side_menu">
+					<% end %>
+					
+					<%= link_to "&nbsp;#{product_name(product)}", product_path(product) %>
+					</div>
 				</td>
 			</tr>
 		<% end %>

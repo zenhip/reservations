@@ -32,7 +32,22 @@ div#side_menu a {
 	border-top: 0.1em solid #ccc;
 }
 
+div#side_menu_selected a {
+	color: #000;
+	padding-left: 0.4em;
+	text-decoration: none;
+	display: block;
+	border-top: 0.1em solid #ccc;
+	border-right: 0.1em solid #ccc;
+	border-left: 0.4em solid #ccc;
+}
+
 div#side_menu a:hover {
+	color: #000;
+	background: #e2e2e2;
+}
+
+div#side_menu_selected a:hover {
 	color: #000;
 	background: #e2e2e2;
 }
@@ -59,11 +74,11 @@ table tr.odd {
 }
 
 table tr.compl {
-	background: #ccc;
+	background: lightgreen;
 }
 
 table tr.compl:hover {
-	background: #ccc;
+	background: lightgreen;
 }
 
 table tr.even:hover, .odd:hover, .compl:hover {

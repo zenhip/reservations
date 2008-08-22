@@ -21,6 +21,12 @@ module ApplicationHelper
   #   }
   # end
   
+  def site_path
+    path = []
+    path << link_to("Home", welcome_path)
+    path.to_sentence
+  end
+  
   # see /app/views/categories/show.html.erb
   # Block is nested inside <tr class="even | odd"> .. </tr>
   def tr(options = {}, &block)
