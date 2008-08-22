@@ -7,25 +7,16 @@ class BatchesController < ApplicationController
   before_filter :find_batch_by_id, :only => [:show, :destroy, :edit, :update]
   
   def index
-    @page_title = "#{@product.name} partijas"
-    @page_id = "product_category_#{@product.category.id}"
   end
 
   def new
-    @page_title = "Jauna partija"
-    @page_id = "product_category_#{@product.category.id}"
-    
     @batch = Batch.new
   end
 
   def edit
-    @page_title = "Mainīt partiju"
-    @page_id = "product_category_#{@batch.product.category.id}"
   end
 
   def show
-    @page_title = "Partija #{@batch.arrive_on.to_s(:short_date)}"
-    @page_id = "product_category_#{@batch.product.category.id}"
   end
   
   def create

@@ -1,9 +1,13 @@
-<h2>Kategorijas</h2>
-<p>
-	<% admin_area do %>
-  	<%= link_to "jauna kategorija", new_category_path %>
-  <% end %>
-</p>
+<% @page_title = "Kategorijas" %>
+
+<div class="header">Kategorijas</div>
+
+<% admin_area do %>
+<div class="caption">
+ 	<%= link_to "jauna kategorija", new_category_path %>
+</div>
+<% end %>
+
 <p>
 	<% @categories.each do |category| %>
 		<%= link_to category_name(category), category_path(category) %> (<%= category.products.count %>)<br />

@@ -1,6 +1,11 @@
-<% @page_title = " - Mainīt lietotāja datus" %>
+<% @page_pid = {:users => "users", :user => @user} %>
+<% @page_title = "Mainīt lietotāja datus" %>
 
-<h2>Mainīt datus lietotājam <%= user_login(@user).capitalize %></h2>
+<div class="header"><%= user_login(@user).capitalize %></div>
+
+<div class="caption">
+	<font size="2.5em" face="Monaco" color="orange">Mainīt</font>
+</div>
 
 <%= error_messages_for :user %>
 
@@ -14,7 +19,3 @@
 	
   <p><%= submit_tag "Izmainīt" %></p>
 <% end %>
-
-<p>
-	&larr; <%= link_to "atpakaļ", users_path %>
-</p>

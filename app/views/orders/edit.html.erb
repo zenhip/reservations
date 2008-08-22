@@ -1,10 +1,15 @@
-<font size="2.5em" face="Monaco" color="orange">Mainīt</font>
-<h2><%= @order.created_at.to_s(:short_date_time) %></h2>
+<% @page_pid = {:category => @product.category, :product => @product} %>
+<% @page_title = "Mainīt rezervāciju" %>
+
+<div class="header"><%= @order.created_at.to_s(:short_date_time) %></div>
+
+<div class="caption">
+	<font size="2.5em" face="Monaco" color="orange">Mainīt</font>
+</div>
 
 <%= error_messages_for :order %>
 
 <p>
-	<b>Produkts:</b> <%= product_name(@product) %><br />
 	<%= product_availability_info %>
 	<b>Daudzums max:</b> <%= @order.quantity_available_total_for_update %>
 </p>
@@ -13,7 +18,3 @@
   <%= render :partial => "form", :locals => {:f => f} %>
   <p><%= submit_tag "Izmainīt" %></p>
 <% end %>
-
-<p>
-	&larr; <%= link_to "atpakaļ", user_order_path(@order.user, @order) %>
-</p>

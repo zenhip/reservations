@@ -1,12 +1,13 @@
-<h2>Partijas: <%= product_name(@product) %></h2>
+<% @page_pid = {:category => @product.category, :product => @product} %>
+<% @page_title = "#{product_name(@product)} partijas" %>
 
-<p>
-	&larr; <%= link_to "atpakaļ", product_path(@product) %>
-	
-	<% admin_area do %>
-		| <%= link_to "jauna partija", new_product_batch_path(@product) %> &rarr;
-	<% end %>
-</p>
+<div class="header">Partijas: <%= product_name(@product) %></div>
+
+<% admin_area do %>
+<div class="caption">
+	<%= link_to "jauna partija", new_product_batch_path(@product) %>
+</div><br />
+<% end %>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <% if @product.batches.any? %>

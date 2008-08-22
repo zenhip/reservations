@@ -23,8 +23,24 @@ module ApplicationHelper
   
   def site_path
     path = []
-    path << link_to("Home", welcome_path)
-    path.to_sentence
+    if @page_pid
+      unless @page_pid[:category] == nil
+        path << link_to_unless_current(category_name(@page_pid[:category]), category_path(@page_pid[:category]))
+      end
+      unless @page_pid[:product] == nil
+        path << link_to_unless_current(product_name(@page_pid[:product]), product_path(@page_pid[:product]))
+      end
+      #unless @page_pid[:order] == nil
+      #  path << link_to_unless_current(@page_pid[:order].created_at.to_s(@page_pid[:order]), product_orders_path(@page_pid[:order]))
+      #end
+      unless @page_pid[:users] == nil
+        path << link_to_unless_current("users", users_path)
+      end
+      unless @page_pid[:user] == nil
+        path << link_to_unless_current(user_login(@page_pid[:user]), user_orders_path(@page_pid[:user]))
+      end
+    end
+    path
   end
   
   # see /app/views/categories/show.html.erb

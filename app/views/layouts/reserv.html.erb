@@ -30,9 +30,11 @@
 						<%= render :partial => '/categories/category', :collection => Category.find_all %>
 					</table>
 				</td>
-				<td valign="top">
-					
-					<%= site_path %><br />
+				<td valign="top"><div id="site_path">
+					&nbsp;<%= link_to_unless_current("Home", welcome_path) -%>
+					<%- for path in site_path -%>/<%= path -%>
+					<%- end -%>
+					</div>
 					
 					<% if flash[:notice] || flash[:error] %>
 						<% if flash[:notice] %>

@@ -1,34 +1,31 @@
 <% @page_pid = {:category => @product.category, :product => @product} %>
+<% @page_title = product_name(@product) %>
 
-<h2><%= product_name(@product) %></h2>
-<%= @product.visible? ? "" : "<font color=red>Produkts nav redzams!</font>" %>
+<div class="header"><%= product_name(@product) %></div>
+<%= @product.visible? ? "" : "<font color=red>Produkts nav redzams!</font><br />" %>
 
-<p>
-	<% for asset in @product.assets do %>
-		<%= image_tag asset.public_filename, :height => "50px" %>
-	<% end %>
-</p>
+<div class="caption">
+	<%# for asset in @product.assets do %>
+		<%#= image_tag asset.public_filename, :height => "50px" %>
+	<%# end %>
 
-<p>
-	&larr; <%= link_to "atpakaļ", category_path(@product.category) %>
-	| <%= link_to_if @product.batches_available > 0, "rezervēt", new_product_order_path(@product) %>
-	
+	<%= link_to_if @product.batches_available > 0, "rezervēt", new_product_order_path(@product) %>
+
 	<% if current_page?(:show_orders => :all) %>
 		| <%= link_to "aktīvās rezervācijas", { :action => "show" } %>
 	<% else %>
 		| <%= link_to_if @product.find_orders.any?, "visas rezervācijas", { :action => "show", :show_orders => :all } %>
 	<% end %>
-	
+
 	| <%= link_to_if @product.batches.any?, "partijas", product_batches_path(@product) %>
-	
+
 	<% admin_area do %>
 		| <%= link_to "mainīt", edit_product_path(@product) %>
 		| <%= link_to "dzēst", product_path(@product), :method => :delete, :confirm => "Dzēšot produktu, tiks likvidētas arī visas tā partijas un rezervācijas. Vai tiešām dzēst šo produktu?"%>
 		| <%= link_to "jauna partija", new_product_batch_path(@product) %>
-		&rarr;
 	<% end %>
-</p>
-
+</div>
+<br />
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <% if @product.batches.any? %>
 	<tr>

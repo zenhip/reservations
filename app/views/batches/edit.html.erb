@@ -1,17 +1,16 @@
-<font size="2.5em" face="Monaco" color="orange">Mainīt</font>
-<h2><%= @batch.arrive_on.to_s(:short_date) %></h2>
+<% @page_pid = {:category => @batch.product.category, :product => @batch.product} %>
+<% @page_title = "Mainīt partiju" %>
+
+<div class="header">Partija: <%= @batch.arrive_on.to_s(:short_date) %></div>
+
+<div class="caption">
+	<font size="2.5em" face="Monaco" color="orange">Mainīt</font>
+</div>
 
 <%= error_messages_for :batch %>
 
-<p>
-	<b>Produkts:</b> <%= product_name(@batch.product) %><br />
-</p>
-
 <% form_for :batch, :url => batch_path(@batch), :html => {:method => :put} do |f| %>
   <%= render :partial => "form", :locals => {:f => f} %>
-  <p><%= submit_tag "Izmainīt" %> NOTE: var iebraukt mīnusā!</p>
+  <p><%= submit_tag "Izmainīt" %> 
+	<br />NOTE: daudzumu mainot uz mazāku, var iebraukt mīnusā!</p>
 <% end %>
-
-<p>
-	&larr; <%= link_to "atpakaļ", product_batch_path(@batch.product, @batch) %>
-</p>

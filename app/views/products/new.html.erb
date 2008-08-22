@@ -1,5 +1,11 @@
-<font size="2.5em" face="Monaco" color="orange">Pievienot</font>
-<h2><%= category_name(@category) %></h2>
+<% @page_pid = {:category => @category} %>
+<% @page_title = "Jauns produkts" %>
+
+<div class="header"><%= category_name(@category) %></div>
+
+<div class="caption">
+	<font size="2.5em" face="Monaco" color="orange">Pievienot</font>
+</div>
 
 <%= error_messages_for :product %>
 
@@ -7,7 +13,3 @@
   <%= render :partial => "form", :locals => {:f => f} %>
   <p><%= submit_tag "Pievienot" %></p>
 <% end %>
-
-<p>
-	&larr; <%= link_to "atpakaļ", category_path(@category) %>
-</p>

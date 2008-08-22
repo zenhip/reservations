@@ -6,8 +6,6 @@ class CategoriesController < ApplicationController
   before_filter :find_category_by_id, :only => [:edit, :update, :show, :destroy]
   
   def index
-    @page_title = "Kategorijas"
-    
     @categories = Category.find_all
     @products = Product.find_latest
     @batches = Batch.find_latest
@@ -15,7 +13,6 @@ class CategoriesController < ApplicationController
   end
 
   def new
-    @page_title = "Jauna kategorija"
     @category = Category.new
   end
 
@@ -29,12 +26,9 @@ class CategoriesController < ApplicationController
   end
   
   def edit
-    @page_title = "Mainīt kategoriju"
   end
-
+  
   def show
-    @page_title = @category.name.capitalize
-    @page_id = "product_category_#{@category.id}"
   end
   
   def update

@@ -10,14 +10,9 @@ class ProductsController < ApplicationController
   end
   
   def show
-    @page_title = @product.name
-    @page_id = "product_category_#{@product.category.id}"
   end
   
   def new
-    @page_title = "Jauns produkts"
-    @page_id = "product_category_#{@category.id}"
-    
     @product = Product.new
   end
   
@@ -35,9 +30,6 @@ class ProductsController < ApplicationController
   end
   
   def edit
-    @page_title = "Mainīt produktu"
-    @page_id = "product_category_#{@product.category.id}"
-    
   end
   
   def update

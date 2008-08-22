@@ -1,6 +1,11 @@
-<% @page_title = " - Pieslēgšanās" %>
+<% @page_title = "Pieslēgšanās" %>
 
-<h2>Pieslēgties</h2>
+<div class="header">Log-in</div>
+
+<div class="caption">
+	<font size="2.5em" face="Monaco" color="orange">Pieslēgties</font>
+	( <%= link_to "Jauns lietotājs?", signup_path %> )
+</div>
 
 <% form_tag session_path do -%>
 <p><label for="login">Login</label><br/>
@@ -14,5 +19,3 @@
 
 <p><%= submit_tag 'Pieslēgties' %></p>
 <% end -%>
-
-<p><%= link_to "Jauns lietotājs?", signup_path %></p>

@@ -1,13 +1,14 @@
-<h2>Partija: <%= @batch.arrive_on.to_s(:short_date) %></h2>
+<% @page_pid = {:category => @batch.product.category, :product => @batch.product} %>
+<% @page_title = "Partija #{@batch.arrive_on.to_s(:short_date)}" %>
 
-<p>
-	&larr; <%= link_to "atpakaļ", product_batches_path(@batch.product) %>
-	
-	<% admin_area do %>
-  	| <%= link_to "mainīt", edit_batch_path %>
-  	| <%= link_to "dzēst", batch_path, :method => :delete, :confirm => "tiešām?!"%>
-  <% end %>
-</p>
+<div class="header">Partija: <%= @batch.arrive_on.to_s(:short_date) %></div>
+
+<% admin_area do %>
+<div class="caption">
+ 	<%= link_to "mainīt", edit_batch_path %>
+ 	| <%= link_to "dzēst", batch_path, :method => :delete, :confirm => "tiešām?!"%>
+</div><br />
+<% end %>
 
 prod: <%= link_to product_name(@batch.product), product_path(@batch.product) %><br />
 created: <%= @batch.created_at.to_s(:short_date_time) %><br />

@@ -9,21 +9,15 @@ class OrdersController < ApplicationController
   before_filter :find_product_by_product_id, :only => [:new, :create, :edit]
   
   def index
-    @page_title = @user.login.capitalize
-    
     #@orders = Order.find_all
     @user_orders_list = Order.paginated_list(@user, params[:page])
     @user_not_completed_orders_list = Order.paginated_not_completed_list(@user, params[:page])
   end
   
   def show
-    @page_title = @order.created_at.to_s(:short_date)
-    @page_id = "product_category_#{@order.find_product.category.id}"
   end
   
   def edit
-    @page_title = "Mainīt rezervāciju"
-    @page_id = "product_category_#{@order.find_product.category.id}"
   end
   
   def update
@@ -106,9 +100,6 @@ class OrdersController < ApplicationController
   end
   
   def new
-    @page_title = "Jauna rezervācija"
-    @page_id = "product_category_#{@product.category.id}"
-    
     @order = Order.new
     @order.quantity = 0
   end

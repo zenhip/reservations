@@ -1,15 +1,17 @@
-<h2><%= @user == current_user ? "manas" : user_login(@user); %> rezervācijas</h2>
+<% @page_pid = {:users => "users", :user => @user} %>
+<% @page_title = @user.login %>
+
+<div class="header"><%= @user == current_user ? "manas" : user_login(@user); %> rezervācijas</div>
 
 <% if @user.orders.any? %>
-
-<p>
+<div class="caption">
 	<% if (params[:show_orders]) == "all" %>
 		<%= link_to "slēpt izpildītas", { :action => "index" } %>
 	<% else %>
 		<%= link_to "rādīt visas", { :show_orders => "all" } %>
 	<% end %>
-</p>
-
+</div>
+<br />
 <%# Css.. :) %>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>

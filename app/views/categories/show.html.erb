@@ -1,23 +1,20 @@
 <% @page_pid = {:category => @category} %>
+<% @page_title = category_name(@category) %>
 
-<h2><%= category_name(@category) %></h2>
-<p>
-	&larr; <%= link_to "atpakaļ", categories_path %>
-	
-	<% admin_area do %>
-		| <%= link_to "mainīt", edit_category_path(@category) %>
-		| <%= link_to "dzēst", category_path(@category), :method => :delete, :confirm => "tiešām?!"%>
-		
-		<% if current_page?(:show_products => :all) %>
-			| <%= link_to "aktīvie produkti", { :action => "show" } %>
-		<% else %>
-			| <%= link_to_if @category.products.any?, "visi produkti", { :action => "show", :show_products => :all } %>
-		<% end %>
-		
-  	| <%= link_to "jauns produkts", new_category_product_path(@category) %>
-		&rarr;
-  <% end %>
-</p>
+<div class="header"><%= category_name(@category) %></div>
+
+<% admin_area do %>
+<div class="caption">
+	<%= link_to "mainīt", edit_category_path(@category) %>
+	| <%= link_to "dzēst", category_path(@category), :method => :delete, :confirm => "tiešām?!"%>
+	<% if current_page?(:show_products => :all) %>
+		| <%= link_to "aktīvie produkti", { :action => "show" } %>
+	<% else %>
+		| <%= link_to_if @category.products.any?, "visi produkti", { :action => "show", :show_products => :all } %>
+	<% end %>
+ 	| <%= link_to "jauns produkts", new_category_product_path(@category) %>
+</div><br />
+<% end %>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <% if @category.products.any? %>
