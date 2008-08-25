@@ -5,41 +5,37 @@
 <% admin_area do %>
 <div class="caption">
  	<%= link_to "jauna kategorija", new_category_path %>
-</div>
+</div><br />
 <% end %>
 
-<p>
-	<% @categories.each do |category| %>
-		<%= link_to category_name(category), category_path(category) %> (<%= category.products.count %>)<br />
-	<% end %>
-</p><br />
+<% @categories.each do |category| %>
+	<%= link_to category_name(category), category_path(category) %> (<%= category.products.count %>)<br />
+<% end %>
+<br />
 
-<h2>Jaunākie produkti</h2>
-<p>
-	<% @products.each do |product| %>
-		<%= product.created_at.to_s(:short_date) %>
-		<%= link_to product_name(product), product %>
-		[<%= link_to category_name(product.category), product.category %>]<br />
-	<% end %>
-</p><br />
+<div class="header">Jaunākie produkti</div>
+<% @products.each do |product| %>
+	<%= product.created_at.to_s(:short_date) %>
+	<%= link_to product_name(product), product %>
+	[<%= link_to category_name(product.category), product.category %>]<br />
+<% end %>
+<br />
 
-<h2>Jaunākās produktu partijas</h2>
-<p>
-	<% @batches.each do |batch| %>
-		<%= batch.arrive_on.to_s(:short_date) %>
-		<%= link_to product_name(batch.product), batch.product %>
-		[<%= link_to category_name(batch.product.category), batch.product.category %>]
-		(<%= batch.quantity %>)<br />
-	<% end %>
-</p><br />
+<div class="header">Jaunākās produktu partijas</div>
+<% @batches.each do |batch| %>
+	<%= batch.arrive_on.to_s(:short_date) %>
+	<%= link_to product_name(batch.product), batch.product %>
+	[<%= link_to category_name(batch.product.category), batch.product.category %>]
+	(<%= batch.quantity %>)<br />
+<% end %>
+<br />
 
-<h2>Jaunākās rezervācijas</h2>
-<p>
-	<% @orders.each do |order| %>
-		<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %>
-		by <%= link_to user_login(order.user), user_orders_path(order.user) %>
-		- <%= link_to product_name(order.find_product), product_path(order.find_product) %>
-		[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
-		(<%= order.orders_from_batches_quantity_sum %>)<br />
-	<% end %>
-</p>
+<div class="header">Jaunākās rezervācijas</div>
+<% @orders.each do |order| %>
+	<%= link_to order.created_at.to_s(:short_date_time), user_order_path(order.user, order) %>
+	by <%= link_to user_login(order.user), user_orders_path(order.user) %>
+	- <%= link_to product_name(order.find_product), product_path(order.find_product) %>
+	[<%= link_to category_name(order.find_product.category), category_path(order.find_product.category) %>]
+	(<%= order.orders_from_batches_quantity_sum %>)<br />
+<% end %>
+<br />
